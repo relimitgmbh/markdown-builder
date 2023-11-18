@@ -15,7 +15,7 @@ public interface MarkdownSerializable {
 	 *             If unable to generate a markdown String
 	 */
 	default String serialize() throws MarkdownSerializationException {
-		return serialize(new MarkdownSerializationOptions());
+		return serialize(MarkdownSerializationOptions.DEFAULT_OPTIONS);
 	}
 
 	/**

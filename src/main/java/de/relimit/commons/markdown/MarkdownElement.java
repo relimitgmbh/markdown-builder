@@ -56,7 +56,7 @@ public abstract class MarkdownElement implements MarkdownSerializable {
 
 	@Override
 	public String toString() {
-		return getSerialized(null, this.getClass().getSimpleName());
+		return getSerialized(MarkdownSerializationOptions.DEFAULT_OPTIONS, this.getClass().getSimpleName());
 	}
 
 }

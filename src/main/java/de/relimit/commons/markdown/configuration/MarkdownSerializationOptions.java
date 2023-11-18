@@ -2,6 +2,8 @@ package de.relimit.commons.markdown.configuration;
 
 public class MarkdownSerializationOptions {
 
+	public static final MarkdownSerializationOptions DEFAULT_OPTIONS = new MarkdownSerializationOptions();
+
 	public static final PlainTextSerializer<Object> DEFAULT_SERIALIZER = (e, o) -> o.toString();
 
 	public static final String DEFAULT_TABLE_CELL_LINE_SEPARATOR = "<br />";
@@ -13,7 +15,7 @@ public class MarkdownSerializationOptions {
 	private String tableCellLineSeparator;
 
 	public MarkdownSerializationOptions() {
-		this.plainTextSerializer = DEFAULT_SERIALIZER;
+		this.plainTextSerializer = (e, o) -> o.toString();
 		this.lineSeparator = System.lineSeparator();
 		this.tableCellLineSeparator = DEFAULT_TABLE_CELL_LINE_SEPARATOR;
 	}
