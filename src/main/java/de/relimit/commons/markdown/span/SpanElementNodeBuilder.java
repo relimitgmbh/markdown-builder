@@ -55,4 +55,8 @@ public class SpanElementNodeBuilder<P, E extends SpanElementNode>
 		return append(new PlainText(stringyfiable));
 	}
 
+	public SpanElementNodeBuilder<P, E> newLine() {
+		return append(new PlainText(System.lineSeparator()));
+	}
+
 }
