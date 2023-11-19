@@ -75,8 +75,10 @@ public class Readme {
 			final DocumentBuilder builder = (DocumentBuilder) method.invoke(samples);
 			final String methodCode = samplesSources.get(heading).stream()
 					.collect(Collectors.joining(System.lineSeparator()));
+			b.heading(3, "Java Code");
 			b.codeBlock(methodCode, Language.JAVA);
 			final String markdown = builder.build().serialize();
+			b.heading(3, "Markdown");
 			b.codeBlock(markdown, Language.MARKDOWN);
 		}
 

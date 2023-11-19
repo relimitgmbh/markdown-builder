@@ -9,6 +9,8 @@ Examples
 Paragraphs and Line Breaks
 --------------------------
 
+### Java Code
+
 ```java
 public DocumentBuilder paragraph() throws MarkdownSerializationException {
 	return new DocumentBuilder()
@@ -17,6 +19,8 @@ public DocumentBuilder paragraph() throws MarkdownSerializationException {
 			.paragraph("This is the second paragraph. It is separated from the previous one by a blank line.");
 }
 ```
+
+### Markdown
 
 ```markdown
 This is a paragraph containing plain text. Line breaks   
@@ -28,6 +32,8 @@ This is the second paragraph. It is separated from the previous one by a blank l
 
 Emphasis
 --------
+
+### Java Code
 
 ```java
 public DocumentBuilder emphasis() throws MarkdownSerializationException {
@@ -42,6 +48,8 @@ public DocumentBuilder emphasis() throws MarkdownSerializationException {
 			.end(); // end paragraph
 }
 ```
+
+### Markdown
 
 ```markdown
 This is normal.  
