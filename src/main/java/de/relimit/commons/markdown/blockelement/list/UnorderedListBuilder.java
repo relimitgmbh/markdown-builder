@@ -1,7 +1,7 @@
 package de.relimit.commons.markdown.blockelement.list;
 
-import de.relimit.commons.markdown.MarkdownElementAppender;
 import de.relimit.commons.markdown.blockelement.paragraph.Paragraph;
+import de.relimit.commons.markdown.builder.MarkdownElementAppender;
 
 public class UnorderedListBuilder<P> extends ListBuilder<P, UnorderedList, UnorderedListItem> {
 

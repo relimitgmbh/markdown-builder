@@ -10,7 +10,7 @@ public class ParagraphTests {
 
 	@Test
 	public void sampleTest() throws Exception {
-		System.out.println(samples.paragraph().build());
+		System.out.println(samples.paragraphs().build());
 	}
 
 }

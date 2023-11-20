@@ -1,6 +1,5 @@
 package de.relimit.commons.markdown.builder;
 
-import de.relimit.commons.markdown.MarkdownElementAppender;
 import de.relimit.commons.markdown.MarkdownSerializable;
 import de.relimit.commons.markdown.Node;
 

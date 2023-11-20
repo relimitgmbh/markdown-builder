@@ -1,6 +1,6 @@
 package de.relimit.commons.markdown.span;
 
-import de.relimit.commons.markdown.MarkdownElementAppender;
+import de.relimit.commons.markdown.builder.MarkdownElementAppender;
 import de.relimit.commons.markdown.builder.NodeBuilder;
 import de.relimit.commons.markdown.span.emphasis.Emphasis;
 import de.relimit.commons.markdown.span.emphasis.Emphasis.Type;

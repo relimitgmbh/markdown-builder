@@ -1,6 +1,7 @@
 package de.relimit.commons.markdown;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import de.relimit.commons.markdown.blockelement.table.Table;
@@ -28,6 +29,20 @@ public abstract class Node<T extends MarkdownSerializable> extends MarkdownEleme
 	public void append(T element) {
 		elements.add(element);
 		invalidateSerialized();
+	}
+
+	public void append(T... elements) {
+		Arrays.stream(elements).forEach(this::append);
+		invalidateSerialized();
+	}
+
+	public void appendAll(Node<T> node) {
+		elements.addAll(node.elements);
+		invalidateSerialized();
+	}
+
+	public List<T> getElements() {
+		return elements;
 	}
 
 	public int size() {

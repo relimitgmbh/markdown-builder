@@ -1,7 +1,7 @@
 package de.relimit.commons.markdown.blockelement.list;
 
-import de.relimit.commons.markdown.MarkdownElementAppender;
 import de.relimit.commons.markdown.blockelement.BlockElementNodeBuilder;
+import de.relimit.commons.markdown.builder.MarkdownElementAppender;
 
 public class ListItemBuilder<P, E extends ListItem> extends BlockElementNodeBuilder<ListItemBuilder<P, E>, P, E> {
 

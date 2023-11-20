@@ -1,6 +1,8 @@
 package de.relimit.commons.markdown.blockelement;
 
-import de.relimit.commons.markdown.MarkdownElementAppender;
+import java.util.Arrays;
+
+import de.relimit.commons.markdown.Node;
 import de.relimit.commons.markdown.blockelement.codeblock.CodeBlock;
 import de.relimit.commons.markdown.blockelement.codeblock.CodeBlockLanguage;
 import de.relimit.commons.markdown.blockelement.heading.Heading;
@@ -15,6 +17,9 @@ import de.relimit.commons.markdown.blockelement.rule.HorizontalRule;
 import de.relimit.commons.markdown.blockelement.rule.HorizontalRuleCharacter;
 import de.relimit.commons.markdown.blockelement.table.Table;
 import de.relimit.commons.markdown.blockelement.table.TableBuilder;
+import de.relimit.commons.markdown.blockelement.tasklist.TaskList;
+import de.relimit.commons.markdown.blockelement.tasklist.TaskListBuilder;
+import de.relimit.commons.markdown.builder.MarkdownElementAppender;
 import de.relimit.commons.markdown.builder.NodeBuilder;
 import de.relimit.commons.markdown.span.SpanElementNodeBuilder;
 
@@ -61,6 +66,16 @@ public abstract class BlockElementNodeBuilder<B extends BlockElementNodeBuilder<
 		} else {
 			return super.append(element);
 		}
+	}
+
+	public B append(BlockElement... elements) {
+		Arrays.stream(elements).forEach(this::append);
+		return getBuilder();
+	}
+
+	public B appendAll(Node<BlockElement> node) {
+		node.getElements().forEach(this::append);
+		return getBuilder();
 	}
 
 	// Lists
@@ -118,13 +133,11 @@ public abstract class BlockElementNodeBuilder<B extends BlockElementNodeBuilder<
 	// Image
 
 	public B image(String url) {
-		final Image image = new Image(url);
-		return append(image);
+		return append(new Image(url));
 	}
 
 	public B image(String url, Object stringyfiable) {
-		final Image image = new Image(url, stringyfiable);
-		return append(image);
+		return append(new Image(url, stringyfiable));
 	}
 
 	// Paragraph
@@ -140,8 +153,13 @@ public abstract class BlockElementNodeBuilder<B extends BlockElementNodeBuilder<
 	// Table
 
 	public TableBuilder<B> startTable() {
-		final Table table = new Table();
-		return new TableBuilder<>(table, this::append);
+		return new TableBuilder<>(new Table(), this::append);
+	}
+
+	// Task list
+
+	public TaskListBuilder<B> startTaskList() {
+		return new TaskListBuilder<>(new TaskList(), this::append);
 	}
 
 }

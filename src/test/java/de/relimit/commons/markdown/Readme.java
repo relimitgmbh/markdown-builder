@@ -18,6 +18,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import de.relimit.commons.markdown.blockelement.codeblock.CodeBlock.Language;
+import de.relimit.commons.markdown.document.Document;
 import de.relimit.commons.markdown.document.DocumentBuilder;
 
 public class Readme {
@@ -170,9 +171,13 @@ public class Readme {
 
 			// Invoke the method to get the markdown
 			final DocumentBuilder builder = (DocumentBuilder) method.invoke(samples);
-			final String markdown = builder.build().serialize();
+			final Document document = builder.build();
+			final String markdown = document.serialize();
 			b.heading(3, "Markdown");
 			b.codeBlock(markdown, Language.MARKDOWN);
+
+			b.heading(3, "Rendered");
+			b.append(document);
 		}
 
 		return b;
