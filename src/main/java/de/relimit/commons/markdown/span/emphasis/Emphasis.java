@@ -15,7 +15,7 @@ public class Emphasis extends SpanElementNode implements SpanElement {
 
 		BOLD("**"),
 		INSERTED("++"),
-		ITALIC("*"),
+		ITALIC("_"),
 		MARKED("=="),
 		STRIKETHROUGH("~~"),
 		SUBSCRIPT("~"),

@@ -9,6 +9,8 @@ Examples
 Paragraphs and Line Breaks
 --------------------------
 
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
 ### Java Code
 
 ```java
@@ -55,6 +57,6 @@ public DocumentBuilder emphasis() throws MarkdownSerializationException {
 This is normal.  
 **This is bold.**  
 ~~This is strikethrough.~~  
-*This is italic.*  
-**Span elements can be nested. This is bold text *followed by bold and italic text* and finally bold text again.**
+_This is italic._  
+**Span elements can be nested. This is bold text _followed by bold and italic text_ and finally bold text again.**
 ```

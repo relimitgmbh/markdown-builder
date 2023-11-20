@@ -12,6 +12,11 @@ import java.lang.annotation.Target;
 })
 public @interface Sample {
 
+	// For source code parsing
+	public static final String HEADING = "heading";
+
 	String heading();
+
+	String introduction() default "";
 
 }

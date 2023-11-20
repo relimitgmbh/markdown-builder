@@ -5,7 +5,8 @@ import de.relimit.commons.markdown.span.emphasis.Emphasis.Type;
 
 public class Samples {
 
-	@Sample(heading = "Paragraphs and Line Breaks")
+	@Sample(heading = "Paragraphs and Line Breaks",
+			introduction = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.")
 	public DocumentBuilder paragraph() throws MarkdownSerializationException {
 		return new DocumentBuilder()
 				.paragraph("This is a paragraph containing plain text. Line breaks \n"

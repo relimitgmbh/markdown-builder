@@ -7,10 +7,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import de.relimit.commons.markdown.blockelement.codeblock.CodeBlock.Language;
@@ -20,39 +24,104 @@ public class Readme {
 
 	public static final String README_FILE_NAME = "README.md";
 
-	private static Map<String, List<String>> getSources() throws IOException {
-		final String samplesClassName = Samples.class.getName().replace('.', '/');
-		final BufferedReader in = new BufferedReader(new FileReader("src/test/java/" + samplesClassName + ".java"));
-		final Map<String, List<String>> methodSourceCode = new HashMap<>();
-		String line = in.readLine();
-		String sampleName;
-		List<String> sampleMethodCode = null;
+	public static final String AT = "@";
+
+	/**
+	 * A poor man's source code parser that extracts all methods annotated
+	 * with @Sample from the Samples.java source file and returns them as a Map.
+	 * The key of the map is the heading defined in the annotation.
+	 * 
+	 * @return
+	 * @throws IOException
+	 */
+	private static Map<String, List<String>> parseSourceFile(Class<?> clazz) throws IOException {
+		/*
+		 * Attempts to get the source file of the Samples class. Should also
+		 * work on Windows but untested. The package path is created from the
+		 * full class name and therefore ends with the classes' name.
+		 * getParent() removes this unwanted path segment.
+		 */
+		final Path packagePath = Path.of(clazz.getName().replace('.', File.separatorChar)).getParent();
+		final Path path = Path.of("src", "test", "java").resolve(packagePath).resolve(clazz.getSimpleName() + ".java");
+
+		final BufferedReader in = new BufferedReader(new FileReader(path.toFile()));
+		final Map<String, List<String>> sources = new HashMap<>();
+		List<String> methodSource = null;
 		int indent = -1;
+		String line = in.readLine();
+		/*
+		 * Look at each line of code but stop right before the closing brackets
+		 * of the class.
+		 */
 		while (line != null && !line.startsWith("}")) {
-			if (line.contains("@" + Sample.class.getSimpleName())) {
+			if (line.contains(AT + Sample.class.getSimpleName())) {
 				if (indent == -1) {
-					indent = line.indexOf("@");
+					/*
+					 * Remember the indentation of the first annotation found so
+					 * we can remove it from every line thereafter.
+					 */
+					indent = line.indexOf(AT);
 				}
-				final int startOfName = line.indexOf('\"') + 1;
-				final int endOfName = line.lastIndexOf('\"');
-				sampleName = line.substring(startOfName, endOfName);
-				sampleMethodCode = new ArrayList<>();
-				methodSourceCode.put(sampleName, sampleMethodCode);
-			} else if (line.contains("@")) {
-				// Skip annotations
+				final StringBuilder sb = new StringBuilder();
+				sb.append(line);
+				while (!line.contains(")")) {
+					line = in.readLine();
+					sb.append(line);
+				}
+				final String s = sb.toString();
+				final Properties properties = parseAnnotation(s);
+				final String heading = properties.getProperty(Sample.HEADING);
+				/*
+				 * Start collecting the source code lines of the new method we
+				 * just found.
+				 */
+				methodSource = new ArrayList<>();
+				sources.put(heading, methodSource);
+			} else if (line.contains(AT)) {
+				/*
+				 * Skip further annotations. Currently not relevant but just in
+				 * case.
+				 */
 			} else {
-				if (!line.isBlank() && sampleMethodCode != null) {
-					sampleMethodCode.add(line.substring(indent));
+				/* Ignore blank lines and all lines before the first method. */
+				if (!line.isBlank() && methodSource != null) {
+					methodSource.add(line.substring(indent));
 				}
 			}
 			line = in.readLine();
 		}
 		in.close();
-		return methodSourceCode;
+		return sources;
 	}
 
-	private static void buildDocument(DocumentBuilder b)
+	/**
+	 * Parses a string in the form 'abc(key="value",key="value")'.
+	 * 
+	 * @param s
+	 * @return
+	 */
+	private static Properties parseAnnotation(String s) {
+		s = s.substring(s.indexOf("(") + 1);
+		s = s.substring(0, s.indexOf(")"));
+		s = s.trim();
+
+		final Pattern p = Pattern.compile("(\\w+)\\s*=\\s*(\\\"[^\\\"]*\\\"|'[^']*')");
+		final Matcher m = p.matcher(s);
+		final Properties properties = new Properties();
+		while (m.find()) {
+			final String key = m.group(1);
+			String value = m.group(2);
+			value = value.substring(1, value.length() - 1);
+			properties.put(key, value);
+		}
+
+		return properties;
+	}
+
+	private static DocumentBuilder buildDocument()
 			throws MarkdownSerializationException, ReflectiveOperationException, IOException {
+
+		final DocumentBuilder b = new DocumentBuilder();
 
 		b.heading("Java Markdown Builder");
 		b.paragraph(
@@ -61,35 +130,60 @@ public class Readme {
 		b.heading("Examples");
 
 		final Samples samples = new Samples();
-		final Map<String, List<String>> samplesSources = getSources();
+		final Map<String, List<String>> samplesSources = parseSourceFile(Samples.class);
 		for (final Method method : samples.getClass().getDeclaredMethods()) {
 			final Sample sample = method.getAnnotation(Sample.class);
+			// Skip all methods that aren't marked as sample methods
 			if (sample == null) {
 				continue;
 			}
+			/*
+			 * By definition "sample" methods have no paramers and return a
+			 * DocumentBuilder. Skip all methods that do not meet those
+			 * criteria.
+			 */
 			if (method.getParameterCount() != 0 || !method.getReturnType().equals(DocumentBuilder.class)) {
 				continue;
 			}
+			/*
+			 * The heading of the sample is defined by the annotation. It
+			 * doubles up as a key. We use it to find the source code in the
+			 * source code map.
+			 */
 			final String heading = sample.heading();
 			b.heading(2, heading);
-			final DocumentBuilder builder = (DocumentBuilder) method.invoke(samples);
+
+			// Add an optional introductory paragraph
+			final String introduction = sample.introduction();
+			if (!introduction.isBlank()) {
+				b.paragraph(introduction);
+			}
+
+			/*
+			 * Get the method's source code from the map created by the source
+			 * code parser.
+			 */
 			final String methodCode = samplesSources.get(heading).stream()
 					.collect(Collectors.joining(System.lineSeparator()));
 			b.heading(3, "Java Code");
 			b.codeBlock(methodCode, Language.JAVA);
+
+			// Invoke the method to get the markdown
+			final DocumentBuilder builder = (DocumentBuilder) method.invoke(samples);
 			final String markdown = builder.build().serialize();
 			b.heading(3, "Markdown");
 			b.codeBlock(markdown, Language.MARKDOWN);
 		}
 
+		return b;
+
 	}
 
 	public static void main(String[] args) throws IOException {
 
-		final DocumentBuilder b = new DocumentBuilder();
 		final String markdown;
 		try {
-			buildDocument(b);
+			final DocumentBuilder b = buildDocument();
 			markdown = b.build().serialize();
 		} catch (MarkdownSerializationException | ReflectiveOperationException e) {
 			e.printStackTrace();
