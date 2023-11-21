@@ -9,6 +9,8 @@ import de.relimit.commons.markdown.blockelement.heading.Heading;
 import de.relimit.commons.markdown.blockelement.image.Image;
 import de.relimit.commons.markdown.blockelement.list.OrderedList;
 import de.relimit.commons.markdown.blockelement.list.OrderedListBuilder;
+import de.relimit.commons.markdown.blockelement.list.TaskList;
+import de.relimit.commons.markdown.blockelement.list.TaskListBuilder;
 import de.relimit.commons.markdown.blockelement.list.UnorderedList;
 import de.relimit.commons.markdown.blockelement.list.UnorderedListBuilder;
 import de.relimit.commons.markdown.blockelement.paragraph.Paragraph;
@@ -17,8 +19,6 @@ import de.relimit.commons.markdown.blockelement.rule.HorizontalRule;
 import de.relimit.commons.markdown.blockelement.rule.HorizontalRuleCharacter;
 import de.relimit.commons.markdown.blockelement.table.Table;
 import de.relimit.commons.markdown.blockelement.table.TableBuilder;
-import de.relimit.commons.markdown.blockelement.tasklist.TaskList;
-import de.relimit.commons.markdown.blockelement.tasklist.TaskListBuilder;
 import de.relimit.commons.markdown.builder.MarkdownElementAppender;
 import de.relimit.commons.markdown.builder.NodeBuilder;
 import de.relimit.commons.markdown.span.SpanElementNodeBuilder;
@@ -92,6 +92,12 @@ public abstract class BlockElementNodeBuilder<B extends BlockElementNodeBuilder<
 		return new UnorderedListBuilder<>(list, this::append);
 	}
 
+	public TaskListBuilder<B> startTaskList() {
+		final int indentationLevel = getElement().getIndentationLevel();
+		final TaskList list = new TaskList(indentationLevel);
+		return new TaskListBuilder<>(list, this::append);
+	}
+
 	// Code block
 
 	public B codeBlock(Object stringyfiable) {
@@ -154,12 +160,6 @@ public abstract class BlockElementNodeBuilder<B extends BlockElementNodeBuilder<
 
 	public TableBuilder<B> startTable() {
 		return new TableBuilder<>(new Table(), this::append);
-	}
-
-	// Task list
-
-	public TaskListBuilder<B> startTaskList() {
-		return new TaskListBuilder<>(new TaskList(), this::append);
 	}
 
 }

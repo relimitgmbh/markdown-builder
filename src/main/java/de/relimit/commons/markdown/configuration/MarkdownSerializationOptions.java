@@ -1,23 +1,26 @@
 package de.relimit.commons.markdown.configuration;
 
+import de.relimit.commons.markdown.MarkdownSerializationException;
+import de.relimit.commons.markdown.blockelement.table.TableCell;
+import de.relimit.commons.markdown.span.textual.Textual;
+
 public class MarkdownSerializationOptions {
 
 	public static final MarkdownSerializationOptions DEFAULT_OPTIONS = new MarkdownSerializationOptions();
 
-	public static final PlainTextSerializer<Object> DEFAULT_SERIALIZER = (e, o) -> o.toString();
+	private TextSerializer<Object> serializer;
 
-	public static final String DEFAULT_TABLE_CELL_LINE_SEPARATOR = "<br />";
-
-	private PlainTextSerializer<Object> plainTextSerializer;
+	private TextEscaper escaper;
 
 	private String lineSeparator;
 
 	private String tableCellLineSeparator;
 
 	public MarkdownSerializationOptions() {
-		this.plainTextSerializer = (e, o) -> o.toString();
+		this.serializer = TextSerializer.DEFAULT_SERIALIZER;
+		this.escaper = DefaultEscaper.DEFAULT_ESCAPER;
 		this.lineSeparator = System.lineSeparator();
-		this.tableCellLineSeparator = DEFAULT_TABLE_CELL_LINE_SEPARATOR;
+		this.tableCellLineSeparator = TableCell.DEFAULT_TABLE_CELL_LINE_SEPARATOR;
 	}
 
 	/**
@@ -28,17 +31,25 @@ public class MarkdownSerializationOptions {
 	 * @param template
 	 */
 	public MarkdownSerializationOptions(MarkdownSerializationOptions template) {
-		this.plainTextSerializer = template.plainTextSerializer;
+		this.serializer = template.serializer;
 		this.lineSeparator = template.lineSeparator;
 		this.tableCellLineSeparator = template.tableCellLineSeparator;
 	}
 
-	public PlainTextSerializer<Object> getPlainTextSerializer() {
-		return plainTextSerializer;
+	public TextSerializer<Object> getSerializer() {
+		return serializer;
 	}
 
-	public void setPlainTextSerializer(PlainTextSerializer<Object> plainTextSerializer) {
-		this.plainTextSerializer = plainTextSerializer;
+	public void setSerializer(TextSerializer<Object> plainTextSerializer) {
+		this.serializer = plainTextSerializer;
+	}
+
+	public TextEscaper getEscaper() {
+		return escaper;
+	}
+
+	public void setEscaper(TextEscaper escaper) {
+		this.escaper = escaper;
 	}
 
 	public String getLineSeparator() {
@@ -59,6 +70,12 @@ public class MarkdownSerializationOptions {
 
 	public MarkdownSerializationOptions copy() {
 		return new MarkdownSerializationOptions(this);
+	}
+
+	public String stringify(Textual element) throws MarkdownSerializationException {
+		String text = getSerializer().serialize(element, element.getStringyfiable());
+		text = getEscaper().escape(element, text);
+		return text;
 	}
 
 }

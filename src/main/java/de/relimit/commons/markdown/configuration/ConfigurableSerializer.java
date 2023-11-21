@@ -6,22 +6,29 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import de.relimit.commons.markdown.MarkdownElement;
 import de.relimit.commons.markdown.MarkdownSerializationException;
+import de.relimit.commons.markdown.span.textual.Textual;
 
-public class ConfigurableSerializer implements PlainTextSerializer<Object> {
+/**
+ * A {@link TextSerializer} that can target specific classes. The way this works
+ * is that classes are used as keys in a {@link Map} of {@link TextSerializer}s.
+ * Once the {@link ConfigurableSerializer} is asked to serialize an object it
+ * looks for the closest class entry in the map of known serializers and uses
+ * this serializer found to produce output.
+ * <p>
+ * The default serializer performs a trivial {@link #toString()} and is
+ * registered for {@link Object}. This means it is a "catch all" serializer as
+ * long as no other more specific and matching serializer is present. Any number
+ * of serializers can be registered but only one for each class.
+ */
+public class ConfigurableSerializer implements TextSerializer<Object> {
 
-	private PlainTextSerializer<?> defaultSerializer = MarkdownSerializationOptions.DEFAULT_SERIALIZER;
+	private Map<Class<?>, TextSerializer<?>> serializers = new HashMap<>();
 
-	private Map<Class<?>, PlainTextSerializer<?>> serializers = new HashMap<>();
-
-	private Map<Class<?>, PlainTextSerializer<?>> cache = new HashMap<>();
-
-	public ConfigurableSerializer() {
-	}
+	private Map<Class<?>, TextSerializer<?>> cache = new HashMap<>();
 
 	/**
-	 * "Inspired" by https://stackoverflow.com/a/9797689
+	 * See <a href="https://stackoverflow.com/a/9797689">Stack Overflow</a>
 	 * 
 	 * @param clazz
 	 * @return
@@ -47,12 +54,12 @@ public class ConfigurableSerializer implements PlainTextSerializer<Object> {
 		return classes;
 	}
 
-	private PlainTextSerializer<?> forClass(Class<?> clazz) {
+	private TextSerializer<?> forClass(Class<?> clazz) {
 		// For speed
 		if (serializers.isEmpty()) {
-			return MarkdownSerializationOptions.DEFAULT_SERIALIZER;
+			return TextSerializer.DEFAULT_SERIALIZER;
 		}
-		PlainTextSerializer<?> serializer = cache.get(clazz);
+		TextSerializer<?> serializer = cache.get(clazz);
 		if (serializer != null) {
 			// Cache hit
 			return serializer;
@@ -71,14 +78,14 @@ public class ConfigurableSerializer implements PlainTextSerializer<Object> {
 			}
 		}
 		// Put down default serializer
-		serializer = MarkdownSerializationOptions.DEFAULT_SERIALIZER;
+		serializer = TextSerializer.DEFAULT_SERIALIZER;
 		cache.put(clazz, serializer);
 		return serializer;
 	}
 
 	@Override
-	public String serialize(MarkdownElement element, Object stringyfiable) throws MarkdownSerializationException {
-		final PlainTextSerializer<Object> serializer = (PlainTextSerializer<Object>) forClass(stringyfiable.getClass());
+	public String serialize(Textual element, Object stringyfiable) throws MarkdownSerializationException {
+		final TextSerializer<Object> serializer = (TextSerializer<Object>) forClass(stringyfiable.getClass());
 		return serializer.serialize(element, stringyfiable);
 	}
 
@@ -86,14 +93,19 @@ public class ConfigurableSerializer implements PlainTextSerializer<Object> {
 		cache = new HashMap<>();
 	}
 
-	public <E extends T, T> void registerSerializer(Class<T> clazz, PlainTextSerializer<E> serializer) {
+	public <E extends T, T> void registerSerializer(Class<T> clazz, TextSerializer<E> serializer) {
 		serializers.put(clazz, serializer);
 		invalidateCache();
 	}
 
-	public void registerDefaultSerializer(PlainTextSerializer<?> defaultSerializer) {
-		this.defaultSerializer = defaultSerializer;
-		invalidateCache();
+	/**
+	 * Registers a serializer for {@link Object}. This is a fallback serializer
+	 * in case no class specific ones are registered.
+	 * 
+	 * @param defaultSerializer
+	 */
+	public void registerDefaultSerializer(TextSerializer<?> defaultSerializer) {
+		registerSerializer(Object.class, defaultSerializer);
 	}
 
 }

@@ -9,6 +9,8 @@ import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -132,20 +134,22 @@ public class Readme {
 
 		final Samples samples = new Samples();
 		final Map<String, List<String>> samplesSources = parseSourceFile(Samples.class);
-		for (final Method method : samples.getClass().getDeclaredMethods()) {
+		final List<Method> methods = Arrays.stream(samples.getClass().getDeclaredMethods())
+				// Only methods that are marked as Sample methods
+				.filter(m -> m.getAnnotation(Sample.class) != null)
+				/*
+				 * By definition "sample" methods have no paramers and return a
+				 * DocumentBuilder. Skip all methods that do not meet those
+				 * criteria.
+				 */
+				.filter(m -> (m.getParameterCount() == 0 && m.getReturnType().equals(DocumentBuilder.class)))
+				// Sort by order defined by annotation
+				.sorted(Comparator.comparingInt(m -> m.getAnnotation(Sample.class).order()))
+				// Capture the sorted list of methods.
+				.collect(Collectors.toList());
+
+		for (final Method method : methods) {
 			final Sample sample = method.getAnnotation(Sample.class);
-			// Skip all methods that aren't marked as sample methods
-			if (sample == null) {
-				continue;
-			}
-			/*
-			 * By definition "sample" methods have no paramers and return a
-			 * DocumentBuilder. Skip all methods that do not meet those
-			 * criteria.
-			 */
-			if (method.getParameterCount() != 0 || !method.getReturnType().equals(DocumentBuilder.class)) {
-				continue;
-			}
 			/*
 			 * The heading of the sample is defined by the annotation. It
 			 * doubles up as a key. We use it to find the source code in the

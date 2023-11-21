@@ -49,6 +49,14 @@ public class SpanElementNodeBuilder<P, E extends SpanElementNode>
 		return append(new Code(stringyfiable));
 	}
 
+	public SpanElementNodeBuilder<P, E> className(Class<?> clazz) {
+		return code(clazz.getName());
+	}
+
+	public SpanElementNodeBuilder<P, E> simpleClassName(Class<?> clazz) {
+		return code(clazz.getSimpleName());
+	}
+
 	// Plain text
 
 	public SpanElementNodeBuilder<P, E> plainText(Object stringyfiable) {

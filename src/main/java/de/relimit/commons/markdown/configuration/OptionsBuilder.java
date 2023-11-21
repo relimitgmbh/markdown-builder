@@ -22,7 +22,7 @@ public class OptionsBuilder {
 
 	public MarkdownSerializationOptions build() {
 		if (configurableSerializer != null) {
-			options.setPlainTextSerializer(configurableSerializer);
+			options.setSerializer(configurableSerializer);
 		}
 		return options;
 	}
@@ -44,12 +44,12 @@ public class OptionsBuilder {
 		return configurableSerializer;
 	}
 
-	public <T, E extends T> OptionsBuilder serializer(Class<T> clazz, PlainTextSerializer<E> serializer) {
+	public <T, E extends T> OptionsBuilder serializer(Class<T> clazz, TextSerializer<E> serializer) {
 		getConfigurablSerializer().registerSerializer(clazz, serializer);
 		return this;
 	}
 
-	public <T, E extends T> OptionsBuilder defaultSerializer(PlainTextSerializer<?> serializer) {
+	public <T, E extends T> OptionsBuilder defaultSerializer(TextSerializer<?> serializer) {
 		getConfigurablSerializer().registerDefaultSerializer(serializer);
 		return this;
 	}

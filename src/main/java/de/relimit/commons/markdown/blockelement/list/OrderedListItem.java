@@ -1,13 +1,11 @@
 package de.relimit.commons.markdown.blockelement.list;
 
-import de.relimit.commons.markdown.blockelement.paragraph.Paragraph;
-
 public class OrderedListItem extends ListItem {
 
 	private int ordinal;
 
-	public OrderedListItem(int indentationLevel, Paragraph listItemHeader) {
-		super(indentationLevel, listItemHeader);
+	public OrderedListItem(int indentationLevel) {
+		super(indentationLevel);
 	}
 
 	@Override

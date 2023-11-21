@@ -1,8 +1,10 @@
 package de.relimit.commons.markdown.util;
 
 import de.relimit.commons.markdown.blockelement.heading.Heading;
+import de.relimit.commons.markdown.blockelement.paragraph.Paragraph;
 import de.relimit.commons.markdown.document.DocumentBuilder;
 import de.relimit.commons.markdown.span.HyperLink;
+import de.relimit.commons.markdown.span.SpanElementNodeBuilder;
 import de.relimit.commons.markdown.span.emphasis.Emphasis;
 import de.relimit.commons.markdown.span.emphasis.Emphasis.Type;
 import de.relimit.commons.markdown.span.emphasis.EmphasisType;
@@ -13,6 +15,10 @@ public class Markdown {
 
 	public static DocumentBuilder start() {
 		return new DocumentBuilder();
+	}
+
+	public static SpanElementNodeBuilder<?, Paragraph> startParagraph() {
+		return new SpanElementNodeBuilder(new Paragraph());
 	}
 
 	public static Heading heading(int level, Object stringyfiable) {

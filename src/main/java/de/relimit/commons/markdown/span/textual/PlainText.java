@@ -1,9 +1,8 @@
 package de.relimit.commons.markdown.span.textual;
 
-import de.relimit.commons.markdown.MarkdownSerializationException;
-import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
+public class PlainText extends Text {
 
-public class PlainText extends Textual {
+	public static final String ESCAPE_CHARS = "\\`*_{}[]()#+-.!";
 
 	public PlainText(Object stringyfiable) {
 		super(stringyfiable);
@@ -20,10 +19,8 @@ public class PlainText extends Textual {
 	}
 
 	@Override
-	protected String serializeText(MarkdownSerializationOptions options, Object stringyfiable)
-			throws MarkdownSerializationException {
-		// TODO: Escape for markdown
-		return options.getPlainTextSerializer().serialize(this, stringyfiable);
+	public String getEscapeCharacters() {
+		return ESCAPE_CHARS;
 	}
 
 }

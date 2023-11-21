@@ -2,6 +2,7 @@ package de.relimit.commons.markdown.blockelement;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import de.relimit.commons.markdown.Indentable;
 import de.relimit.commons.markdown.MarkdownSerializationException;
@@ -53,6 +54,16 @@ public abstract class BlockElementNode extends Node<BlockElement> implements Ind
 		return blockElement instanceof Blockquotes;
 	}
 
+	protected List<String> serializeFirstElement(BlockElement element, MarkdownSerializationOptions options)
+			throws MarkdownSerializationException {
+		return serializeElement(element, options);
+	}
+
+	protected List<String> serializeElement(BlockElement element, MarkdownSerializationOptions options)
+			throws MarkdownSerializationException {
+		return element.serializeLines(options).stream().map(l -> getIndent() + l).collect(Collectors.toList());
+	}
+
 	@Override
 	public List<String> serializeLines(MarkdownSerializationOptions options) throws MarkdownSerializationException {
 		final List<String> lines = new ArrayList<>();
@@ -61,7 +72,10 @@ public abstract class BlockElementNode extends Node<BlockElement> implements Ind
 			/*
 			 * Add an extra line between block elements.
 			 */
-			if (!(predecessor == null)) {
+			if (predecessor == null) {
+				// First element
+				lines.addAll(serializeFirstElement(element, options));
+			} else {
 				/*
 				 * Special handling of quoted blocks. The blank lines between
 				 * the block elements are inserted by this node. We therefore
@@ -70,10 +84,10 @@ public abstract class BlockElementNode extends Node<BlockElement> implements Ind
 				 */
 				final boolean insertQuote = isQuoted(predecessor) && isQuoted(element);
 				lines.add(getIndent() + (insertQuote ? Blockquotes.QUOTE_INDICATOR : ""));
+				// Not the first element
+				lines.addAll(serializeElement(element, options));
 			}
-			for (final String line : element.serializeLines(options)) {
-				lines.add(getIndent() + line);
-			}
+
 			predecessor = element;
 		}
 		return lines;

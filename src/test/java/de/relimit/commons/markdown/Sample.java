@@ -19,4 +19,6 @@ public @interface Sample {
 
 	String introduction() default "";
 
+	int order();
+
 }

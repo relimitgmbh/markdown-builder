@@ -7,9 +7,11 @@ import de.relimit.commons.markdown.MarkdownElement;
 import de.relimit.commons.markdown.MarkdownSerializationException;
 import de.relimit.commons.markdown.blockelement.BlockElement;
 import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
+import de.relimit.commons.markdown.span.textual.Code;
+import de.relimit.commons.markdown.span.textual.Textual;
 import de.relimit.commons.markdown.util.StringUtil;
 
-public class CodeBlock extends MarkdownElement implements BlockElement {
+public class CodeBlock extends MarkdownElement implements BlockElement, Textual {
 
 	/**
 	 * An enum providing some possible {@link CodeBlockLanguage}s for tagging a
@@ -37,10 +39,10 @@ public class CodeBlock extends MarkdownElement implements BlockElement {
 
 	private CodeBlockLanguage language = Language.UNKNOWN;
 
-	private Object strigyfiable;
+	private Object stringyfiable;
 
 	public CodeBlock(Object strigyfiable) {
-		this.strigyfiable = strigyfiable;
+		this.stringyfiable = strigyfiable;
 	}
 
 	public CodeBlock(Object strigyfiable, CodeBlockLanguage language) {
@@ -49,8 +51,22 @@ public class CodeBlock extends MarkdownElement implements BlockElement {
 	}
 
 	@Override
+	public Object getStringyfiable() {
+		return stringyfiable;
+	}
+
+	/**
+	 * @see Code#getPredecessor()
+	 */
+	@Override
+	public String getEscapeCharacters() {
+		return "";
+	}
+
+	@Override
 	public List<String> serializeLines(MarkdownSerializationOptions options) throws MarkdownSerializationException {
-		final String code = options.getPlainTextSerializer().serialize(this, strigyfiable);
+		// TODO escape?
+		final String code = options.stringify(this);
 		if (code.isBlank()) {
 			return new ArrayList<>();
 		}

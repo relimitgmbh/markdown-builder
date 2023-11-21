@@ -1,11 +1,10 @@
 package de.relimit.commons.markdown.blockelement.list;
 
-import de.relimit.commons.markdown.blockelement.paragraph.Paragraph;
 import de.relimit.commons.markdown.builder.MarkdownElementAppender;
 import de.relimit.commons.markdown.builder.NodeBuilder;
 
-public abstract class ListBuilder<P, E extends AbstractList<L>, L extends ListItem>
-		extends NodeBuilder<ListBuilder<P, E, L>, P, E, L> {
+public abstract class ListBuilder<B extends ListBuilder<B, P, E, B2, L>, P, E extends AbstractList<L>, B2 extends ListItemBuilder<B2, B, L>, L extends ListItem>
+		extends NodeBuilder<B, P, E, L> {
 
 	protected ListBuilder(E element, MarkdownElementAppender<P, E> parentAppender) {
 		super(element, parentAppender);
@@ -15,24 +14,25 @@ public abstract class ListBuilder<P, E extends AbstractList<L>, L extends ListIt
 		super(element);
 	}
 
-	abstract L createListItem(int indentationLevel, Paragraph listItemParagraph);
+	abstract L createListItem(int indentationLevel);
 
-	public ListItemBuilder<ListBuilder<P, E, L>, L> startItem(Paragraph paragraph) {
+	abstract B2 createListItemBuilder(L listItem, MarkdownElementAppender<B, L> appender);
+
+	public B2 startItem() {
 		final int indentationLevel = getElement().getIndentationLevel();
-		final L listItem = createListItem(indentationLevel + 1, paragraph);
-		return new ListItemBuilder<>(listItem, this::append);
+		final L listItem = createListItem(indentationLevel + 1);
+		return createListItemBuilder(listItem, this::append);
 	}
 
 	@Override
-	public ListBuilder<P, E, L> append(L element) {
+	public B append(L element) {
 		final int indentationLevel = getElement().getIndentationLevel();
 		element.setIndentationLevel(indentationLevel + 1);
 		return super.append(element);
 	}
 
-	@Override
-	protected ListBuilder<P, E, L> getBuilder() {
-		return this;
+	public B item(Object stringyfiable) {
+		return startItem().paragraph(stringyfiable).end();
 	}
 
 }

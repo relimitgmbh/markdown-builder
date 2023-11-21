@@ -11,13 +11,23 @@ import de.relimit.commons.markdown.span.SpanElementNode;
 
 public class TableCell extends SpanElementNode {
 
+	public static final String DEFAULT_TABLE_CELL_LINE_SEPARATOR = "<br />";
+
 	private TableRow parent;
 
 	public TableCell() {
 	}
 
+	public TableCell(Object stringyfiable) {
+		super(stringyfiable);
+	}
+
 	public TableCell(SpanElement... elements) {
 		super(elements);
+	}
+
+	public TableCell(SpanElement element) {
+		super(element);
 	}
 
 	public TableCell(String text) {

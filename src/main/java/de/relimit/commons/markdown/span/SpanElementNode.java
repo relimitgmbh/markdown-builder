@@ -23,13 +23,19 @@ public abstract class SpanElementNode extends Node<SpanElement> {
 	 * @param element
 	 */
 	public SpanElementNode(SpanElement... elements) {
-		for (final SpanElement element : elements) {
-			append(element);
-		}
+		append(elements);
+	}
+
+	public SpanElementNode(SpanElement element) {
+		append(element);
+	}
+
+	public SpanElementNode(Object stringyfiable) {
+		this(new PlainText(stringyfiable));
 	}
 
 	public SpanElementNode(String text) {
-		this(new PlainText(text));
+		this((Object) text);
 	}
 
 	abstract protected Optional<String> getPredecessor(List<String> lines);
