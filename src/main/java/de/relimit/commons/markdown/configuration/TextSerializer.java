@@ -10,16 +10,16 @@ public interface TextSerializer<T> {
 
 	/**
 	 * This method is supposed to serialize the Object handed over via
-	 * stringyfiable. The default implementation uses {@link #toString()}. The
+	 * stringifyable. The default implementation uses {@link #toString()}. The
 	 * {@link ConfigurableSerializer} supports targeting specific classes.
 	 * 
 	 * @see ConfigurableSerializer
 	 * 
 	 * @param element
-	 * @param stringyfiable
+	 * @param stringifyable
 	 * @return
 	 * @throws MarkdownSerializationException
 	 */
-	String serialize(Textual element, T stringyfiable) throws MarkdownSerializationException;
+	String serialize(Textual element, T stringifyable) throws MarkdownSerializationException;
 
 }

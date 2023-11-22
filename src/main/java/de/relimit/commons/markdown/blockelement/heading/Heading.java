@@ -35,8 +35,8 @@ public class Heading extends SpanElementNode implements BlockElement {
 		this.level = level;
 	}
 
-	public Heading(Object stringyfiable) {
-		this(MIN_LEVEL, new PlainText(stringyfiable));
+	public Heading(Object stringifyable) {
+		this(MIN_LEVEL, new PlainText(stringifyable));
 	}
 
 	public Heading(int level, SpanElement... elements) {

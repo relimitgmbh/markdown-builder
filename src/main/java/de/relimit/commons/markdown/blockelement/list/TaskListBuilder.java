@@ -27,12 +27,12 @@ public class TaskListBuilder<P>
 	/**
 	 * Convenience method to quickly create a task item from a text.
 	 * 
-	 * @param stringyfiable
+	 * @param stringifyable
 	 * @param completed
 	 * @return
 	 */
-	public TaskListBuilder<P> item(Object stringyfiable, boolean completed) {
-		return startItem().paragraph(stringyfiable).completed(completed).end();
+	public TaskListBuilder<P> item(Object stringifyable, boolean completed) {
+		return startItem().paragraph(stringifyable).completed(completed).end();
 	}
 
 	@Override

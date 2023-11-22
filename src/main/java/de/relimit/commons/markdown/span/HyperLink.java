@@ -2,8 +2,8 @@ package de.relimit.commons.markdown.span;
 
 public class HyperLink extends AbstractHyperLink implements SpanElement {
 
-	public HyperLink(String url, Object stringyfiable) {
-		super(url, stringyfiable);
+	public HyperLink(String url, Object stringifyable) {
+		super(url, stringifyable);
 	}
 
 	public HyperLink(String url) {

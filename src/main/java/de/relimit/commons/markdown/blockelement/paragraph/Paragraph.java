@@ -12,8 +12,8 @@ public class Paragraph extends SpanElementNode implements BlockElement {
 	public Paragraph() {
 	}
 
-	public Paragraph(Object stringyfiable) {
-		super(stringyfiable);
+	public Paragraph(Object stringifyable) {
+		super(stringifyable);
 	}
 
 	public Paragraph(SpanElement... elements) {

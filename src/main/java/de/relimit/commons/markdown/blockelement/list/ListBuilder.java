@@ -31,8 +31,8 @@ public abstract class ListBuilder<B extends ListBuilder<B, P, E, B2, L>, P, E ex
 		return super.append(element);
 	}
 
-	public B item(Object stringyfiable) {
-		return startItem().paragraph(stringyfiable).end();
+	public B item(Object stringifyable) {
+		return startItem().paragraph(stringifyable).end();
 	}
 
 }

@@ -2,8 +2,8 @@ package de.relimit.commons.markdown.span.textual;
 
 public class Code extends Text {
 
-	public Code(Object stringyfiable) {
-		super(stringyfiable);
+	public Code(Object stringifyable) {
+		super(stringifyable);
 	}
 
 	/**

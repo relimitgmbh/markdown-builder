@@ -13,11 +13,11 @@ public abstract class AbstractHyperLink extends MarkdownElement implements Textu
 
 	private String url;
 
-	private Object stringyfiable;
+	private Object stringifyable;
 
-	public AbstractHyperLink(String url, Object stringyfiable) {
+	public AbstractHyperLink(String url, Object stringifyable) {
 		this.url = url;
-		this.stringyfiable = stringyfiable;
+		this.stringifyable = stringifyable;
 	}
 
 	public AbstractHyperLink(String url) {
@@ -25,8 +25,8 @@ public abstract class AbstractHyperLink extends MarkdownElement implements Textu
 	}
 
 	@Override
-	public Object getStringyfiable() {
-		return stringyfiable;
+	public Object getStringifyable() {
+		return stringifyable;
 	}
 
 	@Override

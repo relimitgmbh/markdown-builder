@@ -29,8 +29,8 @@ public class SpanElementNodeBuilder<P, E extends SpanElementNode>
 		return new SpanElementNodeBuilder<>(new Emphasis(type), this::append);
 	}
 
-	public SpanElementNodeBuilder<P, E> emphasis(Type type, Object stringyfiable) {
-		return startEmphasis(type).plainText(stringyfiable).end();
+	public SpanElementNodeBuilder<P, E> emphasis(Type type, Object stringifyable) {
+		return startEmphasis(type).plainText(stringifyable).end();
 	}
 
 	// Hyperlink
@@ -39,14 +39,14 @@ public class SpanElementNodeBuilder<P, E extends SpanElementNode>
 		return append(new HyperLink(url));
 	}
 
-	public SpanElementNodeBuilder<P, E> hyperlink(String url, Object stringyfiable) {
-		return append(new HyperLink(url, stringyfiable));
+	public SpanElementNodeBuilder<P, E> hyperlink(String url, Object stringifyable) {
+		return append(new HyperLink(url, stringifyable));
 	}
 
 	// Code
 
-	public SpanElementNodeBuilder<P, E> code(Object stringyfiable) {
-		return append(new Code(stringyfiable));
+	public SpanElementNodeBuilder<P, E> code(Object stringifyable) {
+		return append(new Code(stringifyable));
 	}
 
 	public SpanElementNodeBuilder<P, E> className(Class<?> clazz) {
@@ -59,8 +59,8 @@ public class SpanElementNodeBuilder<P, E extends SpanElementNode>
 
 	// Plain text
 
-	public SpanElementNodeBuilder<P, E> plainText(Object stringyfiable) {
-		return append(new PlainText(stringyfiable));
+	public SpanElementNodeBuilder<P, E> plainText(Object stringifyable) {
+		return append(new PlainText(stringifyable));
 	}
 
 	public SpanElementNodeBuilder<P, E> newLine() {

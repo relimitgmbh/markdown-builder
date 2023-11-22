@@ -39,10 +39,10 @@ public class CodeBlock extends MarkdownElement implements BlockElement, Textual 
 
 	private CodeBlockLanguage language = Language.UNKNOWN;
 
-	private Object stringyfiable;
+	private Object stringifyable;
 
 	public CodeBlock(Object strigyfiable) {
-		this.stringyfiable = strigyfiable;
+		this.stringifyable = strigyfiable;
 	}
 
 	public CodeBlock(Object strigyfiable, CodeBlockLanguage language) {
@@ -51,8 +51,8 @@ public class CodeBlock extends MarkdownElement implements BlockElement, Textual 
 	}
 
 	@Override
-	public Object getStringyfiable() {
-		return stringyfiable;
+	public Object getStringifyable() {
+		return stringifyable;
 	}
 
 	/**

@@ -100,22 +100,22 @@ public abstract class BlockElementNodeBuilder<B extends BlockElementNodeBuilder<
 
 	// Code block
 
-	public B codeBlock(Object stringyfiable) {
-		return append(new CodeBlock(stringyfiable));
+	public B codeBlock(Object stringifyable) {
+		return append(new CodeBlock(stringifyable));
 	}
 
-	public B codeBlock(Object stringyfiable, CodeBlockLanguage language) {
-		return append(new CodeBlock(stringyfiable, language));
+	public B codeBlock(Object stringifyable, CodeBlockLanguage language) {
+		return append(new CodeBlock(stringifyable, language));
 	}
 
 	// Heading
 
-	public B heading(Object stringyfiable) {
-		return startHeading().plainText(stringyfiable).end();
+	public B heading(Object stringifyable) {
+		return startHeading().plainText(stringifyable).end();
 	}
 
-	public B heading(int level, Object stringyfiable) {
-		return startHeading(level).plainText(stringyfiable).end();
+	public B heading(int level, Object stringifyable) {
+		return startHeading(level).plainText(stringifyable).end();
 	}
 
 	public SpanElementNodeBuilder<B, Heading> startHeading() {
@@ -142,14 +142,14 @@ public abstract class BlockElementNodeBuilder<B extends BlockElementNodeBuilder<
 		return append(new Image(url));
 	}
 
-	public B image(String url, Object stringyfiable) {
-		return append(new Image(url, stringyfiable));
+	public B image(String url, Object stringifyable) {
+		return append(new Image(url, stringifyable));
 	}
 
 	// Paragraph
 
-	public B paragraph(Object stringyfiable) {
-		return startParagraph().plainText(stringyfiable).end();
+	public B paragraph(Object stringifyable) {
+		return startParagraph().plainText(stringifyable).end();
 	}
 
 	public SpanElementNodeBuilder<B, Paragraph> startParagraph() {

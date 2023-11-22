@@ -30,8 +30,8 @@ public abstract class SpanElementNode extends Node<SpanElement> {
 		append(element);
 	}
 
-	public SpanElementNode(Object stringyfiable) {
-		this(new PlainText(stringyfiable));
+	public SpanElementNode(Object stringifyable) {
+		this(new PlainText(stringifyable));
 	}
 
 	public SpanElementNode(String text) {

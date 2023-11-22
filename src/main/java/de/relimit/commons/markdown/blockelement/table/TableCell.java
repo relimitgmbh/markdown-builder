@@ -18,8 +18,8 @@ public class TableCell extends SpanElementNode {
 	public TableCell() {
 	}
 
-	public TableCell(Object stringyfiable) {
-		super(stringyfiable);
+	public TableCell(Object stringifyable) {
+		super(stringifyable);
 	}
 
 	public TableCell(SpanElement... elements) {

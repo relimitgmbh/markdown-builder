@@ -26,13 +26,13 @@ import de.relimit.commons.markdown.util.StringUtil;
  */
 public abstract class Text extends MarkdownElement implements SpanElement, Textual {
 
-	private Object stringyfiable;
+	private Object stringifyable;
 
-	public Text(Object stringyfiable) {
-		if (stringyfiable instanceof MarkdownSerializable) {
+	public Text(Object stringifyable) {
+		if (stringifyable instanceof MarkdownSerializable) {
 			throw new IllegalArgumentException("Text nodes do not accept markdown elements.");
 		}
-		this.stringyfiable = stringyfiable;
+		this.stringifyable = stringifyable;
 	}
 
 	abstract protected String getPredecessor();
@@ -40,8 +40,8 @@ public abstract class Text extends MarkdownElement implements SpanElement, Textu
 	abstract protected String getSuccessor();
 
 	@Override
-	public Object getStringyfiable() {
-		return stringyfiable;
+	public Object getStringifyable() {
+		return stringifyable;
 	}
 
 	@Override

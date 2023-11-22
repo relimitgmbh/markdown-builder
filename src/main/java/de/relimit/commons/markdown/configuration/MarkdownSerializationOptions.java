@@ -73,7 +73,7 @@ public class MarkdownSerializationOptions {
 	}
 
 	public String stringify(Textual element) throws MarkdownSerializationException {
-		String text = getSerializer().serialize(element, element.getStringyfiable());
+		String text = getSerializer().serialize(element, element.getStringifyable());
 		text = getEscaper().escape(element, text);
 		return text;
 	}

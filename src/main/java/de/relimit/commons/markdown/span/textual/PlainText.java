@@ -4,8 +4,8 @@ public class PlainText extends Text {
 
 	public static final String ESCAPE_CHARS = "\\`*_{}[]()#+-.!";
 
-	public PlainText(Object stringyfiable) {
-		super(stringyfiable);
+	public PlainText(Object stringifyable) {
+		super(stringifyable);
 	}
 
 	@Override

@@ -84,9 +84,9 @@ public class ConfigurableSerializer implements TextSerializer<Object> {
 	}
 
 	@Override
-	public String serialize(Textual element, Object stringyfiable) throws MarkdownSerializationException {
-		final TextSerializer<Object> serializer = (TextSerializer<Object>) forClass(stringyfiable.getClass());
-		return serializer.serialize(element, stringyfiable);
+	public String serialize(Textual element, Object stringifyable) throws MarkdownSerializationException {
+		final TextSerializer<Object> serializer = (TextSerializer<Object>) forClass(stringifyable.getClass());
+		return serializer.serialize(element, stringifyable);
 	}
 
 	private void invalidateCache() {

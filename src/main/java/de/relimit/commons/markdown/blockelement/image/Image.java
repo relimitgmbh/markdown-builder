@@ -7,8 +7,8 @@ import de.relimit.commons.markdown.span.AbstractHyperLink;
 
 public class Image extends AbstractHyperLink implements BlockElement {
 
-	public Image(String url, Object stringyfiable) {
-		super(url, stringyfiable);
+	public Image(String url, Object stringifyable) {
+		super(url, stringifyable);
 	}
 
 	public Image(String url) {

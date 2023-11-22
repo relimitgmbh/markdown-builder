@@ -21,60 +21,60 @@ public class Markdown {
 		return new SpanElementNodeBuilder(new Paragraph());
 	}
 
-	public static Heading heading(int level, Object stringyfiable) {
-		return new Heading(level, new PlainText(stringyfiable));
+	public static Heading heading(int level, Object stringifyable) {
+		return new Heading(level, new PlainText(stringifyable));
 	}
 
-	public static Heading heading1(Object stringyfiable) {
-		return heading(1, stringyfiable);
+	public static Heading heading1(Object stringifyable) {
+		return heading(1, stringifyable);
 	}
 
-	public static Heading heading2(Object stringyfiable) {
-		return heading(2, stringyfiable);
+	public static Heading heading2(Object stringifyable) {
+		return heading(2, stringifyable);
 	}
 
-	public static Heading heading3(Object stringyfiable) {
-		return heading(3, stringyfiable);
+	public static Heading heading3(Object stringifyable) {
+		return heading(3, stringifyable);
 	}
 
-	public static Emphasis emphasis(EmphasisType type, Object stringyfiable) {
-		return new Emphasis(type, new PlainText(stringyfiable));
+	public static Emphasis emphasis(EmphasisType type, Object stringifyable) {
+		return new Emphasis(type, new PlainText(stringifyable));
 	}
 
-	public static Emphasis bold(Object stringyfiable) {
-		return emphasis(Type.BOLD, stringyfiable);
+	public static Emphasis bold(Object stringifyable) {
+		return emphasis(Type.BOLD, stringifyable);
 	}
 
-	public static Emphasis inserted(Object stringyfiable) {
-		return emphasis(Type.INSERTED, stringyfiable);
+	public static Emphasis inserted(Object stringifyable) {
+		return emphasis(Type.INSERTED, stringifyable);
 	}
 
-	public static Emphasis italic(Object stringyfiable) {
-		return emphasis(Type.ITALIC, stringyfiable);
+	public static Emphasis italic(Object stringifyable) {
+		return emphasis(Type.ITALIC, stringifyable);
 	}
 
-	public static Emphasis marked(Object stringyfiable) {
-		return emphasis(Type.MARKED, stringyfiable);
+	public static Emphasis marked(Object stringifyable) {
+		return emphasis(Type.MARKED, stringifyable);
 	}
 
-	public static Emphasis strikethrough(Object stringyfiable) {
-		return emphasis(Type.STRIKETHROUGH, stringyfiable);
+	public static Emphasis strikethrough(Object stringifyable) {
+		return emphasis(Type.STRIKETHROUGH, stringifyable);
 	}
 
-	public static Emphasis superscript(Object stringyfiable) {
-		return emphasis(Type.SUPERSCRIPT, stringyfiable);
+	public static Emphasis superscript(Object stringifyable) {
+		return emphasis(Type.SUPERSCRIPT, stringifyable);
 	}
 
-	public static Emphasis subscript(Object stringyfiable) {
-		return emphasis(Type.SUBSCRIPT, stringyfiable);
+	public static Emphasis subscript(Object stringifyable) {
+		return emphasis(Type.SUBSCRIPT, stringifyable);
 	}
 
-	public static Code code(Object stringyfiable) {
-		return new Code(stringyfiable);
+	public static Code code(Object stringifyable) {
+		return new Code(stringifyable);
 	}
 
-	public static HyperLink link(String url, Object stringyfiable) {
-		return new HyperLink(url, stringyfiable);
+	public static HyperLink link(String url, Object stringifyable) {
+		return new HyperLink(url, stringifyable);
 	}
 
 	public static HyperLink link(String url) {
