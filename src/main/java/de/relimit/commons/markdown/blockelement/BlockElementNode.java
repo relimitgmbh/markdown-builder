@@ -9,11 +9,11 @@ import de.relimit.commons.markdown.MarkdownSerializationException;
 import de.relimit.commons.markdown.Node;
 import de.relimit.commons.markdown.blockelement.quotes.Blockquotes;
 import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
-import de.relimit.commons.markdown.util.StringUtil;
+import de.relimit.commons.markdown.util.Strings;
 
 public abstract class BlockElementNode extends Node<BlockElement> implements Indentable {
 
-	public static final String INDENT = StringUtil.fill(4, ' ');
+	public static final String INDENT = Strings.fill(4, ' ');
 
 	private int indentationLevel;
 
@@ -47,7 +47,7 @@ public abstract class BlockElementNode extends Node<BlockElement> implements Ind
 	}
 
 	protected String getIndent() {
-		return StringUtil.fill(getIndentationLevel(), INDENT);
+		return Strings.fill(getIndentationLevel(), INDENT);
 	}
 
 	private boolean isQuoted(BlockElement blockElement) {

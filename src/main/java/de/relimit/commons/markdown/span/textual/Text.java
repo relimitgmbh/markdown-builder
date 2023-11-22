@@ -8,7 +8,7 @@ import de.relimit.commons.markdown.MarkdownSerializationException;
 import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
 import de.relimit.commons.markdown.configuration.TextSerializer;
 import de.relimit.commons.markdown.span.SpanElement;
-import de.relimit.commons.markdown.util.StringUtil;
+import de.relimit.commons.markdown.util.Strings;
 
 /**
  * Something that contains only text. The class takes an {@link Object} as
@@ -21,8 +21,6 @@ import de.relimit.commons.markdown.util.StringUtil;
  * reflected in the generated markdown as new lines but will not lead to new
  * paragraphs.
  * 
- * @author Jens Westarp
- *
  */
 public abstract class Text extends MarkdownElement implements SpanElement, Textual {
 
@@ -35,7 +33,7 @@ public abstract class Text extends MarkdownElement implements SpanElement, Textu
 		this.stringifyable = stringifyable;
 	}
 
-	abstract protected Fences getFences();
+	abstract protected Fences getFences(MarkdownSerializationOptions options);
 
 	@Override
 	public Object getStringifyable() {
@@ -44,9 +42,9 @@ public abstract class Text extends MarkdownElement implements SpanElement, Textu
 
 	@Override
 	public List<String> serializeLines(MarkdownSerializationOptions options) throws MarkdownSerializationException {
-		final String text = getFences().fence(options.stringify(this));
+		final String text = getFences(options).fence(options.stringify(this));
 		// Covers UNIX and Windows
-		return StringUtil.splitLines(text);
+		return Strings.splitLines(text);
 	}
 
 }

@@ -1,15 +1,15 @@
 package de.relimit.commons.markdown.blockelement.heading;
 
 import java.util.List;
-import java.util.Optional;
 
 import de.relimit.commons.markdown.MarkdownSerializationException;
 import de.relimit.commons.markdown.blockelement.BlockElement;
 import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
 import de.relimit.commons.markdown.span.SpanElement;
 import de.relimit.commons.markdown.span.SpanElementNode;
+import de.relimit.commons.markdown.span.textual.Fences;
 import de.relimit.commons.markdown.span.textual.PlainText;
-import de.relimit.commons.markdown.util.StringUtil;
+import de.relimit.commons.markdown.util.Strings;
 
 public class Heading extends SpanElementNode implements BlockElement {
 
@@ -58,23 +58,18 @@ public class Heading extends SpanElementNode implements BlockElement {
 			final int maxLineLength = lines.stream().map(String::length).max(Integer::compareTo)
 					.orElseThrow(() -> new MarkdownSerializationException(
 							"Text of " + Heading.class.getSimpleName() + " cannot be empty."));
-			lines.add(StringUtil.fill(maxLineLength, underlineChar));
+			lines.add(Strings.fill(maxLineLength, underlineChar));
 		}
 		return lines;
 	}
 
 	@Override
-	protected Optional<String> getPredecessor(List<String> lines) {
+	protected Fences getFences() {
 		if (underlineStyle && level < 3) {
 			// Underline added by serializeLines
-			return Optional.empty();
+			return Fences.none();
 		}
-		return Optional.of(StringUtil.fill(level, ATX_PREFIX) + " ");
-	}
-
-	@Override
-	protected Optional<String> getSuccessor(List<String> lines) {
-		return Optional.empty();
+		return Fences.ofLeft(Strings.fill(level, ATX_PREFIX) + " ");
 	}
 
 	private int trimLevel(int level) {

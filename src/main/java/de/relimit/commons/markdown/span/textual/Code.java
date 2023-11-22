@@ -1,5 +1,7 @@
 package de.relimit.commons.markdown.span.textual;
 
+import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
+
 public class Code extends Text {
 
 	/**
@@ -14,6 +16,11 @@ public class Code extends Text {
 
 	public Code(Object stringifyable) {
 		super(stringifyable);
+	}
+
+	@Override
+	protected Fences getFences(MarkdownSerializationOptions options) {
+		return options.getCodeFences();
 	}
 
 	/**

@@ -11,14 +11,18 @@ import de.relimit.commons.markdown.span.emphasis.EmphasisType;
 import de.relimit.commons.markdown.span.textual.Code;
 import de.relimit.commons.markdown.span.textual.PlainText;
 
-public class Markdown {
+public class MD {
+
+	private MD() {
+		// utility class
+	}
 
 	public static DocumentBuilder start() {
 		return new DocumentBuilder();
 	}
 
 	public static SpanElementNodeBuilder<?, Paragraph> startParagraph() {
-		return new SpanElementNodeBuilder(new Paragraph());
+		return new SpanElementNodeBuilder<>(new Paragraph());
 	}
 
 	public static Heading heading(int level, Object stringifyable) {
@@ -79,10 +83,6 @@ public class Markdown {
 
 	public static HyperLink link(String url) {
 		return new HyperLink(url);
-	}
-
-	private Markdown() {
-		// utility class
 	}
 
 }

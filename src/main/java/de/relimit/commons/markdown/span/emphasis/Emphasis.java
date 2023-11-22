@@ -1,13 +1,13 @@
 package de.relimit.commons.markdown.span.emphasis;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 import de.relimit.commons.markdown.MarkdownSerializationException;
 import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
 import de.relimit.commons.markdown.span.SpanElement;
 import de.relimit.commons.markdown.span.SpanElementNode;
+import de.relimit.commons.markdown.span.textual.Fences;
+import de.relimit.commons.markdown.util.Args;
 
 public class Emphasis extends SpanElementNode implements SpanElement {
 
@@ -34,26 +34,23 @@ public class Emphasis extends SpanElementNode implements SpanElement {
 
 	}
 
-	private EmphasisType type;
+	private Fences fences;
 
 	public Emphasis(EmphasisType type, SpanElement... elements) {
 		super(elements);
-		this.type = Objects.requireNonNull(type);
+		Args.notNull(type, "Type");
+		final String marker = Args.notNull(type.getMarker(), "Marker");
+		this.fences = Fences.of(marker, marker);
 	}
 
 	@Override
-	protected Optional<String> getPredecessor(List<String> lines) {
-		return Optional.of(type.getMarker());
-	}
-
-	@Override
-	protected Optional<String> getSuccessor(List<String> lines) {
-		return getPredecessor(lines);
+	protected Fences getFences() {
+		return fences;
 	}
 
 	@Override
 	public List<String> serializeLines(MarkdownSerializationOptions options) throws MarkdownSerializationException {
-		// TODO Escape style indicators
+		// TODO Escape?
 		return super.serializeLines(options);
 	}
 

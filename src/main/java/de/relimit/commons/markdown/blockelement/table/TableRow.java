@@ -9,7 +9,7 @@ import java.util.Optional;
 import de.relimit.commons.markdown.MarkdownSerializationException;
 import de.relimit.commons.markdown.Node;
 import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
-import de.relimit.commons.markdown.util.StringUtil;
+import de.relimit.commons.markdown.util.Strings;
 
 public class TableRow extends Node<TableCell> {
 
@@ -108,7 +108,7 @@ public class TableRow extends Node<TableCell> {
 			final int targetWidth = columnWidths.get(columnIndex) + 2;
 			final Alignment alignment = getAlignment(columnIndex);
 			// Add 2 for WHITESPACE
-			value = StringUtil.fillUpAligned(value, WHITESPACE, targetWidth, alignment);
+			value = Strings.fillUpAligned(value, WHITESPACE, targetWidth, alignment);
 			sb.append(value);
 		}
 		sb.append(SEPARATOR);

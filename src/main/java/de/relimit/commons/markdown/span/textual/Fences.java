@@ -1,6 +1,10 @@
 package de.relimit.commons.markdown.span.textual;
 
+import java.util.Optional;
+
 public class Fences {
+
+	private static final Fences NONE = new Fences(null, null);
 
 	private String leading;
 
@@ -11,23 +15,27 @@ public class Fences {
 		this.trailing = trailing;
 	}
 
-	public String getLeading() {
-		return leading;
+	public Optional<String> getLeading() {
+		return Optional.ofNullable(leading);
 	}
 
-	public String getTrailing() {
-		return trailing;
+	public Optional<String> getTrailing() {
+		return Optional.ofNullable(trailing);
 	}
 
 	public String fence(String string) {
-		/* Inelegant for speed. */
-		if (leading != null && trailing != null) {
-			return leading + string + trailing;
-		}
-		if (leading != null) {
-			return leading + string;
-		} else {
+		final int b = (leading != null ? 2 : 0) + (trailing != null ? 1 : 0);
+		switch (b) {
+		case 0:
+			return string;
+		case 1:
 			return string + trailing;
+		case 2:
+			return leading + string;
+		case 3:
+			return leading + string + trailing;
+		default:
+			throw new AssertionError(b + " should not be found at this point.");
 		}
 	}
 
@@ -41,6 +49,10 @@ public class Fences {
 
 	public static final Fences ofRight(String rightFence) {
 		return new Fences(null, rightFence);
+	}
+
+	public static final Fences none() {
+		return NONE;
 	}
 
 }

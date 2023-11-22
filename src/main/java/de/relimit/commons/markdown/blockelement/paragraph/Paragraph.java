@@ -1,11 +1,9 @@
 package de.relimit.commons.markdown.blockelement.paragraph;
 
-import java.util.List;
-import java.util.Optional;
-
 import de.relimit.commons.markdown.blockelement.BlockElement;
 import de.relimit.commons.markdown.span.SpanElement;
 import de.relimit.commons.markdown.span.SpanElementNode;
+import de.relimit.commons.markdown.span.textual.Fences;
 
 public class Paragraph extends SpanElementNode implements BlockElement {
 
@@ -29,13 +27,8 @@ public class Paragraph extends SpanElementNode implements BlockElement {
 	}
 
 	@Override
-	protected Optional<String> getPredecessor(List<String> lines) {
-		return Optional.empty();
-	}
-
-	@Override
-	protected Optional<String> getSuccessor(List<String> lines) {
-		return Optional.empty();
+	protected Fences getFences() {
+		return Fences.none();
 	}
 
 }

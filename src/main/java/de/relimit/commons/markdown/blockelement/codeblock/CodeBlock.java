@@ -9,9 +9,11 @@ import de.relimit.commons.markdown.blockelement.BlockElement;
 import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
 import de.relimit.commons.markdown.span.textual.Code;
 import de.relimit.commons.markdown.span.textual.Textual;
-import de.relimit.commons.markdown.util.StringUtil;
+import de.relimit.commons.markdown.util.Strings;
 
 public class CodeBlock extends MarkdownElement implements BlockElement, Textual {
+
+	public static final Language DEFAULT_LANGUAGE = Language.UNKNOWN;
 
 	/**
 	 * An enum providing some possible {@link CodeBlockLanguage}s for tagging a
@@ -73,7 +75,7 @@ public class CodeBlock extends MarkdownElement implements BlockElement, Textual 
 		final List<String> lines = new ArrayList<>();
 		lines.add("```" + getLanguage(options).getName());
 		// We checked that the code is not empty. Should return at least one line.
-		lines.addAll(StringUtil.splitLines(code));
+		lines.addAll(Strings.splitLines(code));
 		lines.add("```");
 		return lines;
 	}

@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 
 import de.relimit.commons.markdown.MarkdownSerializationException;
 import de.relimit.commons.markdown.Node;
 import de.relimit.commons.markdown.blockelement.BlockElement;
 import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
-import de.relimit.commons.markdown.util.StringUtil;
+import de.relimit.commons.markdown.util.Args;
+import de.relimit.commons.markdown.util.Strings;
 
 public class Table extends Node<TableRow> implements BlockElement {
 
@@ -104,7 +104,7 @@ public class Table extends Node<TableRow> implements BlockElement {
 		for (int columnIndex = 0; columnIndex < columnWidths.size(); columnIndex++) {
 			sb.append(TableRow.SEPARATOR);
 
-			final String separator = StringUtil.fill(columnWidths.get(columnIndex), "-");
+			final String separator = Strings.fill(columnWidths.get(columnIndex), "-");
 
 			final Alignment alignment = getAlignment(columnIndex);
 			switch (alignment) {
@@ -168,8 +168,7 @@ public class Table extends Node<TableRow> implements BlockElement {
 		if (index < 0) {
 			throw new IllegalArgumentException("Index cannot be negative.");
 		}
-		Objects.requireNonNull(alignment);
-		this.alignments.put(index, alignment);
+		this.alignments.put(index, Args.notNull(alignment, "Alignment"));
 		invalidateSerialized();
 	}
 
@@ -196,7 +195,7 @@ public class Table extends Node<TableRow> implements BlockElement {
 	}
 
 	public void setDefaultAlignment(Alignment defaultAlignment) {
-		this.defaultAlignment = Objects.requireNonNull(defaultAlignment);
+		this.defaultAlignment = Args.notNull(defaultAlignment, "Default alignment");
 		invalidateSerialized();
 	}
 

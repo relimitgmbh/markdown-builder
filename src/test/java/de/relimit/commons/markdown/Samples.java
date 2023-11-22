@@ -61,8 +61,7 @@ public class Samples {
 				"Markdown characters are automatically escaped by default. This means that characters like * or # are "
 						+ "not rendered as emphasis. Paths like c:\\temp\\foo.bar are safe as well. The ")
 				.simpleClassName(TextEscaper.class).plainText(" can be " + "configured via ")
-				.simpleClassName(MarkdownSerializationOptions.class).plainText(".").code("cont`taminated` ` `code`")
-				.end();
+				.simpleClassName(MarkdownSerializationOptions.class).plainText(".").end();
 	}
 
 }

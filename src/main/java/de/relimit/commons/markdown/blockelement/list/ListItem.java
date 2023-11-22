@@ -10,7 +10,7 @@ import de.relimit.commons.markdown.blockelement.image.Image;
 import de.relimit.commons.markdown.blockelement.paragraph.Paragraph;
 import de.relimit.commons.markdown.blockelement.table.Table;
 import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
-import de.relimit.commons.markdown.util.StringUtil;
+import de.relimit.commons.markdown.util.Strings;
 
 public abstract class ListItem extends BlockElementNode {
 
@@ -57,7 +57,7 @@ public abstract class ListItem extends BlockElementNode {
 				 */
 				final String prefix =
 						// Less than four? Fill up with spaces to get four
-						(marker.length() < 4) ? marker + StringUtil.spaces(4 - marker.length()) :
+						(marker.length() < 4) ? marker + Strings.spaces(4 - marker.length()) :
 						// Four or more: Add a single space
 								marker + " ";
 				lines.add(prefix + headerLine);

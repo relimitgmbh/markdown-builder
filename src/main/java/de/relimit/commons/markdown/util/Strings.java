@@ -5,9 +5,9 @@ import java.util.List;
 
 import de.relimit.commons.markdown.blockelement.table.Alignment;
 
-public class StringUtil {
+public class Strings {
 
-	private StringUtil() {
+	private Strings() {
 		// utility class
 	}
 

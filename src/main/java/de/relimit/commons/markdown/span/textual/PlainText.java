@@ -1,5 +1,7 @@
 package de.relimit.commons.markdown.span.textual;
 
+import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
+
 public class PlainText extends Text {
 
 	public static final String ESCAPE_CHARS = "\\`*_{}[]()#+-.!";
@@ -9,13 +11,8 @@ public class PlainText extends Text {
 	}
 
 	@Override
-	protected String getPredecessor() {
-		return "";
-	}
-
-	@Override
-	protected String getSuccessor() {
-		return "";
+	protected Fences getFences(MarkdownSerializationOptions options) {
+		return Fences.none();
 	}
 
 	@Override

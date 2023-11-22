@@ -1,8 +1,8 @@
 package de.relimit.commons.markdown.util;
 
-public class Arg {
+public class Args {
 
-	private Arg() {
+	private Args() {
 		// utility class
 	}
 
@@ -11,6 +11,10 @@ public class Arg {
 			throw new IllegalArgumentException(argName + " cannot be null.");
 		}
 		return arg;
+	}
+
+	public static boolean isNullOrEmpty(String arg) {
+		return arg == null || arg.isEmpty();
 	}
 
 	public static String notNullOrEmpty(String arg, String argName) {

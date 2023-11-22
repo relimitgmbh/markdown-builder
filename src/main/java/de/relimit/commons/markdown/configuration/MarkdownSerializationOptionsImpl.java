@@ -1,11 +1,13 @@
 package de.relimit.commons.markdown.configuration;
 
-import de.relimit.commons.markdown.blockelement.codeblock.CodeBlock.Language;
+import de.relimit.commons.markdown.blockelement.codeblock.CodeBlock;
 import de.relimit.commons.markdown.blockelement.codeblock.CodeBlockLanguage;
+import de.relimit.commons.markdown.blockelement.rule.HorizontalRule;
+import de.relimit.commons.markdown.blockelement.rule.HorizontalRuleCharacter;
 import de.relimit.commons.markdown.blockelement.table.TableCell;
 import de.relimit.commons.markdown.span.textual.Code;
 import de.relimit.commons.markdown.span.textual.Fences;
-import de.relimit.commons.markdown.util.Arg;
+import de.relimit.commons.markdown.util.Args;
 
 public class MarkdownSerializationOptionsImpl implements MarkdownSerializationOptions {
 
@@ -23,13 +25,16 @@ public class MarkdownSerializationOptionsImpl implements MarkdownSerializationOp
 
 	private Fences codeFences;
 
+	private HorizontalRuleCharacter defaultHorizontalRuleCharacter;
+
 	public MarkdownSerializationOptionsImpl() {
 		this.serializer = TextSerializer.DEFAULT_SERIALIZER;
 		this.escaper = DefaultEscaper.DEFAULT_ESCAPER;
 		this.lineSeparator = System.lineSeparator();
 		this.tableCellLineSeparator = TableCell.DEFAULT_TABLE_CELL_LINE_SEPARATOR;
-		this.defaultCodeBlockLangauge = Language.UNKNOWN;
+		this.defaultCodeBlockLangauge = CodeBlock.DEFAULT_LANGUAGE;
 		this.codeFences = Code.DEFAULT_FENCES;
+		this.defaultHorizontalRuleCharacter = HorizontalRule.DEFAULT_CHARACTER;
 	}
 
 	/**
@@ -45,6 +50,8 @@ public class MarkdownSerializationOptionsImpl implements MarkdownSerializationOp
 		setLineSeparator(template.getLineSeparator());
 		setTableCellLineSeparator(template.getTableCellLineSeparator());
 		setDefaultCodeBlockLangauge(template.getDefaultCodeBlockLangauge());
+		setCodeFences(template.getCodeFences());
+		setDefaultHorizontalRuleCharacter(template.getDefaultHorizontalRuleCharacter());
 	}
 
 	public MarkdownSerializationOptionsImpl copy() {
@@ -57,7 +64,7 @@ public class MarkdownSerializationOptionsImpl implements MarkdownSerializationOp
 	}
 
 	public void setSerializer(TextSerializer<Object> plainTextSerializer) {
-		this.serializer = Arg.notNull(plainTextSerializer, "plainTextSerializer");
+		this.serializer = Args.notNull(plainTextSerializer, "plainTextSerializer");
 	}
 
 	@Override
@@ -66,7 +73,7 @@ public class MarkdownSerializationOptionsImpl implements MarkdownSerializationOp
 	}
 
 	public void setEscaper(TextEscaper escaper) {
-		this.escaper = Arg.notNull(escaper, "escaper");
+		this.escaper = Args.notNull(escaper, "escaper");
 	}
 
 	@Override
@@ -75,7 +82,7 @@ public class MarkdownSerializationOptionsImpl implements MarkdownSerializationOp
 	}
 
 	public void setLineSeparator(String lineSeparator) {
-		this.lineSeparator = Arg.notNull(lineSeparator, "lineSeparator");
+		this.lineSeparator = Args.notNull(lineSeparator, "lineSeparator");
 	}
 
 	@Override
@@ -84,7 +91,7 @@ public class MarkdownSerializationOptionsImpl implements MarkdownSerializationOp
 	}
 
 	public void setTableCellLineSeparator(String tableCellLineSeparator) {
-		this.tableCellLineSeparator = Arg.notNull(tableCellLineSeparator, "tableCellLineSeparator");
+		this.tableCellLineSeparator = Args.notNull(tableCellLineSeparator, "tableCellLineSeparator");
 	}
 
 	@Override
@@ -93,7 +100,7 @@ public class MarkdownSerializationOptionsImpl implements MarkdownSerializationOp
 	}
 
 	public void setDefaultCodeBlockLangauge(CodeBlockLanguage defaultCodeBlockLangauge) {
-		this.defaultCodeBlockLangauge = Arg.notNull(defaultCodeBlockLangauge, "defaultCodeBlockLangauge");
+		this.defaultCodeBlockLangauge = Args.notNull(defaultCodeBlockLangauge, "defaultCodeBlockLangauge");
 	}
 
 	@Override
@@ -102,7 +109,16 @@ public class MarkdownSerializationOptionsImpl implements MarkdownSerializationOp
 	}
 
 	public void setCodeFences(Fences codeFences) {
-		this.codeFences = Arg.notNull(codeFences, "codeFences");
+		this.codeFences = Args.notNull(codeFences, "codeFences");
+	}
+
+	@Override
+	public HorizontalRuleCharacter getDefaultHorizontalRuleCharacter() {
+		return defaultHorizontalRuleCharacter;
+	}
+
+	public void setDefaultHorizontalRuleCharacter(HorizontalRuleCharacter defaultHorizontalRuleCharacter) {
+		this.defaultHorizontalRuleCharacter = defaultHorizontalRuleCharacter;
 	}
 
 }
