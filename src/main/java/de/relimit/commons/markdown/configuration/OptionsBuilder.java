@@ -2,22 +2,21 @@ package de.relimit.commons.markdown.configuration;
 
 public class OptionsBuilder {
 
-	private MarkdownSerializationOptions options;
+	private MarkdownSerializationOptionsImpl options;
 
 	private ConfigurableSerializer configurableSerializer;
 
 	public OptionsBuilder() {
-		this.options = new MarkdownSerializationOptions();
+		this.options = new MarkdownSerializationOptionsImpl();
 	}
 
 	public OptionsBuilder(MarkdownSerializationOptions options) {
-		this();
 		/*
 		 * Serializer is not cloned because it can be any implementation!
 		 * However it will be a completely new one once serializers are added by
 		 * this builder.
 		 */
-		this.options = new MarkdownSerializationOptions(options);
+		this.options = new MarkdownSerializationOptionsImpl(options);
 	}
 
 	public MarkdownSerializationOptions build() {

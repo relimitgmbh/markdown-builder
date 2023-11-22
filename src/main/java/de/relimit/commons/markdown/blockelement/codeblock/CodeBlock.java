@@ -37,7 +37,7 @@ public class CodeBlock extends MarkdownElement implements BlockElement, Textual 
 
 	}
 
-	private CodeBlockLanguage language = Language.UNKNOWN;
+	private CodeBlockLanguage language;
 
 	private Object stringifyable;
 
@@ -71,14 +71,17 @@ public class CodeBlock extends MarkdownElement implements BlockElement, Textual 
 			return new ArrayList<>();
 		}
 		final List<String> lines = new ArrayList<>();
-		lines.add("```" + language.getName());
+		lines.add("```" + getLanguage(options).getName());
 		// We checked that the code is not empty. Should return at least one line.
 		lines.addAll(StringUtil.splitLines(code));
 		lines.add("```");
 		return lines;
 	}
 
-	public CodeBlockLanguage getLanguage() {
+	private CodeBlockLanguage getLanguage(MarkdownSerializationOptions options) {
+		if (language == null) {
+			return options.getDefaultCodeBlockLangauge();
+		}
 		return language;
 	}
 

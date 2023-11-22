@@ -4,6 +4,7 @@ import java.util.List;
 
 import de.relimit.commons.markdown.blockelement.table.TableCell;
 import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
+import de.relimit.commons.markdown.configuration.MarkdownSerializationOptionsImpl;
 
 public interface MarkdownSerializable {
 
@@ -15,7 +16,7 @@ public interface MarkdownSerializable {
 	 *             If unable to generate a markdown String
 	 */
 	default String serialize() throws MarkdownSerializationException {
-		return serialize(MarkdownSerializationOptions.DEFAULT_OPTIONS);
+		return serialize(MarkdownSerializationOptionsImpl.DEFAULT_OPTIONS);
 	}
 
 	/**

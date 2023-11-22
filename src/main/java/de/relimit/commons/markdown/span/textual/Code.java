@@ -2,10 +2,6 @@ package de.relimit.commons.markdown.span.textual;
 
 public class Code extends Text {
 
-	public Code(Object stringifyable) {
-		super(stringifyable);
-	}
-
 	/**
 	 * Using three backticks as fences is safer because it allows for single
 	 * backticks to be present anywhere in the fenced code without breaking the
@@ -14,17 +10,10 @@ public class Code extends Text {
 	 * begin or end with a backtick. Or - as a very special case scenario -
 	 * consist of only one single backtick character.
 	 */
-	@Override
-	public String getPredecessor() {
-		return "``` ";
-	}
+	public static final Fences DEFAULT_FENCES = Fences.of("``` ", " ```");
 
-	/**
-	 * @see #getPredecessor()
-	 */
-	@Override
-	public String getSuccessor() {
-		return " ```";
+	public Code(Object stringifyable) {
+		super(stringifyable);
 	}
 
 	/**

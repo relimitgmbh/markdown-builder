@@ -1,7 +1,7 @@
 package de.relimit.commons.markdown.builder;
 
 import de.relimit.commons.markdown.MarkdownSerializable;
-import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
+import de.relimit.commons.markdown.configuration.MarkdownSerializationOptionsImpl;
 
 /**
  * <p>
@@ -83,7 +83,7 @@ public abstract class NestableBuilder<B extends NestableBuilder<B, P, E>, P, E e
 
 	@Override
 	public String toString() {
-		return element.getSerialized(MarkdownSerializationOptions.DEFAULT_OPTIONS, this.getClass().getSimpleName());
+		return element.getSerialized(MarkdownSerializationOptionsImpl.DEFAULT_OPTIONS, this.getClass().getSimpleName());
 	}
 
 }

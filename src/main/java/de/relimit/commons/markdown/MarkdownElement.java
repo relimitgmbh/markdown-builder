@@ -1,6 +1,7 @@
 package de.relimit.commons.markdown;
 
 import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
+import de.relimit.commons.markdown.configuration.MarkdownSerializationOptionsImpl;
 
 /**
  * Base class that every markdown element extends.
@@ -56,7 +57,7 @@ public abstract class MarkdownElement implements MarkdownSerializable {
 
 	@Override
 	public String toString() {
-		return getSerialized(MarkdownSerializationOptions.DEFAULT_OPTIONS, this.getClass().getSimpleName());
+		return getSerialized(MarkdownSerializationOptionsImpl.DEFAULT_OPTIONS, this.getClass().getSimpleName());
 	}
 
 }

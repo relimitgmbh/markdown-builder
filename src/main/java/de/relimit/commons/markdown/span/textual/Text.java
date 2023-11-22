@@ -35,9 +35,7 @@ public abstract class Text extends MarkdownElement implements SpanElement, Textu
 		this.stringifyable = stringifyable;
 	}
 
-	abstract protected String getPredecessor();
-
-	abstract protected String getSuccessor();
+	abstract protected Fences getFences();
 
 	@Override
 	public Object getStringifyable() {
@@ -46,7 +44,7 @@ public abstract class Text extends MarkdownElement implements SpanElement, Textu
 
 	@Override
 	public List<String> serializeLines(MarkdownSerializationOptions options) throws MarkdownSerializationException {
-		final String text = getPredecessor() + options.stringify(this) + getSuccessor();
+		final String text = getFences().fence(options.stringify(this));
 		// Covers UNIX and Windows
 		return StringUtil.splitLines(text);
 	}
