@@ -9,7 +9,7 @@ Examples
 Paragraphs and Line Breaks
 --------------------------
 
-Lorem ipsum dolor sit amet consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua\. At vero eos et accusam et justo duo dolores et ea rebum\. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet\.
+The two most important elements when working with Markdown Builder are block elements and span elements\. Block elements are separated from each other by a blank line and render as a paragraph\.
 
 ### Java Code
 
