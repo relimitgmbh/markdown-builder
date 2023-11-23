@@ -2,6 +2,7 @@ package de.relimit.commons.markdown.span.textual;
 
 import java.util.List;
 
+import de.relimit.commons.markdown.Fences;
 import de.relimit.commons.markdown.MarkdownElement;
 import de.relimit.commons.markdown.MarkdownSerializable;
 import de.relimit.commons.markdown.MarkdownSerializationException;
@@ -26,6 +27,16 @@ public abstract class Text extends MarkdownElement implements SpanElement, Textu
 
 	private Object stringifyable;
 
+	/**
+	 * Note that this constructor does not accept {@link MarkdownSerializable}s.
+	 * This is done because it would break type safety measures this library is
+	 * trying to uphold and to prevent accidental nesting of markdown elements
+	 * where the user intends to add text.
+	 * 
+	 * @param stringifyable
+	 * @throws IllegalArgumentException
+	 *             if any {@link MarkdownSerializable} is passed as an argument
+	 */
 	public Text(Object stringifyable) {
 		if (stringifyable instanceof MarkdownSerializable) {
 			throw new IllegalArgumentException("Text nodes do not accept markdown elements.");

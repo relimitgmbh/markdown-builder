@@ -2,8 +2,14 @@ package de.relimit.commons.markdown.builder;
 
 import de.relimit.commons.markdown.MarkdownSerializable;
 
-public interface MarkdownElementAppender<P, E extends MarkdownSerializable> {
+/**
+ * @param <A>
+ *            The appender itself for method chaining
+ * @param <AE>
+ *            The element that is appended to this appender
+ */
+public interface MarkdownElementAppender<A, AE extends MarkdownSerializable> {
 
-	P append(E element);
+	A append(AE element);
 
 }

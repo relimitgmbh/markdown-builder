@@ -30,6 +30,7 @@ public abstract class BlockElementNode extends Node<BlockElement> implements Ind
 	public void setIndentationLevel(int indentationLevel) {
 		this.indentationLevel = indentationLevel;
 		for (final BlockElement element : elements) {
+			// crawl the tree
 			if (element instanceof Indentable) {
 				((Indentable) element).setIndentationLevel(indentationLevel + 1);
 			}

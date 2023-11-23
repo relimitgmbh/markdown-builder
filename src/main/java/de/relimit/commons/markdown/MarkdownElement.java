@@ -4,31 +4,13 @@ import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
 import de.relimit.commons.markdown.configuration.MarkdownSerializationOptionsImpl;
 
 /**
- * Base class that every markdown element extends.
+ * Base implementation of {@link MarkdownSerializable} that provides Caching of
+ * the serialized markdown.
  */
 public abstract class MarkdownElement implements MarkdownSerializable {
 
+	// Cache for speed
 	private String serialized;
-
-	/**
-	 * Returns the result of
-	 * {@link MarkdownElement#getSerialized(MarkdownSerializationOptions)} or
-	 * the specified fallback if a {@link MarkdownSerializationException}
-	 * occurred.
-	 * 
-	 * @param fallback
-	 *            String to return if serialization fails
-	 *
-	 * @return Markdown as String or specified fallback
-	 */
-	@Override
-	public String getSerialized(MarkdownSerializationOptions options, String fallback) {
-		try {
-			return getSerialized(options);
-		} catch (final MarkdownSerializationException e) {
-			return fallback;
-		}
-	}
 
 	/**
 	 * Calls {@link MarkdownElement#serialize()} or directly returns its last

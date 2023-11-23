@@ -38,6 +38,10 @@ public abstract class AbstractList<T extends ListItem> extends Node<T> implement
 
 	@Override
 	public List<String> serializeLines(MarkdownSerializationOptions options) throws MarkdownSerializationException {
+		// For speed
+		if (elements.size() == 1) {
+			return elements.get(0).serializeLines(options);
+		}
 		final List<String> lines = new ArrayList<>();
 		for (final T element : elements) {
 			lines.addAll(element.serializeLines(options));

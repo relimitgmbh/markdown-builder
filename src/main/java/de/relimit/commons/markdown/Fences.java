@@ -1,4 +1,4 @@
-package de.relimit.commons.markdown.span.textual;
+package de.relimit.commons.markdown;
 
 import java.util.Optional;
 
@@ -39,15 +39,15 @@ public class Fences {
 		}
 	}
 
-	public static final Fences of(String leftFence, String rightFence) {
+	public static final Fences between(String leftFence, String rightFence) {
 		return new Fences(leftFence, rightFence);
 	}
 
-	public static final Fences ofLeft(String leftFence) {
+	public static final Fences rightOf(String leftFence) {
 		return new Fences(leftFence, null);
 	}
 
-	public static final Fences ofRight(String rightFence) {
+	public static final Fences leftOf(String rightFence) {
 		return new Fences(null, rightFence);
 	}
 

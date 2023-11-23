@@ -27,12 +27,20 @@ import de.relimit.commons.markdown.configuration.MarkdownSerializationOptionsImp
  * <p>
  * If no appender is set the builder assumes that the parent and itself are
  * identical. In other words: It is a stand alone builder.
+ *
+ * @param <P>
+ *            The parent builder to continue building on the parent after
+ *            {@link #end()}
+ * @param <B>
+ *            The builder itself for method chaining
+ * @param <BE>
+ *            The element that is built by this builder
  */
-public abstract class NestableBuilder<B extends NestableBuilder<B, P, E>, P, E extends MarkdownSerializable> {
+public abstract class NestableBuilder<P, B extends NestableBuilder<P, B, BE>, BE extends MarkdownSerializable> {
 
-	private MarkdownElementAppender<P, E> parent;
+	private MarkdownElementAppender<P, BE> parent;
 
-	private E element;
+	private BE element;
 
 	/**
 	 * Use this to run the builder in stand alone mode.
@@ -40,7 +48,7 @@ public abstract class NestableBuilder<B extends NestableBuilder<B, P, E>, P, E e
 	 * @param element
 	 */
 	@SuppressWarnings("unchecked")
-	public NestableBuilder(E element) {
+	public NestableBuilder(BE element) {
 		/*
 		 * Stand alone scenario: Assume this builder and the parent are
 		 * identical. Set a parent appender that does nothing and just returns
@@ -56,7 +64,7 @@ public abstract class NestableBuilder<B extends NestableBuilder<B, P, E>, P, E e
 	 * @param element
 	 * @param parentAppender
 	 */
-	public NestableBuilder(E element, MarkdownElementAppender<P, E> parent) {
+	public NestableBuilder(BE element, MarkdownElementAppender<P, BE> parent) {
 		this.parent = parent;
 		this.element = element;
 	}
@@ -68,16 +76,16 @@ public abstract class NestableBuilder<B extends NestableBuilder<B, P, E>, P, E e
 	 */
 	abstract protected B getBuilder();
 
-	protected E getElement() {
+	protected BE getElement() {
 		return element;
 	}
 
-	public E build() {
+	public BE build() {
 		return element;
 	}
 
 	public P end() {
-		final E product = build();
+		final BE product = build();
 		return parent.append(product);
 	}
 

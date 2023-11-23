@@ -3,7 +3,7 @@ package de.relimit.commons.markdown.blockelement.list;
 import de.relimit.commons.markdown.builder.MarkdownElementAppender;
 
 public class UnorderedListBuilder<P> extends
-		ListBuilder<UnorderedListBuilder<P>, P, UnorderedList, UnorderedListItemBuilder<UnorderedListBuilder<P>>, UnorderedListItem> {
+		ListBuilder<P, UnorderedListBuilder<P>, UnorderedList, UnorderedListItemBuilder<UnorderedListBuilder<P>>, UnorderedListItem> {
 
 	public UnorderedListBuilder(UnorderedList element, MarkdownElementAppender<P, UnorderedList> parentAppender) {
 		super(element, parentAppender);

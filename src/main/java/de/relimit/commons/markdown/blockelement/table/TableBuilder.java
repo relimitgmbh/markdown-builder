@@ -3,7 +3,12 @@ package de.relimit.commons.markdown.blockelement.table;
 import de.relimit.commons.markdown.builder.MarkdownElementAppender;
 import de.relimit.commons.markdown.builder.NodeBuilder;
 
-public class TableBuilder<P> extends NodeBuilder<TableBuilder<P>, P, Table, TableRow> {
+/**
+ * @param <P>
+ *            The parent builder to continue building on the parent after
+ *            {@link #end()}
+ */
+public class TableBuilder<P> extends NodeBuilder<P, TableBuilder<P>, Table, TableRow> {
 
 	public TableBuilder(Table element, MarkdownElementAppender<P, Table> parent) {
 		super(element, parent);

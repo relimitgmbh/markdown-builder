@@ -14,7 +14,7 @@ The two most important elements when working with Markdown Builder are block ele
 ### Java Code
 
 ```java
-public DocumentBuilder paragraphs() throws MarkdownSerializationException {
+public DocumentBuilder paragraphs() {
 	return new DocumentBuilder()
 			.paragraph("This is a paragraph containing plain text. Line breaks \n"
 					+ "will lead to new lines \nwithin the paragraph.")
@@ -46,7 +46,7 @@ Emphasis
 ### Java Code
 
 ```java
-public DocumentBuilder emphasis() throws MarkdownSerializationException {
+public DocumentBuilder emphasis() {
 	return new DocumentBuilder().startParagraph() //
 			.emphasis(Type.BOLD, "This is bold.").newLine() //
 			.emphasis(Type.STRIKETHROUGH, "This is strikethrough.").newLine() //
@@ -82,7 +82,7 @@ Note: This is a non\-standard element and might not be supported by all markdown
 ### Java Code
 
 ```java
-public DocumentBuilder taskLists() throws MarkdownSerializationException {
+public DocumentBuilder taskLists() {
 	return new DocumentBuilder().startTaskList() //
 			.item("This task is completed.", true) //
 			.startItem().startParagraph().plainText("This task is pending but it has nice ")
@@ -112,7 +112,7 @@ The first block element appended to a list item must always be a paragraph\. Mea
 ### Java Code
 
 ```java
-public DocumentBuilder lists() throws MarkdownSerializationException {
+public DocumentBuilder lists() {
 	return new DocumentBuilder().startUnorderedList() //
 			.item("First item.") //
 			.item("Second item.") //
@@ -158,7 +158,7 @@ Escaping
 ### Java Code
 
 ```java
-public DocumentBuilder escaping() throws MarkdownSerializationException {
+public DocumentBuilder escaping() {
 	return new DocumentBuilder().startParagraph().plainText(
 			"Markdown characters are automatically escaped by default. This means that characters like * or # are "
 					+ "not rendered as emphasis. Paths like c:\\temp\\foo.bar are safe as well. The ")

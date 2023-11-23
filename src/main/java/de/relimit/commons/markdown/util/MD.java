@@ -1,8 +1,10 @@
 package de.relimit.commons.markdown.util;
 
+/**
+ * Factory method for building basic span elements. Methods can be included as static imports for even less verbose code.
+ */
 import de.relimit.commons.markdown.blockelement.heading.Heading;
 import de.relimit.commons.markdown.blockelement.paragraph.Paragraph;
-import de.relimit.commons.markdown.document.DocumentBuilder;
 import de.relimit.commons.markdown.span.HyperLink;
 import de.relimit.commons.markdown.span.SpanElementNodeBuilder;
 import de.relimit.commons.markdown.span.emphasis.Emphasis;
@@ -15,10 +17,6 @@ public class MD {
 
 	private MD() {
 		// utility class
-	}
-
-	public static DocumentBuilder start() {
-		return new DocumentBuilder();
 	}
 
 	public static SpanElementNodeBuilder<?, Paragraph> startParagraph() {

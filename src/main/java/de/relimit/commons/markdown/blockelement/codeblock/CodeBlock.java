@@ -15,30 +15,6 @@ public class CodeBlock extends MarkdownElement implements BlockElement, Textual 
 
 	public static final Language DEFAULT_LANGUAGE = Language.UNKNOWN;
 
-	/**
-	 * An enum providing some possible {@link CodeBlockLanguage}s for tagging a
-	 * code block so the code is properly formatted. The interface exists so
-	 * everyone can add additional languages.
-	 */
-	public static enum Language implements CodeBlockLanguage {
-
-		UNKNOWN(""),
-		JAVA("java"),
-		MARKDOWN("markdown");
-
-		private String name;
-
-		private Language(String name) {
-			this.name = name;
-		}
-
-		@Override
-		public String getName() {
-			return name;
-		}
-
-	}
-
 	private CodeBlockLanguage language;
 
 	private Object stringifyable;

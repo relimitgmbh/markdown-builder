@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.nio.file.Path;
@@ -19,7 +20,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import de.relimit.commons.markdown.blockelement.codeblock.CodeBlock.Language;
+import de.relimit.commons.markdown.blockelement.codeblock.Language;
 import de.relimit.commons.markdown.document.Document;
 import de.relimit.commons.markdown.document.DocumentBuilder;
 
@@ -73,7 +74,12 @@ public class Readme {
 				}
 				final String s = sb.toString();
 				final Properties properties = parseAnnotation(s);
-				final String heading = properties.getProperty(Sample.HEADING);
+				final String heading = properties.getProperty(Sample.KEY);
+				if (sources.containsKey(heading)) {
+					in.close();
+					throw new IllegalStateException("Two or more methods annotated with @"
+							+ Sample.class.getSimpleName() + " share the same key. The key must be unique.");
+				}
 				/*
 				 * Start collecting the source code lines of the new method we
 				 * just found.
@@ -124,16 +130,24 @@ public class Readme {
 	private static DocumentBuilder buildDocument()
 			throws MarkdownSerializationException, ReflectiveOperationException, IOException {
 
-		final DocumentBuilder b = new DocumentBuilder();
+		// Load texts from properties file
 
-		b.heading("Java Markdown Builder");
-		b.paragraph(
-				"A lightweight library for generating pretty printed markdown. No external dependencies except JUnit are used. This "
-						+ README_FILE_NAME + " file was generated with Markdown Builder.");
-		b.heading("Examples");
+		final Properties props = new Properties();
+		final ClassLoader loader = Thread.currentThread().getContextClassLoader();
+		final InputStream stream = loader.getResourceAsStream(Samples.PROPERTIES_FILE);
+		props.load(stream);
+
+		final DocumentBuilder b = Document.start();
+
+		// Chapter: Introduction
+		b.heading(props.getProperty("introduction.heading"));
+		b.paragraph(props.getProperty("introduction.text"));
+
+		// Chapter: Examples
+		b.heading(props.getProperty("examples.heading"));
 
 		final Samples samples = new Samples();
-		final Map<String, List<String>> samplesSources = parseSourceFile(Samples.class);
+		final Map<String, List<String>> sources = parseSourceFile(Samples.class);
 		final List<Method> methods = Arrays.stream(samples.getClass().getDeclaredMethods())
 				// Only methods that are marked as Sample methods
 				.filter(m -> m.getAnnotation(Sample.class) != null)
@@ -151,37 +165,56 @@ public class Readme {
 		for (final Method method : methods) {
 			final Sample sample = method.getAnnotation(Sample.class);
 			/*
-			 * The heading of the sample is defined by the annotation. It
-			 * doubles up as a key. We use it to find the source code in the
-			 * source code map.
+			 * The key of the sample is defined by the annotation. We use it to
+			 * find the source code in the source code map. It doubles up as a
+			 * namespace for the resource bundle keys.
 			 */
-			final String heading = sample.heading();
+			final String key = sample.key();
+			final String propertiesKey = Samples.PROPERTY_KEY_NAMESPACE + "." + key;
+
+			final String heading = props.getProperty(propertiesKey + "." + Samples.PROPERTY_KEY_SUFFIX_HEADING);
+			if (heading == null || heading.isBlank()) {
+				throw new IllegalStateException(
+						"Resource key " + propertiesKey + "." + Samples.PROPERTY_KEY_SUFFIX_HEADING + " not found in "
+								+ Samples.PROPERTIES_FILE + " or value is empty.");
+			}
 			b.heading(2, heading);
 
 			// Add an optional introductory paragraph
-			final String introduction = sample.introduction();
-			if (!introduction.isBlank()) {
-				b.paragraph(introduction);
+			final String intro = props.getProperty(propertiesKey + "." + Samples.PROPERTY_KEY_SUFFIX_INTRO);
+			if (intro != null && !intro.isBlank()) {
+				b.paragraph(intro);
 			}
 
 			/*
 			 * Get the method's source code from the map created by the source
 			 * code parser.
 			 */
-			final String methodCode = samplesSources.get(heading).stream()
-					.collect(Collectors.joining(System.lineSeparator()));
-			b.heading(3, "Java Code");
+			final String methodCode = sources.get(key).stream().collect(Collectors.joining(System.lineSeparator()));
+			b.heading(3, props.getProperty("examples.heading.code"));
 			b.codeBlock(methodCode, Language.JAVA);
 
-			// Invoke the method to get the markdown
-			final DocumentBuilder builder = (DocumentBuilder) method.invoke(samples);
-			final Document document = builder.build();
-			final String markdown = document.serialize();
-			b.heading(3, "Markdown");
+			// Invoke the method
+			final DocumentBuilder markdownDocumentBuilder = (DocumentBuilder) method.invoke(samples);
+			final Document markdownDocument = markdownDocumentBuilder.build();
+
+			/*
+			 * Add the serialized markdown as a markdown code block so the
+			 * reader can see the output generated by the builder pre-rendering
+			 */
+			final String markdown = markdownDocument.serialize();
+			b.heading(3, props.getProperty("examples.heading.markdown"));
 			b.codeBlock(markdown, Language.MARKDOWN);
 
-			b.heading(3, "Rendered");
-			b.append(document);
+			/*
+			 * Add the not yet serialized markdown document node as a block
+			 * element to the main document. This means the sample markdown will
+			 * be seamlessly embedded in the readme file and will be rendered by
+			 * Gitea / Github along with the rest of the readme file. The reader
+			 * can then see what it will actually look like formatted.
+			 */
+			b.heading(3, props.getProperty("examples.heading.rendered"));
+			b.append(markdownDocument);
 		}
 
 		return b;

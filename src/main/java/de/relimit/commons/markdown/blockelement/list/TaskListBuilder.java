@@ -3,7 +3,7 @@ package de.relimit.commons.markdown.blockelement.list;
 import de.relimit.commons.markdown.builder.MarkdownElementAppender;
 
 public class TaskListBuilder<P>
-		extends ListBuilder<TaskListBuilder<P>, P, TaskList, TaskListItemBuilder<TaskListBuilder<P>>, TaskListItem> {
+		extends ListBuilder<P, TaskListBuilder<P>, TaskList, TaskListItemBuilder<TaskListBuilder<P>>, TaskListItem> {
 
 	public TaskListBuilder(TaskList element, MarkdownElementAppender<P, TaskList> parentAppender) {
 		super(element, parentAppender);

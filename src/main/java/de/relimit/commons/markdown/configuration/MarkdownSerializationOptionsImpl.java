@@ -1,12 +1,12 @@
 package de.relimit.commons.markdown.configuration;
 
+import de.relimit.commons.markdown.Fences;
 import de.relimit.commons.markdown.blockelement.codeblock.CodeBlock;
 import de.relimit.commons.markdown.blockelement.codeblock.CodeBlockLanguage;
 import de.relimit.commons.markdown.blockelement.rule.HorizontalRule;
 import de.relimit.commons.markdown.blockelement.rule.HorizontalRuleCharacter;
 import de.relimit.commons.markdown.blockelement.table.TableCell;
 import de.relimit.commons.markdown.span.textual.Code;
-import de.relimit.commons.markdown.span.textual.Fences;
 import de.relimit.commons.markdown.util.Args;
 
 public class MarkdownSerializationOptionsImpl implements MarkdownSerializationOptions {

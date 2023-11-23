@@ -14,7 +14,7 @@ import de.relimit.commons.markdown.span.textual.Textual;
  * is that classes are used as keys in a {@link Map} of {@link TextSerializer}s.
  * Once the {@link ConfigurableSerializer} is asked to serialize an object it
  * looks for the closest class entry in the map of known serializers and uses
- * this serializer found to produce output.
+ * this serializer to produce output.
  * <p>
  * The default serializer performs a trivial {@link #toString()} and is
  * registered for {@link Object}. This means it is a "catch all" serializer as

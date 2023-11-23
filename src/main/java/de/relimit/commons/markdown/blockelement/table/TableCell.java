@@ -2,12 +2,12 @@ package de.relimit.commons.markdown.blockelement.table;
 
 import java.util.Optional;
 
+import de.relimit.commons.markdown.Fences;
 import de.relimit.commons.markdown.MarkdownSerializable;
 import de.relimit.commons.markdown.MarkdownSerializationException;
 import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
 import de.relimit.commons.markdown.span.SpanElement;
 import de.relimit.commons.markdown.span.SpanElementNode;
-import de.relimit.commons.markdown.span.textual.Fences;
 
 public class TableCell extends SpanElementNode {
 
@@ -43,7 +43,7 @@ public class TableCell extends SpanElementNode {
 	}
 
 	@Override
-	protected Fences getFences() {
+	public Fences getFences() {
 		return Fences.none();
 	}
 

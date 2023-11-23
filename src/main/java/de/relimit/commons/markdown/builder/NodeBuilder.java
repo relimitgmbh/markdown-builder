@@ -3,19 +3,30 @@ package de.relimit.commons.markdown.builder;
 import de.relimit.commons.markdown.MarkdownSerializable;
 import de.relimit.commons.markdown.Node;
 
-public abstract class NodeBuilder<B extends NodeBuilder<B, P, E, E2>, P, E extends Node<E2>, E2 extends MarkdownSerializable>
-		extends NestableBuilder<B, P, E> implements MarkdownElementAppender<B, E2> {
+/**
+ * @param <P>
+ *            The parent builder to continue building on the parent after
+ *            {@link #end()}
+ * @param <B>
+ *            The builder itself for method chaining
+ * @param <BE>
+ *            The element that is built by this builder (a node)
+ * @param <NE>
+ *            The child element that is added to the node
+ */
+public abstract class NodeBuilder<P, B extends NodeBuilder<P, B, BE, NE>, BE extends Node<NE>, NE extends MarkdownSerializable>
+		extends NestableBuilder<P, B, BE> implements MarkdownElementAppender<B, NE> {
 
-	protected NodeBuilder(E element, MarkdownElementAppender<P, E> parent) {
+	protected NodeBuilder(BE element, MarkdownElementAppender<P, BE> parent) {
 		super(element, parent);
 	}
 
-	protected NodeBuilder(E element) {
+	protected NodeBuilder(BE element) {
 		super(element);
 	}
 
 	@Override
-	public B append(E2 element) {
+	public B append(NE element) {
 		getElement().append(element);
 		return getBuilder();
 	}

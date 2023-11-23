@@ -34,7 +34,24 @@ public interface MarkdownSerializable {
 
 	String getSerialized(MarkdownSerializationOptions options) throws MarkdownSerializationException;
 
-	String getSerialized(MarkdownSerializationOptions options, String fallback);
+	/**
+	 * Returns the result of
+	 * {@link MarkdownElement#getSerialized(MarkdownSerializationOptions)} or
+	 * the specified fallback if a {@link MarkdownSerializationException}
+	 * occurred.
+	 * 
+	 * @param fallback
+	 *            String to return if serialization fails
+	 *
+	 * @return Markdown as String or specified fallback
+	 */
+	default String getSerialized(MarkdownSerializationOptions options, String fallback) {
+		try {
+			return getSerialized(options);
+		} catch (final MarkdownSerializationException e) {
+			return fallback;
+		}
+	}
 
 	/**
 	 * To to be able to alter the line break for {@link TableCell}s but still
@@ -43,6 +60,11 @@ public interface MarkdownSerializable {
 	 * @param serializable
 	 * @param options
 	 * @param lineBreak
+	 *            The line break used to separate lines from each other.
+	 *            Ultimately it originates from the options object which is
+	 *            available as well. It is a separate property because the
+	 *            calling code decides which separator is used depending on the
+	 *            situation.
 	 * @return
 	 * @throws MarkdownSerializationException
 	 */

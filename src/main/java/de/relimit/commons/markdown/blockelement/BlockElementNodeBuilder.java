@@ -23,17 +23,26 @@ import de.relimit.commons.markdown.builder.MarkdownElementAppender;
 import de.relimit.commons.markdown.builder.NodeBuilder;
 import de.relimit.commons.markdown.span.SpanElementNodeBuilder;
 
-public abstract class BlockElementNodeBuilder<B extends BlockElementNodeBuilder<B, P, E>, P, E extends BlockElementNode>
-		extends NodeBuilder<B, P, E, BlockElement> {
+/**
+ * @param <P>
+ *            The parent builder to continue building on the parent after
+ *            {@link #end()}
+ * @param <B>
+ *            The builder itself for method chaining
+ * @param <BE>
+ *            The element that is built by this builder
+ */
+public abstract class BlockElementNodeBuilder<P, B extends BlockElementNodeBuilder<P, B, BE>, BE extends BlockElementNode>
+		extends NodeBuilder<P, B, BE, BlockElement> {
 
 	// Default false
 	private boolean quoted;
 
-	protected BlockElementNodeBuilder(E element) {
+	protected BlockElementNodeBuilder(BE element) {
 		super(element);
 	}
 
-	protected BlockElementNodeBuilder(E element, MarkdownElementAppender<P, E> parentAppender) {
+	protected BlockElementNodeBuilder(BE element, MarkdownElementAppender<P, BE> parentAppender) {
 		super(element, parentAppender);
 	}
 

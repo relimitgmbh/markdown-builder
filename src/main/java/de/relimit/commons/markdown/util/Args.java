@@ -1,5 +1,12 @@
 package de.relimit.commons.markdown.util;
 
+import java.util.Objects;
+
+/**
+ * A utility class mainly for use in constructors and setters to perform null
+ * checks. Basically a replacement for {@link Objects#requireNonNull(Object)}
+ * with added default exception message.
+ */
 public class Args {
 
 	private Args() {

@@ -2,7 +2,12 @@ package de.relimit.commons.markdown.blockelement.list;
 
 import de.relimit.commons.markdown.builder.MarkdownElementAppender;
 
-public class OrderedListItemBuilder<P> extends ListItemBuilder<OrderedListItemBuilder<P>, P, OrderedListItem> {
+/**
+ * @param <P>
+ *            The parent builder to continue building on the parent after
+ *            {@link #end()}
+ */
+public class OrderedListItemBuilder<P> extends ListItemBuilder<P, OrderedListItemBuilder<P>, OrderedListItem> {
 
 	public OrderedListItemBuilder(OrderedListItem listItem,
 			MarkdownElementAppender<P, OrderedListItem> parentAppender) {

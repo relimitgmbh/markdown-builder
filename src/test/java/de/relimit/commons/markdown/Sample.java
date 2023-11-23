@@ -13,11 +13,10 @@ import java.lang.annotation.Target;
 public @interface Sample {
 
 	// For source code parsing
-	public static final String HEADING = "heading";
+	public static final String KEY = "key";
 
-	String heading();
-
-	String introduction() default "";
+	// Must be unique
+	String key();
 
 	int order();
 

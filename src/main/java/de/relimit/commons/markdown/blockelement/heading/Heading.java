@@ -2,12 +2,12 @@ package de.relimit.commons.markdown.blockelement.heading;
 
 import java.util.List;
 
+import de.relimit.commons.markdown.Fences;
 import de.relimit.commons.markdown.MarkdownSerializationException;
 import de.relimit.commons.markdown.blockelement.BlockElement;
 import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
 import de.relimit.commons.markdown.span.SpanElement;
 import de.relimit.commons.markdown.span.SpanElementNode;
-import de.relimit.commons.markdown.span.textual.Fences;
 import de.relimit.commons.markdown.span.textual.PlainText;
 import de.relimit.commons.markdown.util.Strings;
 
@@ -64,16 +64,15 @@ public class Heading extends SpanElementNode implements BlockElement {
 	}
 
 	@Override
-	protected Fences getFences() {
+	public Fences getFences() {
 		if (underlineStyle && level < 3) {
 			// Underline added by serializeLines
 			return Fences.none();
 		}
-		return Fences.ofLeft(Strings.fill(level, ATX_PREFIX) + " ");
+		return Fences.rightOf(Strings.fill(level, ATX_PREFIX) + " ");
 	}
 
 	private int trimLevel(int level) {
-		// TODO code smell
 		return Math.min(MAX_LEVEL, Math.max(MIN_LEVEL, level));
 	}
 

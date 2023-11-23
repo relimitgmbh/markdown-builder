@@ -3,10 +3,10 @@ package de.relimit.commons.markdown.span;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.relimit.commons.markdown.Fences;
 import de.relimit.commons.markdown.MarkdownSerializationException;
 import de.relimit.commons.markdown.Node;
 import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
-import de.relimit.commons.markdown.span.textual.Fences;
 import de.relimit.commons.markdown.span.textual.PlainText;
 import de.relimit.commons.markdown.util.Strings;
 

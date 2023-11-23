@@ -3,29 +3,43 @@ package de.relimit.commons.markdown.blockelement.list;
 import de.relimit.commons.markdown.builder.MarkdownElementAppender;
 import de.relimit.commons.markdown.builder.NodeBuilder;
 
-public abstract class ListBuilder<B extends ListBuilder<B, P, E, B2, L>, P, E extends AbstractList<L>, B2 extends ListItemBuilder<B2, B, L>, L extends ListItem>
-		extends NodeBuilder<B, P, E, L> {
+/**
+ * @param <P>
+ *            The parent builder to continue building on the parent after
+ *            {@link #end()}
+ * @param <B>
+ *            The list builder itself for method chaining
+ * @param <BE>
+ *            The list that is built by this builder
+ * @param <B2>
+ *            The list item builder that builds list items compatible with the
+ *            list
+ * @param <NE>
+ *            The list item compatible with the list
+ */
+public abstract class ListBuilder<P, B extends ListBuilder<P, B, BE, B2, NE>, BE extends AbstractList<NE>, B2 extends ListItemBuilder<B, B2, NE>, NE extends ListItem>
+		extends NodeBuilder<P, B, BE, NE> {
 
-	protected ListBuilder(E element, MarkdownElementAppender<P, E> parentAppender) {
+	protected ListBuilder(BE element, MarkdownElementAppender<P, BE> parentAppender) {
 		super(element, parentAppender);
 	}
 
-	protected ListBuilder(E element) {
+	protected ListBuilder(BE element) {
 		super(element);
 	}
 
-	abstract L createListItem(int indentationLevel);
+	abstract NE createListItem(int indentationLevel);
 
-	abstract B2 createListItemBuilder(L listItem, MarkdownElementAppender<B, L> appender);
+	abstract B2 createListItemBuilder(NE listItem, MarkdownElementAppender<B, NE> appender);
 
 	public B2 startItem() {
 		final int indentationLevel = getElement().getIndentationLevel();
-		final L listItem = createListItem(indentationLevel + 1);
+		final NE listItem = createListItem(indentationLevel + 1);
 		return createListItemBuilder(listItem, this::append);
 	}
 
 	@Override
-	public B append(L element) {
+	public B append(NE element) {
 		final int indentationLevel = getElement().getIndentationLevel();
 		element.setIndentationLevel(indentationLevel + 1);
 		return super.append(element);
