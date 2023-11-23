@@ -5,7 +5,10 @@ public enum Alignment {
 	LEFT,
 	CENTER,
 	RIGHT,
-	/* In practice this usually defaults to left alignment. */
+	/*
+	 * In practice this usually makes markdown renderers default to left
+	 * alignment.
+	 */
 	NEUTRAL;
 
 	public static final IllegalArgumentException illegalAlignment(Alignment alignment) {
