@@ -16,4 +16,20 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	<organization>
+		<name>Relimit</name>
+		<url>http://www.relimit.de</url>
+	</organization>
+	<distributionManagement>
+		<repository>
+			<id>nexus.relimit.io</id>
+			<name>Releases</name>
+			<url>https://nexus.relimit.io/repository/pepper-releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>nexus.relimit.io</id>
+			<name>Snapshot</name>
+			<url>https://nexus.relimit.io/repository/maven-snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>	
 </project>
