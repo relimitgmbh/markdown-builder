@@ -9,8 +9,8 @@ public class OrderedListBuilder<P> extends
 		super(element, parentAppender);
 	}
 
-	public OrderedListBuilder(OrderedList element) {
-		super(element);
+	public OrderedListBuilder() {
+		super(new OrderedList(0));
 	}
 
 	@Override

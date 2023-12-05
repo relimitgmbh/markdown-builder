@@ -17,7 +17,6 @@ import de.relimit.commons.markdown.blockelement.paragraph.Paragraph;
 import de.relimit.commons.markdown.blockelement.quotes.Blockquotes;
 import de.relimit.commons.markdown.blockelement.rule.HorizontalRule;
 import de.relimit.commons.markdown.blockelement.rule.HorizontalRuleCharacter;
-import de.relimit.commons.markdown.blockelement.table.Table;
 import de.relimit.commons.markdown.blockelement.table.TableBuilder;
 import de.relimit.commons.markdown.builder.MarkdownElementAppender;
 import de.relimit.commons.markdown.builder.NodeBuilder;
@@ -168,7 +167,7 @@ public abstract class BlockElementNodeBuilder<P, B extends BlockElementNodeBuild
 	// Table
 
 	public TableBuilder<B> startTable() {
-		return new TableBuilder<>(new Table(), this::append);
+		return new TableBuilder<>(this::append);
 	}
 
 }

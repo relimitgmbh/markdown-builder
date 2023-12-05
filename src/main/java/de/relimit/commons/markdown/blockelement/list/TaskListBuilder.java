@@ -9,8 +9,8 @@ public class TaskListBuilder<P>
 		super(element, parentAppender);
 	}
 
-	public TaskListBuilder(TaskList element) {
-		super(element);
+	public TaskListBuilder() {
+		super(new TaskList(0));
 	}
 
 	@Override

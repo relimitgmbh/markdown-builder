@@ -9,8 +9,8 @@ public class UnorderedListBuilder<P> extends
 		super(element, parentAppender);
 	}
 
-	public UnorderedListBuilder(UnorderedList element) {
-		super(element);
+	public UnorderedListBuilder() {
+		super(new UnorderedList(0));
 	}
 
 	@Override

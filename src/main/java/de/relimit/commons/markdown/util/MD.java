@@ -5,6 +5,9 @@ package de.relimit.commons.markdown.util;
  */
 import de.relimit.commons.markdown.blockelement.heading.Heading;
 import de.relimit.commons.markdown.blockelement.paragraph.Paragraph;
+import de.relimit.commons.markdown.blockelement.table.TableCell;
+import de.relimit.commons.markdown.blockelement.table.TableRow;
+import de.relimit.commons.markdown.blockelement.table.TableRowBuilder;
 import de.relimit.commons.markdown.span.HyperLink;
 import de.relimit.commons.markdown.span.SpanElementNodeBuilder;
 import de.relimit.commons.markdown.span.emphasis.Emphasis;
@@ -81,6 +84,18 @@ public class MD {
 
 	public static HyperLink link(String url) {
 		return new HyperLink(url);
+	}
+
+	public static TableCell cell(Object stringyfiable) {
+		return new TableCell(stringyfiable);
+	}
+
+	public static TableRow row(Object... stringyfiables) {
+		final TableRowBuilder<Void> b = new TableRowBuilder<>();
+		for (final Object stringyfiable : stringyfiables) {
+			b.startCell().plainText(stringyfiable).end();
+		}
+		return b.build();
 	}
 
 }

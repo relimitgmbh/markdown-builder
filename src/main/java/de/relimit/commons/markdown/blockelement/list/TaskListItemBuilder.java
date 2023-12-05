@@ -13,8 +13,8 @@ public class TaskListItemBuilder<P> extends ListItemBuilder<P, TaskListItemBuild
 		super(listItem, parentAppender);
 	}
 
-	public TaskListItemBuilder(TaskListItem listItem) {
-		super(listItem);
+	public TaskListItemBuilder() {
+		super(new TaskListItem(0, false));
 	}
 
 	public TaskListItemBuilder<P> incomplete() {

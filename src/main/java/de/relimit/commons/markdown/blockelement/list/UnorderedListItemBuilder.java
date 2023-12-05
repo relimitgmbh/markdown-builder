@@ -14,8 +14,8 @@ public class UnorderedListItemBuilder<P> extends ListItemBuilder<P, UnorderedLis
 		super(listItem, parentAppender);
 	}
 
-	public UnorderedListItemBuilder(UnorderedListItem listItem) {
-		super(listItem);
+	public UnorderedListItemBuilder() {
+		super(new UnorderedListItem(0));
 	}
 
 	@Override

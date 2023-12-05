@@ -11,12 +11,12 @@ import de.relimit.commons.markdown.span.SpanElementNodeBuilder;
  */
 public class TableRowBuilder<P> extends NodeBuilder<P, TableRowBuilder<P>, TableRow, TableCell> {
 
-	public TableRowBuilder(TableRow element, MarkdownElementAppender<P, TableRow> parent) {
-		super(element, parent);
+	public TableRowBuilder(MarkdownElementAppender<P, TableRow> parent) {
+		super(new TableRow(), parent);
 	}
 
-	public TableRowBuilder(TableRow element) {
-		super(element);
+	public TableRowBuilder() {
+		super(new TableRow());
 	}
 
 	@Override
