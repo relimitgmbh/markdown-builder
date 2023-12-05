@@ -1,11 +1,15 @@
 package de.relimit.commons.markdown;
 
+import static de.relimit.commons.markdown.util.MD.cell;
+import static de.relimit.commons.markdown.util.MD.italic;
+import static de.relimit.commons.markdown.util.MD.row;
+
 import de.relimit.commons.markdown.blockelement.codeblock.Language;
 import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
 import de.relimit.commons.markdown.configuration.TextEscaper;
 import de.relimit.commons.markdown.document.Document;
 import de.relimit.commons.markdown.document.DocumentBuilder;
-import de.relimit.commons.markdown.span.emphasis.Emphasis.Type;;
+import de.relimit.commons.markdown.span.emphasis.Emphasis.Type;
 
 public class Samples {
 
@@ -62,6 +66,18 @@ public class Samples {
 						+ "not rendered as emphasis. Paths like c:\\temp\\foo.bar are safe. The ")
 				.simpleClassName(TextEscaper.class).plainText(" can be configured via ")
 				.simpleClassName(MarkdownSerializationOptions.class).plainText(".").end();
+	}
+
+	@Sample(order = 200, key = "md")
+	// import static de.relimit.commons.markdown.util.MD.cell;
+	// import static de.relimit.commons.markdown.util.MD.italic;
+	// import static de.relimit.commons.markdown.util.MD.row;
+	public DocumentBuilder md() {
+		return Document.start().startTable() //
+				.append(row("Heading 1", "Heading 2")) //
+				.append(row("Cell 1.1", "Cell 1.2")) //
+				.append(row(cell("Cell 2.1"), cell(italic("Cell 2.2")))) //
+				.end(); // end table
 	}
 
 }

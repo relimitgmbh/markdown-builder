@@ -15,7 +15,7 @@ The two most important elements when working with Markdown Builder are block ele
 
 ```java
 public DocumentBuilder paragraphs() {
-	return new DocumentBuilder()
+	return Document.start()
 			.paragraph("This is a paragraph containing plain text. Line breaks \n"
 					+ "will lead to new lines \nwithin the paragraph.")
 			.paragraph("This is the second paragraph. It is separated from the previous one " + "by a blank line.");
@@ -47,7 +47,7 @@ Emphasis
 
 ```java
 public DocumentBuilder emphasis() {
-	return new DocumentBuilder().startParagraph() //
+	return Document.start().startParagraph() //
 			.emphasis(Type.BOLD, "This is bold.").newLine() //
 			.emphasis(Type.STRIKETHROUGH, "This is strikethrough.").newLine() //
 			.emphasis(Type.ITALIC, "This is italic.").newLine() //
@@ -83,7 +83,7 @@ Note: This is a non\-standard element and might not be supported by all markdown
 
 ```java
 public DocumentBuilder taskLists() {
-	return new DocumentBuilder().startTaskList() //
+	return Document.start().startTaskList() //
 			.item("This task is completed.", true) //
 			.startItem().startParagraph().plainText("This task is pending but it has nice ")
 			.emphasis(Type.BOLD, "bold formatted text").plainText(" going for it.").end() // end paragraph
@@ -113,7 +113,7 @@ The first block element appended to a list item must always be a paragraph\. Mea
 
 ```java
 public DocumentBuilder lists() {
-	return new DocumentBuilder().startUnorderedList() //
+	return Document.start().startUnorderedList() //
 			.item("First item.") //
 			.item("Second item.") //
 			.startItem().paragraph("Third item.").paragraph("Another paragraph of the third item.").quote()
@@ -159,10 +159,10 @@ Escaping
 
 ```java
 public DocumentBuilder escaping() {
-	return new DocumentBuilder().startParagraph().plainText(
+	return Document.start().startParagraph().plainText(
 			"Markdown characters are automatically escaped by default. This means that characters like * or # are "
-					+ "not rendered as emphasis. Paths like c:\\temp\\foo.bar are safe as well. The ")
-			.simpleClassName(TextEscaper.class).plainText(" can be " + "configured via ")
+					+ "not rendered as emphasis. Paths like c:\\temp\\foo.bar are safe. The ")
+			.simpleClassName(TextEscaper.class).plainText(" can be configured via ")
 			.simpleClassName(MarkdownSerializationOptions.class).plainText(".").end();
 }
 ```
@@ -170,9 +170,45 @@ public DocumentBuilder escaping() {
 ### Markdown
 
 ```markdown
-Markdown characters are automatically escaped by default\. This means that characters like \* or \# are not rendered as emphasis\. Paths like c:\\temp\\foo\.bar are safe as well\. The ``` TextEscaper ``` can be configured via ``` MarkdownSerializationOptions ```\.
+Markdown characters are automatically escaped by default\. This means that characters like \* or \# are not rendered as emphasis\. Paths like c:\\temp\\foo\.bar are safe\. The ``` TextEscaper ``` can be configured via ``` MarkdownSerializationOptions ```\.
 ```
 
 ### Rendered
 
-Markdown characters are automatically escaped by default\. This means that characters like \* or \# are not rendered as emphasis\. Paths like c:\\temp\\foo\.bar are safe as well\. The ``` TextEscaper ``` can be configured via ``` MarkdownSerializationOptions ```\.
+Markdown characters are automatically escaped by default\. This means that characters like \* or \# are not rendered as emphasis\. Paths like c:\\temp\\foo\.bar are safe\. The ``` TextEscaper ``` can be configured via ``` MarkdownSerializationOptions ```\.
+
+Static Utility Class
+--------------------
+
+### Java Code
+
+```java
+// import static de.relimit.commons.markdown.util.MD.cell;
+// import static de.relimit.commons.markdown.util.MD.italic;
+// import static de.relimit.commons.markdown.util.MD.row;
+public DocumentBuilder md() {
+	return Document.start().startTable()
+			// Add heading
+			.append(row("Heading 1", "Heading 2"))
+			// Add regular rows
+			.append(row("Cell 1.1", "Cell 1.2")) //
+			.append(row(cell("Cell 2.1"), cell(italic("Cell 2.2")))) //
+			.end();
+}
+```
+
+### Markdown
+
+```markdown
+| Heading 1 | Heading 2   |
+| --------- | ----------- |
+| Cell 1\.1 | Cell 1\.2   |
+| Cell 2\.1 | _Cell 2\.2_ |
+```
+
+### Rendered
+
+| Heading 1 | Heading 2   |
+| --------- | ----------- |
+| Cell 1\.1 | Cell 1\.2   |
+| Cell 2\.1 | _Cell 2\.2_ |

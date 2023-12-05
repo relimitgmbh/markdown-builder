@@ -1,7 +1,5 @@
 package de.relimit.commons.markdown.blockelement;
 
-import java.util.Arrays;
-
 import de.relimit.commons.markdown.Node;
 import de.relimit.commons.markdown.blockelement.codeblock.CodeBlock;
 import de.relimit.commons.markdown.blockelement.codeblock.CodeBlockLanguage;
@@ -74,11 +72,6 @@ public abstract class BlockElementNodeBuilder<P, B extends BlockElementNodeBuild
 		} else {
 			return super.append(element);
 		}
-	}
-
-	public B append(BlockElement... elements) {
-		Arrays.stream(elements).forEach(this::append);
-		return getBuilder();
 	}
 
 	public B appendAll(Node<BlockElement> node) {
