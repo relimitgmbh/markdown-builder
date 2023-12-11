@@ -1,7 +1,7 @@
 Java Markdown Builder
 =====================
 
-A lightweight library for generating pretty printed markdown\. No external dependencies except JUnit are used\. This README\.md file was generated with Markdown Builder\.
+A lightweight library for generating pretty printed markdown. No external dependencies except JUnit are used. This README.md file was generated with Markdown Builder.
 
 Examples
 ========
@@ -9,7 +9,7 @@ Examples
 Paragraphs and Line Breaks
 --------------------------
 
-The two most important elements when working with Markdown Builder are block elements and span elements\. Block elements are separated from each other by a blank line and render as a paragraph\.
+The two most important elements when working with Markdown Builder are block elements and span elements. Block elements are separated from each other by a blank line and render as a paragraph.
 
 ### Java Code
 
@@ -25,20 +25,20 @@ public DocumentBuilder paragraphs() {
 ### Markdown
 
 ```markdown
-This is a paragraph containing plain text\. Line breaks   
+This is a paragraph containing plain text. Line breaks   
 will lead to new lines   
-within the paragraph\.
+within the paragraph.
 
-This is the second paragraph\. It is separated from the previous one by a blank line\.
+This is the second paragraph. It is separated from the previous one by a blank line.
 ```
 
 ### Rendered
 
-This is a paragraph containing plain text\. Line breaks   
+This is a paragraph containing plain text. Line breaks   
 will lead to new lines   
-within the paragraph\.
+within the paragraph.
 
-This is the second paragraph\. It is separated from the previous one by a blank line\.
+This is the second paragraph. It is separated from the previous one by a blank line.
 
 Emphasis
 --------
@@ -61,23 +61,23 @@ public DocumentBuilder emphasis() {
 ### Markdown
 
 ```markdown
-**This is bold\.**  
-~~This is strikethrough\.~~  
-_This is italic\._  
-**Span elements can be nested\. This is bold text _followed by bold and italic text_ and finally bold text again\.**
+**This is bold.**  
+~~This is strikethrough.~~  
+_This is italic._  
+**Span elements can be nested. This is bold text _followed by bold and italic text_ and finally bold text again.**
 ```
 
 ### Rendered
 
-**This is bold\.**  
-~~This is strikethrough\.~~  
-_This is italic\._  
-**Span elements can be nested\. This is bold text _followed by bold and italic text_ and finally bold text again\.**
+**This is bold.**  
+~~This is strikethrough.~~  
+_This is italic._  
+**Span elements can be nested. This is bold text _followed by bold and italic text_ and finally bold text again.**
 
 Task Lists
 ----------
 
-Note: This is a non\-standard element and might not be supported by all markdown renderers\.
+Note: This is a non-standard element and might not be supported by all markdown renderers.
 
 ### Java Code
 
@@ -95,19 +95,19 @@ public DocumentBuilder taskLists() {
 ### Markdown
 
 ```markdown
-- [x] This task is completed\.
-- [ ] This task is pending but it has nice **bold formatted text** going for it\.
+- [x] This task is completed.
+- [ ] This task is pending but it has nice **bold formatted text** going for it.
 ```
 
 ### Rendered
 
-- [x] This task is completed\.
-- [ ] This task is pending but it has nice **bold formatted text** going for it\.
+- [x] This task is completed.
+- [ ] This task is pending but it has nice **bold formatted text** going for it.
 
 Lists
 -----
 
-The first block element appended to a list item must always be a paragraph\. Meaning text only\. But further block elements can be added and they can be of any type\. They will align nicely with the list items indent\.
+The first block element appended to a list item must always be a paragraph. Meaning text only. But further block elements can be added and they can be of any type. They will align nicely with the list items indent.
 
 ### Java Code
 
@@ -125,13 +125,13 @@ public DocumentBuilder lists() {
 ### Markdown
 
 ```markdown
-*   First item\.
-*   Second item\.
-*   Third item\.
+*   First item.
+*   Second item.
+*   Third item.
     
-    Another paragraph of the third item\.
+    Another paragraph of the third item.
     
-    > This is a quoted paragraph of the third item\.
+    > This is a quoted paragraph of the third item.
     
     ```java
     // This is a code block of the third item.
@@ -140,13 +140,13 @@ public DocumentBuilder lists() {
 
 ### Rendered
 
-*   First item\.
-*   Second item\.
-*   Third item\.
+*   First item.
+*   Second item.
+*   Third item.
     
-    Another paragraph of the third item\.
+    Another paragraph of the third item.
     
-    > This is a quoted paragraph of the third item\.
+    > This is a quoted paragraph of the third item.
     
     ```java
     // This is a code block of the third item.
@@ -175,10 +175,10 @@ Markdown characters are automatically escaped by default\. This means that chara
 
 ### Rendered
 
-Markdown characters are automatically escaped by default\. This means that characters like \* or \# are not rendered as emphasis\. Paths like c:\\temp\\foo\.bar are safe\. The ``` TextEscaper ``` can be configured via ``` MarkdownSerializationOptions ```\.
+Markdown characters are automatically escaped by default. This means that characters like * or # are not rendered as emphasis. Paths like c:\temp\foo.bar are safe. The ``` TextEscaper ``` can be configured via ``` MarkdownSerializationOptions ```.
 
-Static Utility Class
---------------------
+Static Utility Class `MD`
+-------------------------
 
 ### Java Code
 
@@ -187,28 +187,26 @@ Static Utility Class
 // import static de.relimit.commons.markdown.util.MD.italic;
 // import static de.relimit.commons.markdown.util.MD.row;
 public DocumentBuilder md() {
-	return Document.start().startTable()
-			// Add heading
-			.append(row("Heading 1", "Heading 2"))
-			// Add regular rows
+	return Document.start().startTable() //
+			.append(row("Heading 1", "Heading 2")) //
 			.append(row("Cell 1.1", "Cell 1.2")) //
 			.append(row(cell("Cell 2.1"), cell(italic("Cell 2.2")))) //
-			.end();
+			.end(); // end table
 }
 ```
 
 ### Markdown
 
 ```markdown
-| Heading 1 | Heading 2   |
-| --------- | ----------- |
-| Cell 1\.1 | Cell 1\.2   |
-| Cell 2\.1 | _Cell 2\.2_ |
+| Heading 1 | Heading 2  |
+| --------- | ---------- |
+| Cell 1.1  | Cell 1.2   |
+| Cell 2.1  | _Cell 2.2_ |
 ```
 
 ### Rendered
 
-| Heading 1 | Heading 2   |
-| --------- | ----------- |
-| Cell 1\.1 | Cell 1\.2   |
-| Cell 2\.1 | _Cell 2\.2_ |
+| Heading 1 | Heading 2  |
+| --------- | ---------- |
+| Cell 1.1  | Cell 1.2   |
+| Cell 2.1  | _Cell 2.2_ |

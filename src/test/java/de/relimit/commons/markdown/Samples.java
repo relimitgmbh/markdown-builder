@@ -11,6 +11,22 @@ import de.relimit.commons.markdown.document.Document;
 import de.relimit.commons.markdown.document.DocumentBuilder;
 import de.relimit.commons.markdown.span.emphasis.Emphasis.Type;
 
+/**
+ * This class is used by {@link Readme} to produce the README.md Github
+ * documentation file. Every method annotated with {@link Sample} will result in
+ * an example chapter in the readme. Certain limitations apply because the
+ * source code (.java file) is parsed so the source code can appear in the
+ * documentation. And properly parsing java code for that purpose would have
+ * been a joyless job.
+ * <p>
+ * <ul>
+ * <li>Only methods annotated with {@link Sample} are processed. All others are
+ * ignored.</li>
+ * <li>Everything immediately before {@link Sample} is ignored, but everything
+ * between {@link Sample} and the line containing the method name is included.
+ * This means one can add comments to the method which will appear in the
+ * documentation.</li>
+ */
 public class Samples {
 
 	public static final String PROPERTIES_FILE = "samples.properties";
@@ -59,7 +75,7 @@ public class Samples {
 				.codeBlock("// This is a code block of the third item.", Language.JAVA).end().end();
 	}
 
-	@Sample(order = 50, key = "escaping")
+	@Sample(order = 50, key = "escaping", escape = true)
 	public DocumentBuilder escaping() {
 		return Document.start().startParagraph().plainText(
 				"Markdown characters are automatically escaped by default. This means that characters like * or # are "

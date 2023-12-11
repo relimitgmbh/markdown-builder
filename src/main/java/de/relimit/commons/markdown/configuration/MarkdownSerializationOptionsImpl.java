@@ -29,7 +29,7 @@ public class MarkdownSerializationOptionsImpl implements MarkdownSerializationOp
 
 	public MarkdownSerializationOptionsImpl() {
 		this.serializer = TextSerializer.DEFAULT_SERIALIZER;
-		this.escaper = DefaultEscaper.DEFAULT_ESCAPER;
+		this.escaper = TextEscaper.ESCAPE_MARKDOWN;
 		this.lineSeparator = System.lineSeparator();
 		this.tableCellLineSeparator = TableCell.DEFAULT_TABLE_CELL_LINE_SEPARATOR;
 		this.defaultCodeBlockLangauge = CodeBlock.DEFAULT_LANGUAGE;
