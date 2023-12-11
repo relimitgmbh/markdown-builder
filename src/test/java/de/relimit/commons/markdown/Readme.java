@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 import de.relimit.commons.markdown.blockelement.codeblock.Language;
 import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
 import de.relimit.commons.markdown.configuration.OptionsBuilder;
-import de.relimit.commons.markdown.configuration.TextEscaper;
+import de.relimit.commons.markdown.converter.Escaper;
 import de.relimit.commons.markdown.document.Document;
 import de.relimit.commons.markdown.document.DocumentBuilder;
 
@@ -34,12 +34,12 @@ public class Readme {
 	public static final String AT = "@";
 
 	public static final MarkdownSerializationOptions ALLOW_MARKDOWN = new OptionsBuilder()
-			.escaper(TextEscaper.ALLOW_MARKDOWN).build();
+			.defaultEscaper(Escaper.ALLOW_MARKDOWN).build();
 
 	/**
 	 * A poor man's source code parser that extracts all methods annotated
 	 * with @Sample from the Samples.java source file and returns them as a Map.
-	 * The key of the map is the heading defined in the annotation.
+	 * The key of the map is the key defined in the annotation.
 	 * 
 	 * @see Samples
 	 * 

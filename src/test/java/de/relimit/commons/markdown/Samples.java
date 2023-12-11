@@ -6,7 +6,7 @@ import static de.relimit.commons.markdown.util.MD.row;
 
 import de.relimit.commons.markdown.blockelement.codeblock.Language;
 import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
-import de.relimit.commons.markdown.configuration.TextEscaper;
+import de.relimit.commons.markdown.converter.Escaper;
 import de.relimit.commons.markdown.document.Document;
 import de.relimit.commons.markdown.document.DocumentBuilder;
 import de.relimit.commons.markdown.span.emphasis.Emphasis.Type;
@@ -60,9 +60,10 @@ public class Samples {
 		return Document.start().startTaskList() //
 				.item("This task is completed.", true) //
 				.startItem().startParagraph().plainText("This task is pending but it has nice ")
-				.emphasis(Type.BOLD, "bold formatted text").plainText(" going for it.").end() // end paragraph
+				.emphasis(Type.BOLD, "bold formatted text").plainText(" going for it.") //
+				.end() // end paragraph
 				.end() // end task item
-				.end(); // end task list
+				.end(); // end list
 	}
 
 	@Sample(order = 40, key = "lists")
@@ -72,7 +73,9 @@ public class Samples {
 				.item("Second item.") //
 				.startItem().paragraph("Third item.").paragraph("Another paragraph of the third item.").quote()
 				.paragraph("This is a quoted paragraph of the third item.").unquote()
-				.codeBlock("// This is a code block of the third item.", Language.JAVA).end().end();
+				.codeBlock("// This is a code block of the third item.", Language.JAVA) //
+				.end() // end list item
+				.end(); // end list
 	}
 
 	@Sample(order = 50, key = "escaping", escape = true)
@@ -80,8 +83,9 @@ public class Samples {
 		return Document.start().startParagraph().plainText(
 				"Markdown characters are automatically escaped by default. This means that characters like * or # are "
 						+ "not rendered as emphasis. Paths like c:\\temp\\foo.bar are safe. The ")
-				.simpleClassName(TextEscaper.class).plainText(" can be configured via ")
-				.simpleClassName(MarkdownSerializationOptions.class).plainText(".").end();
+				.simpleClassName(Escaper.class).plainText(" can be configured via ")
+				.simpleClassName(MarkdownSerializationOptions.class).plainText(".") //
+				.end(); // end paragraph
 	}
 
 	@Sample(order = 200, key = "md")

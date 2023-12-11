@@ -86,9 +86,10 @@ public DocumentBuilder taskLists() {
 	return Document.start().startTaskList() //
 			.item("This task is completed.", true) //
 			.startItem().startParagraph().plainText("This task is pending but it has nice ")
-			.emphasis(Type.BOLD, "bold formatted text").plainText(" going for it.").end() // end paragraph
+			.emphasis(Type.BOLD, "bold formatted text").plainText(" going for it.") //
+			.end() // end paragraph
 			.end() // end task item
-			.end(); // end task list
+			.end(); // end list
 }
 ```
 
@@ -118,7 +119,9 @@ public DocumentBuilder lists() {
 			.item("Second item.") //
 			.startItem().paragraph("Third item.").paragraph("Another paragraph of the third item.").quote()
 			.paragraph("This is a quoted paragraph of the third item.").unquote()
-			.codeBlock("// This is a code block of the third item.", Language.JAVA).end().end();
+			.codeBlock("// This is a code block of the third item.", Language.JAVA) //
+			.end() // end list item
+			.end(); // end list
 }
 ```
 
@@ -162,20 +165,21 @@ public DocumentBuilder escaping() {
 	return Document.start().startParagraph().plainText(
 			"Markdown characters are automatically escaped by default. This means that characters like * or # are "
 					+ "not rendered as emphasis. Paths like c:\\temp\\foo.bar are safe. The ")
-			.simpleClassName(TextEscaper.class).plainText(" can be configured via ")
-			.simpleClassName(MarkdownSerializationOptions.class).plainText(".").end();
+			.simpleClassName(Escaper.class).plainText(" can be configured via ")
+			.simpleClassName(MarkdownSerializationOptions.class).plainText(".") //
+			.end(); // end paragraph
 }
 ```
 
 ### Markdown
 
 ```markdown
-Markdown characters are automatically escaped by default\. This means that characters like \* or \# are not rendered as emphasis\. Paths like c:\\temp\\foo\.bar are safe\. The ``` TextEscaper ``` can be configured via ``` MarkdownSerializationOptions ```\.
+Markdown characters are automatically escaped by default\. This means that characters like \* or \# are not rendered as emphasis\. Paths like c:\\temp\\foo\.bar are safe\. The ``` Escaper ``` can be configured via ``` MarkdownSerializationOptions ```\.
 ```
 
 ### Rendered
 
-Markdown characters are automatically escaped by default. This means that characters like * or # are not rendered as emphasis. Paths like c:\temp\foo.bar are safe. The ``` TextEscaper ``` can be configured via ``` MarkdownSerializationOptions ```.
+Markdown characters are automatically escaped by default. This means that characters like * or # are not rendered as emphasis. Paths like c:\temp\foo.bar are safe. The ``` Escaper ``` can be configured via ``` MarkdownSerializationOptions ```.
 
 Static Utility Class `MD`
 -------------------------

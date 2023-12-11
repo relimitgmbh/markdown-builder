@@ -148,20 +148,20 @@ public class MD {
 
 	// Table
 
-	public static TableCell cell(SpanElement stringyfiable) {
-		return new TableCell(stringyfiable);
+	public static TableCell cell(SpanElement stringifyable) {
+		return new TableCell(stringifyable);
 	}
 
-	public static TableCell cell(Object stringyfiable) {
-		return cell(txt(stringyfiable));
+	public static TableCell cell(Object stringifyable) {
+		return cell(txt(stringifyable));
 	}
 
 	public static TableRow row(TableCell... cells) {
 		return new TableRowBuilder<>().append(cells).build();
 	}
 
-	public static TableRow row(Object... stringyfiables) {
-		return new TableRowBuilder<>().append(MD::cell, stringyfiables).build();
+	public static TableRow row(Object... stringifyables) {
+		return new TableRowBuilder<>().append(MD::cell, stringifyables).build();
 	}
 
 }

@@ -7,14 +7,14 @@ import de.relimit.commons.markdown.MarkdownElement;
 import de.relimit.commons.markdown.MarkdownSerializable;
 import de.relimit.commons.markdown.MarkdownSerializationException;
 import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
-import de.relimit.commons.markdown.configuration.TextSerializer;
+import de.relimit.commons.markdown.converter.Stringifier;
 import de.relimit.commons.markdown.span.SpanElement;
 import de.relimit.commons.markdown.util.Strings;
 
 /**
  * Something that contains only text. The class takes an {@link Object} as
  * opposed to a {@link String} to not limit possible uses. An unlimited amount
- * of {@link TextSerializer}s can be set via
+ * of {@link Stringifier}s can be set via
  * {@link MarkdownSerializationOptions}. By default, simply {@link #toString()}
  * is invoked on the object.
  * <p>

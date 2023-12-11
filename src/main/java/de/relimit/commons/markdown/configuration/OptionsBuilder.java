@@ -3,15 +3,22 @@ package de.relimit.commons.markdown.configuration;
 import de.relimit.commons.markdown.Fences;
 import de.relimit.commons.markdown.blockelement.codeblock.CodeBlockLanguage;
 import de.relimit.commons.markdown.blockelement.rule.HorizontalRuleCharacter;
+import de.relimit.commons.markdown.converter.ConfigurableEscaper;
+import de.relimit.commons.markdown.converter.ConfigurableStringifier;
+import de.relimit.commons.markdown.converter.Escaper;
+import de.relimit.commons.markdown.converter.Stringifier;
+import de.relimit.commons.markdown.span.textual.Textual;
 
 public class OptionsBuilder {
 
-	private MarkdownSerializationOptionsImpl options;
+	private MarkdownSerializationOptions options;
 
-	private ConfigurableSerializer configurableSerializer;
+	private ConfigurableStringifier configurableStringifier;
+
+	private ConfigurableEscaper configurableEscaper;
 
 	public OptionsBuilder() {
-		this.options = new MarkdownSerializationOptionsImpl();
+		this.options = new MarkdownSerializationOptions();
 	}
 
 	public OptionsBuilder(MarkdownSerializationOptions options) {
@@ -20,35 +27,50 @@ public class OptionsBuilder {
 		 * However it will be a completely new one once serializers are added by
 		 * this builder.
 		 */
-		this.options = new MarkdownSerializationOptionsImpl(options);
+		this.options = new MarkdownSerializationOptions(options);
 	}
 
 	public MarkdownSerializationOptions build() {
-		if (configurableSerializer != null) {
-			options.setSerializer(configurableSerializer);
+		if (configurableStringifier != null) {
+			options.setSerializer(configurableStringifier);
+		}
+		if (configurableEscaper != null) {
+			options.setEscaper(configurableEscaper);
 		}
 		return options;
 	}
 
-	private ConfigurableSerializer getConfigurablSerializer() {
-		if (configurableSerializer == null) {
-			configurableSerializer = new ConfigurableSerializer();
+	private ConfigurableStringifier getConfigurablStringifier() {
+		if (configurableStringifier == null) {
+			configurableStringifier = new ConfigurableStringifier();
 		}
-		return configurableSerializer;
+		return configurableStringifier;
 	}
 
-	public <T, E extends T> OptionsBuilder registerSerializer(Class<T> clazz, TextSerializer<E> serializer) {
-		getConfigurablSerializer().registerSerializer(clazz, serializer);
+	public <T, E extends T> OptionsBuilder stringifier(Class<T> clazz, Stringifier<E> serializer) {
+		getConfigurablStringifier().register(clazz, serializer);
 		return this;
 	}
 
-	public <T, E extends T> OptionsBuilder registerDefaultSerializer(TextSerializer<?> serializer) {
-		getConfigurablSerializer().registerDefaultSerializer(serializer);
+	public <T, E extends T> OptionsBuilder defaultStringifier(Stringifier<?> serializer) {
+		getConfigurablStringifier().registerDefault(serializer);
 		return this;
 	}
 
-	public OptionsBuilder escaper(TextEscaper escaper) {
-		options.setEscaper(escaper);
+	private ConfigurableEscaper getConfigurablEscaper() {
+		if (configurableEscaper == null) {
+			configurableEscaper = new ConfigurableEscaper();
+		}
+		return configurableEscaper;
+	}
+
+	public OptionsBuilder escaper(Class<? extends Textual> clazz, Escaper escaper) {
+		getConfigurablEscaper().register(clazz, escaper);
+		return this;
+	}
+
+	public OptionsBuilder defaultEscaper(Escaper escaper) {
+		getConfigurablEscaper().registerDefault(escaper);
 		return this;
 	}
 

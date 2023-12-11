@@ -1,18 +1,17 @@
-package de.relimit.commons.markdown.configuration;
+package de.relimit.commons.markdown.converter;
 
-import de.relimit.commons.markdown.span.textual.Code;
+import de.relimit.commons.markdown.blockelement.codeblock.CodeBlock;
 import de.relimit.commons.markdown.span.textual.PlainText;
-import de.relimit.commons.markdown.span.textual.Text;
 import de.relimit.commons.markdown.span.textual.Textual;
 
 @FunctionalInterface
-public interface TextEscaper {
+public interface Escaper {
 
 	/**
 	 * Does not escape any text put into the builder. In other words: Text put
 	 * into markdown builder will end up in the resulting markdown as-is.
 	 */
-	public static final TextEscaper ALLOW_MARKDOWN = (e, text) -> text;
+	public static final Escaper ALLOW_MARKDOWN = (element, stringifyable, stringified) -> stringified;
 
 	/**
 	 * Escaping in markdown is done by putting a backslash as an escape
@@ -33,13 +32,13 @@ public interface TextEscaper {
 	 * everything at the cost of the output sometimes looking not as neat as it
 	 * could be.
 	 */
-	public static final TextEscaper ESCAPE_MARKDOWN = (e, text) -> {
-		final String escapeChars = e.getEscapeCharacters();
+	public static final Escaper ESCAPE_MARKDOWN = (element, stringifyable, stringified) -> {
+		final String escapeChars = element.getEscapeCharacters();
 		for (int i = 0; i < escapeChars.length(); i++) {
 			final char c = escapeChars.charAt(i);
-			text = text.replace("" + c, "\\" + c);
+			stringified = stringified.replace("" + c, "\\" + c);
 		}
-		return text;
+		return stringified;
 	};
 
 	/**
@@ -50,16 +49,24 @@ public interface TextEscaper {
 	 * markdown special character) is supposed to show in the rendered markdown
 	 * as itself.
 	 * <p>
-	 * The actual {@link Textual} (currently always a {@link Text}) the call
-	 * originates from is included. This can be used to distinguish e.g. between
-	 * {@link Code} and {@link PlainText}.
+	 * The {@link Textual} the call originates from is included. It can be used
+	 * to distinguish between e.g. a {@link CodeBlock} and a {@link PlainText}
+	 * element. {@link Textual#getEscapeCharacters()} supplies a list of
+	 * characters the {@link Textual} considers to be candidates for escaping.
+	 * <p>
+	 * The stringifyable Object is also supplied to be symmetrical with
+	 * {@link Stringifier}. Custom escapers may decide to escape (or not
+	 * escape) text based on the type of stringifyable Object the text
+	 * originates from. The {@link ConfigurableEscaper} is built to help do just
+	 * that.
 	 * <p>
 	 * The method should never return <code>null</code> but an empty String.
 	 * 
 	 * @param e
-	 * @param text
+	 * @param stringifyable
+	 * @param stringified
 	 * @return
 	 */
-	String escape(Textual e, String text);
+	String escape(Textual e, Object stringifyable, String stringified);
 
 }
