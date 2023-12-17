@@ -14,9 +14,8 @@ import de.relimit.commons.markdown.util.Strings;
 /**
  * Something that contains only text. The class takes an {@link Object} as
  * opposed to a {@link String} to not limit possible uses. An unlimited amount
- * of {@link Stringifier}s can be set via
- * {@link MarkdownSerializationOptions}. By default, simply {@link #toString()}
- * is invoked on the object.
+ * of {@link Stringifier}s can be set via {@link MarkdownSerializationOptions}.
+ * By default, simply {@link #toString()} is invoked on the object.
  * <p>
  * The String returned may contain UNIX or Windows line breaks. These will be
  * reflected in the generated markdown as new lines but will not lead to new
@@ -38,6 +37,9 @@ public abstract class Text extends MarkdownElement implements SpanElement, Textu
 	 *             if any {@link MarkdownSerializable} is passed as an argument
 	 */
 	public Text(Object stringifyable) {
+		if (stringifyable == null) {
+			throw new IllegalArgumentException("Stringifyable cannot be null.");
+		}
 		if (stringifyable instanceof MarkdownSerializable) {
 			throw new IllegalArgumentException("Text nodes do not accept markdown elements.");
 		}
