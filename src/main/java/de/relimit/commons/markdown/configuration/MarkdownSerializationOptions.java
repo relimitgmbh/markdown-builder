@@ -7,6 +7,8 @@ import de.relimit.commons.markdown.blockelement.codeblock.CodeBlock;
 import de.relimit.commons.markdown.blockelement.codeblock.CodeBlockLanguage;
 import de.relimit.commons.markdown.blockelement.rule.HorizontalRule;
 import de.relimit.commons.markdown.blockelement.rule.HorizontalRuleCharacter;
+import de.relimit.commons.markdown.blockelement.table.Alignment;
+import de.relimit.commons.markdown.blockelement.table.Table;
 import de.relimit.commons.markdown.blockelement.table.TableCell;
 import de.relimit.commons.markdown.converter.Escaper;
 import de.relimit.commons.markdown.converter.Stringifier;
@@ -32,6 +34,8 @@ public class MarkdownSerializationOptions {
 
 	private HorizontalRuleCharacter defaultHorizontalRuleCharacter;
 
+	private Alignment defaultTableCellAlignment;
+
 	public MarkdownSerializationOptions() {
 		this.serializer = Stringifier.DEFAULT_SERIALIZER;
 		this.escaper = Escaper.ESCAPE_MARKDOWN;
@@ -40,6 +44,7 @@ public class MarkdownSerializationOptions {
 		this.defaultCodeBlockLangauge = CodeBlock.DEFAULT_LANGUAGE;
 		this.codeFences = Code.DEFAULT_FENCES;
 		this.defaultHorizontalRuleCharacter = HorizontalRule.DEFAULT_CHARACTER;
+		this.defaultTableCellAlignment = Table.DEFAULT_ALIGNMENT;
 	}
 
 	/**
@@ -57,6 +62,7 @@ public class MarkdownSerializationOptions {
 		setDefaultCodeBlockLangauge(template.getDefaultCodeBlockLangauge());
 		setCodeFences(template.getCodeFences());
 		setDefaultHorizontalRuleCharacter(template.getDefaultHorizontalRuleCharacter());
+		setDefaultTableCellAlignment(template.getDefaultTableCellAlignment());
 	}
 
 	public MarkdownSerializationOptions copy() {
@@ -116,7 +122,16 @@ public class MarkdownSerializationOptions {
 	}
 
 	public void setDefaultHorizontalRuleCharacter(HorizontalRuleCharacter defaultHorizontalRuleCharacter) {
-		this.defaultHorizontalRuleCharacter = defaultHorizontalRuleCharacter;
+		this.defaultHorizontalRuleCharacter = Args.notNull(defaultHorizontalRuleCharacter,
+				"defaultHorizontalRuleCharacter");
+	}
+
+	public Alignment getDefaultTableCellAlignment() {
+		return defaultTableCellAlignment;
+	}
+
+	public void setDefaultTableCellAlignment(Alignment defaultTableCellAlignment) {
+		this.defaultTableCellAlignment = Args.notNull(defaultTableCellAlignment, "defaultTableCellAlignment");
 	}
 
 	/**

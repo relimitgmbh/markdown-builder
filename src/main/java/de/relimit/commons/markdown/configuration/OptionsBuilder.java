@@ -3,6 +3,7 @@ package de.relimit.commons.markdown.configuration;
 import de.relimit.commons.markdown.Fences;
 import de.relimit.commons.markdown.blockelement.codeblock.CodeBlockLanguage;
 import de.relimit.commons.markdown.blockelement.rule.HorizontalRuleCharacter;
+import de.relimit.commons.markdown.blockelement.table.Alignment;
 import de.relimit.commons.markdown.converter.ConfigurableEscaper;
 import de.relimit.commons.markdown.converter.ConfigurableStringifier;
 import de.relimit.commons.markdown.converter.Escaper;
@@ -96,6 +97,11 @@ public class OptionsBuilder {
 
 	public OptionsBuilder defaultHorizontalRuleCharacter(HorizontalRuleCharacter character) {
 		options.setDefaultHorizontalRuleCharacter(character);
+		return this;
+	}
+
+	public OptionsBuilder defaultTableCellAlignment(Alignment alignment) {
+		options.setDefaultTableCellAlignment(alignment);
 		return this;
 	}
 
