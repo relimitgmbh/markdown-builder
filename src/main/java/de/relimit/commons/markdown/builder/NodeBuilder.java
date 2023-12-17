@@ -1,7 +1,7 @@
 package de.relimit.commons.markdown.builder;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Collection;
 import java.util.function.Function;
 
 import de.relimit.commons.markdown.MarkdownSerializable;
@@ -50,7 +50,7 @@ public abstract class NodeBuilder<P, B extends NodeBuilder<P, B, BE, NE>, BE ext
 		return getBuilder();
 	}
 
-	public final B append(List<NE> elements) {
+	public final B append(Collection<NE> elements) {
 		elements.forEach(this::append);
 		return getBuilder();
 	}
@@ -90,7 +90,7 @@ public abstract class NodeBuilder<P, B extends NodeBuilder<P, B, BE, NE>, BE ext
 	 *            The elements to be converted
 	 * @return The builder for method chaining
 	 */
-	public final <T> B append(Function<T, NE> converter, List<T> elements) {
+	public final <T> B append(Function<T, NE> converter, Collection<T> elements) {
 		elements.stream().map(e -> converter.apply(e)).forEach(this::append);
 		return getBuilder();
 	}
