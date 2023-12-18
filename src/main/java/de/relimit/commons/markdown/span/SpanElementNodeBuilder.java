@@ -1,11 +1,9 @@
 package de.relimit.commons.markdown.span;
 
-import java.util.List;
+import java.util.function.Function;
 
-import de.relimit.commons.markdown.MarkdownSerializationException;
 import de.relimit.commons.markdown.builder.MarkdownSerializableAppender;
 import de.relimit.commons.markdown.builder.NodeBuilder;
-import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
 import de.relimit.commons.markdown.span.emphasis.Emphasis;
 import de.relimit.commons.markdown.span.emphasis.Emphasis.Type;
 import de.relimit.commons.markdown.span.textual.Code;
@@ -20,7 +18,7 @@ import de.relimit.commons.markdown.span.textual.PlainText;
  *            The element that is built by this builder
  */
 public class SpanElementNodeBuilder<P, BE extends SpanElementNode>
-		extends NodeBuilder<P, SpanElementNodeBuilder<P, BE>, BE, SpanElement> implements SpanElement {
+		extends NodeBuilder<P, SpanElementNodeBuilder<P, BE>, BE, SpanElement> {
 
 	public SpanElementNodeBuilder(BE element, MarkdownSerializableAppender<P, BE> parent) {
 		super(element, parent);
@@ -61,12 +59,12 @@ public class SpanElementNodeBuilder<P, BE extends SpanElementNode>
 		return append(new Code(stringifyable));
 	}
 
-	public SpanElementNodeBuilder<P, BE> className(Class<?> clazz) {
-		return code(clazz.getName());
+	public SpanElementNodeBuilder<P, BE> code(Class<?> clazz, Function<Class<?>, String> clazzNamer) {
+		return code(clazzNamer.apply(clazz));
 	}
 
-	public SpanElementNodeBuilder<P, BE> simpleClassName(Class<?> clazz) {
-		return code(clazz.getSimpleName());
+	public SpanElementNodeBuilder<P, BE> code(Class<?> clazz) {
+		return code(clazz, Class::getSimpleName);
 	}
 
 	// Plain text
@@ -77,11 +75,6 @@ public class SpanElementNodeBuilder<P, BE extends SpanElementNode>
 
 	public SpanElementNodeBuilder<P, BE> newLine() {
 		return append(new PlainText(System.lineSeparator()));
-	}
-
-	@Override
-	public List<String> serializeLines(MarkdownSerializationOptions options) throws MarkdownSerializationException {
-		return getElement().serializeLines(options);
 	}
 
 }

@@ -1,19 +1,14 @@
 package de.relimit.commons.markdown.blockelement.table;
 
-import java.util.List;
-
-import de.relimit.commons.markdown.MarkdownSerializationException;
-import de.relimit.commons.markdown.blockelement.BlockElement;
 import de.relimit.commons.markdown.builder.MarkdownSerializableAppender;
 import de.relimit.commons.markdown.builder.NodeBuilder;
-import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
 
 /**
  * @param <P>
  *            The parent builder to continue building on the parent after
  *            {@link #end()}
  */
-public class TableBuilder<P> extends NodeBuilder<P, TableBuilder<P>, Table, TableRow> implements BlockElement {
+public class TableBuilder<P> extends NodeBuilder<P, TableBuilder<P>, Table, TableRow> {
 
 	public TableBuilder(MarkdownSerializableAppender<P, Table> parent) {
 		super(new Table(), parent);
@@ -68,11 +63,6 @@ public class TableBuilder<P> extends NodeBuilder<P, TableBuilder<P>, Table, Tabl
 
 	public TableRowBuilder<TableBuilder<P>> startRow() {
 		return new TableRowBuilder<>(this::append);
-	}
-
-	@Override
-	public List<String> serializeLines(MarkdownSerializationOptions options) throws MarkdownSerializationException {
-		return getElement().serializeLines(options);
 	}
 
 }

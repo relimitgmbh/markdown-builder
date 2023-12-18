@@ -10,8 +10,23 @@ import de.relimit.commons.markdown.util.Strings;
  */
 public abstract class MarkdownElement implements LineBased {
 
+	private MarkdownSerializationOptions options;
+
 	// Cache for speed
 	private String serialized;
+
+	@Override
+	public MarkdownSerializationOptions getDefaultoptions() {
+		if (options != null) {
+			return options;
+		}
+		return MarkdownSerializationOptions.DEFAULT_OPTIONS;
+	}
+
+	@Override
+	public void setDefaultOptions(MarkdownSerializationOptions options) {
+		this.options = options;
+	}
 
 	/**
 	 * Returns the result of

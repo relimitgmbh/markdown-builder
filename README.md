@@ -14,11 +14,12 @@ The two most important elements when working with Markdown Builder are block ele
 ### Java Code
 
 ```java
-public DocumentBuilder paragraphs() {
+public Document paragraphs() {
 	return Document.start()
 			.paragraph("This is a paragraph containing plain text. Line breaks \n"
-					+ "will lead to new lines \nwithin the paragraph.")
-			.paragraph("This is the second paragraph. It is separated from the previous one " + "by a blank line.");
+					+ "will lead to new lines \nwithin the paragraph.") //
+			.paragraph("This is the second paragraph. It is separated from the previous one " + "by a blank line.") //
+			.build();
 }
 ```
 
@@ -46,15 +47,15 @@ Emphasis
 ### Java Code
 
 ```java
-public DocumentBuilder emphasis() {
-	return Document.start().startParagraph() //
+public Paragraph emphasis() {
+	return MD.startParagraph() //
 			.emphasis(Type.BOLD, "This is bold.").newLine() //
 			.emphasis(Type.STRIKETHROUGH, "This is strikethrough.").newLine() //
 			.emphasis(Type.ITALIC, "This is italic.").newLine() //
 			.startEmphasis(Type.BOLD).plainText("Span elements can be nested. This is bold text ")
 			.emphasis(Type.ITALIC, "followed by bold and italic text").plainText(" and finally bold text again.")
 			.end() // end emphasis
-			.end(); // end paragraph
+			.build(); // end paragraph
 }
 ```
 
@@ -82,14 +83,14 @@ Note: This is a non-standard element and might not be supported by all markdown 
 ### Java Code
 
 ```java
-public DocumentBuilder taskLists() {
-	return Document.start().startTaskList() //
+public BlockElement taskLists() {
+	return new TaskListBuilder<Void>() //
 			.item("This task is completed.", true) //
 			.startItem().startParagraph().plainText("This task is pending but it has nice ")
 			.emphasis(Type.BOLD, "bold formatted text").plainText(" going for it.") //
 			.end() // end paragraph
 			.end() // end task item
-			.end(); // end list
+			.build(); // end list
 }
 ```
 
@@ -113,15 +114,15 @@ The first block element appended to a list item must always be a paragraph. Mean
 ### Java Code
 
 ```java
-public DocumentBuilder lists() {
-	return Document.start().startUnorderedList() //
+public UnorderedList lists() {
+	return new UnorderedListBuilder<Void>() //
 			.item("First item.") //
 			.item("Second item.") //
 			.startItem().paragraph("Third item.").paragraph("Another paragraph of the third item.").quote()
 			.paragraph("This is a quoted paragraph of the third item.").unquote()
 			.codeBlock("// This is a code block of the third item.", Language.JAVA) //
 			.end() // end list item
-			.end(); // end list
+			.build(); // end list
 }
 ```
 
@@ -161,13 +162,16 @@ Escaping
 ### Java Code
 
 ```java
-public DocumentBuilder escaping() {
-	return Document.start().startParagraph().plainText(
-			"Markdown characters are automatically escaped by default. This means that characters like * or # are "
-					+ "not rendered as emphasis. Paths like c:\\temp\\foo.bar are safe. The ")
-			.simpleClassName(Escaper.class).plainText(" can be configured via ")
-			.simpleClassName(MarkdownSerializationOptions.class).plainText(".") //
-			.end(); // end paragraph
+public Document escaping() {
+	return Document.start() //
+			.startParagraph() //
+			.plainText(
+					"Markdown characters are automatically escaped by default. This means that characters like * "
+							+ "or # are not rendered as emphasis. Paths like c:\\temp\\foo.bar are safe. The ")
+			.code(Escaper.class).plainText(" can be configured via ").code(MarkdownSerializationOptions.class)
+			.plainText(".") //
+			.end() // end paragraph
+			.build();
 }
 ```
 
@@ -181,8 +185,45 @@ Markdown characters are automatically escaped by default\. This means that chara
 
 Markdown characters are automatically escaped by default. This means that characters like * or # are not rendered as emphasis. Paths like c:\temp\foo.bar are safe. The ``` Escaper ``` can be configured via ``` MarkdownSerializationOptions ```.
 
+Custom Renderer
+---------------
+
+### Java Code
+
+```java
+public Table customRenderer() throws MarkdownSerializationException {
+	final MarkdownSerializationOptions options = new OptionsBuilder() //
+			.stringifier(Boolean.class, (e, o) -> o ? "&#128994;" : "&#128308;") //
+			.build();
+	return new TableBuilder<Void>() //
+			.defaultOptions(options) //
+			.append(row("Status", "Message")) // header
+			.append(row(true, "This is fine.")) //
+			.append(row(false, "Abandon ship!")) //
+			.build();
+}
+```
+
+### Markdown
+
+```markdown
+| Status    | Message       |
+| --------- | ------------- |
+| &#128994; | This is fine. |
+| &#128308; | Abandon ship! |
+```
+
+### Rendered
+
+| Status    | Message       |
+| --------- | ------------- |
+| &#128994; | This is fine. |
+| &#128308; | Abandon ship! |
+
 Static Utility Class `MD`
 -------------------------
+
+The utility class `MD` features many static methods for convenient element building. Add static imports as shown in the comments in the sample method for even less verbose markdowning.
 
 ### Java Code
 
@@ -190,12 +231,12 @@ Static Utility Class `MD`
 // import static de.relimit.commons.markdown.util.MD.cell;
 // import static de.relimit.commons.markdown.util.MD.italic;
 // import static de.relimit.commons.markdown.util.MD.row;
-public DocumentBuilder md() {
-	return Document.start().startTable() //
+public Table md() {
+	return new TableBuilder<Void>() //
 			.append(row("Heading 1", "Heading 2")) //
 			.append(row("Cell 1.1", "Cell 1.2")) //
 			.append(row(cell("Cell 2.1"), cell(italic("Cell 2.2")))) //
-			.end(); // end table
+			.build();
 }
 ```
 

@@ -1,8 +1,26 @@
 package de.relimit.commons.markdown;
 
 import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
+import de.relimit.commons.markdown.converter.Stringifier;
 
 public interface MarkdownSerializable {
+
+	/**
+	 * Sets the {@link MarkdownSerializationOptions} that are used if
+	 * {@link #serialize()} is invoked. By default, the
+	 * {@link MarkdownSerializationOptions#DEFAULT_OPTIONS} are used. Using this
+	 * method, options specific to this document can be set. This allows for
+	 * pre-configured markdown documents with serialization options specific to
+	 * the document. For example the document might contain foreign types and
+	 * only a custom {@link Stringifier} (set via the options) might know how to
+	 * properly handle those.
+	 * 
+	 * @param options
+	 * @return
+	 */
+	void setDefaultOptions(MarkdownSerializationOptions options);
+
+	MarkdownSerializationOptions getDefaultoptions();
 
 	/**
 	 * Attempts to generate a String representing this markdown element.
@@ -12,7 +30,7 @@ public interface MarkdownSerializable {
 	 *             If unable to generate a markdown String
 	 */
 	default String serialize() throws MarkdownSerializationException {
-		return serialize(MarkdownSerializationOptions.DEFAULT_OPTIONS);
+		return serialize(getDefaultoptions());
 	}
 
 	/**

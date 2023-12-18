@@ -1,8 +1,8 @@
 package de.relimit.commons.markdown.builder;
 
 import de.relimit.commons.markdown.MarkdownSerializable;
-import de.relimit.commons.markdown.MarkdownSerializationException;
 import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
+import de.relimit.commons.markdown.converter.Stringifier;
 import de.relimit.commons.markdown.util.Strings;
 
 /**
@@ -38,8 +38,7 @@ import de.relimit.commons.markdown.util.Strings;
  * @param <BE>
  *            The element that is built by this builder
  */
-public abstract class NestableBuilder<P, B extends NestableBuilder<P, B, BE>, BE extends MarkdownSerializable>
-		implements MarkdownSerializable {
+public abstract class NestableBuilder<P, B extends NestableBuilder<P, B, BE>, BE extends MarkdownSerializable> {
 
 	private MarkdownSerializableAppender<P, BE> parent;
 
@@ -92,26 +91,27 @@ public abstract class NestableBuilder<P, B extends NestableBuilder<P, B, BE>, BE
 		return parent.append(product);
 	}
 
-	/* Methods satisfying MarkdownSerializable. */
-
-	@Override
-	public String serialize(MarkdownSerializationOptions options) throws MarkdownSerializationException {
-		return element.serialize(options);
-	}
-
-	@Override
-	public String getSerialized(MarkdownSerializationOptions options, String fallback) {
-		return element.getSerialized(options, fallback);
-	}
-
-	@Override
-	public String getSerialized(MarkdownSerializationOptions options) throws MarkdownSerializationException {
-		return element.getSerialized(options);
-	}
-
 	@Override
 	public String toString() {
 		return Strings.stringify(element);
+	}
+
+	/**
+	 * Sets the {@link MarkdownSerializationOptions} that are used if
+	 * {@link #serialize()} is invoked. By default, the
+	 * {@link MarkdownSerializationOptions#DEFAULT_OPTIONS} are used. Using this
+	 * method, options specific to this document can be set. This allows for
+	 * pre-configured markdown documents with serialization options specific to
+	 * the {@link MarkdownSerializable}. For example the element might contain
+	 * foreign types and only a custom {@link Stringifier} (set via the options)
+	 * might know how to properly handle those.
+	 * 
+	 * @param options
+	 * @return
+	 */
+	public B defaultOptions(MarkdownSerializationOptions options) {
+		getElement().setDefaultOptions(options);
+		return getBuilder();
 	}
 
 }
