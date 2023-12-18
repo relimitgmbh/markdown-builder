@@ -1,7 +1,5 @@
 package de.relimit.commons.markdown.blockelement.table;
 
-import java.util.Optional;
-
 import de.relimit.commons.markdown.Fences;
 import de.relimit.commons.markdown.MarkdownElement;
 import de.relimit.commons.markdown.MarkdownSerializationException;
@@ -12,8 +10,6 @@ import de.relimit.commons.markdown.span.SpanElementNode;
 public class TableCell extends SpanElementNode {
 
 	public static final String DEFAULT_TABLE_CELL_LINE_SEPARATOR = "<br />";
-
-	private TableRow parent;
 
 	public TableCell() {
 	}
@@ -32,14 +28,6 @@ public class TableCell extends SpanElementNode {
 
 	public TableCell(String text) {
 		super(text);
-	}
-
-	public Optional<TableRow> getParent() {
-		return Optional.ofNullable(parent);
-	}
-
-	void setParent(TableRow parent) {
-		this.parent = parent;
 	}
 
 	@Override

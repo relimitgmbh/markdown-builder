@@ -43,7 +43,6 @@ public class TableRow extends Node<TableCell> {
 
 	@Override
 	public void append(TableCell element) {
-		element.setParent(this);
 		if (roomForMore()) {
 			super.append(element);
 		}
