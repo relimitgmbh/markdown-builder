@@ -1,7 +1,9 @@
 package de.relimit.commons.markdown.builder;
 
 import de.relimit.commons.markdown.MarkdownSerializable;
-import de.relimit.commons.markdown.configuration.MarkdownSerializationOptionsImpl;
+import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
+import de.relimit.commons.markdown.converter.Stringifier;
+import de.relimit.commons.markdown.util.Strings;
 
 /**
  * <p>
@@ -20,7 +22,7 @@ import de.relimit.commons.markdown.configuration.MarkdownSerializationOptionsImp
  * just like in a stand alone mode the product is returned.
  * <p>
  * In order for {@link #end()} to work in a nested scenario it is required to
- * set a {@link MarkdownElementAppender}. This is the price we pay for the
+ * set a {@link MarkdownSerializableAppender}. This is the price we pay for the
  * simplified generics: The builder is agnostic in terms of the parent and
  * relies on the appender to append the product to the parent builder and then
  * return the parent to continue method chaining at the parent builder level.
@@ -38,7 +40,7 @@ import de.relimit.commons.markdown.configuration.MarkdownSerializationOptionsImp
  */
 public abstract class NestableBuilder<P, B extends NestableBuilder<P, B, BE>, BE extends MarkdownSerializable> {
 
-	private MarkdownElementAppender<P, BE> parent;
+	private MarkdownSerializableAppender<P, BE> parent;
 
 	private BE element;
 
@@ -64,7 +66,7 @@ public abstract class NestableBuilder<P, B extends NestableBuilder<P, B, BE>, BE
 	 * @param element
 	 * @param parentAppender
 	 */
-	public NestableBuilder(BE element, MarkdownElementAppender<P, BE> parent) {
+	public NestableBuilder(BE element, MarkdownSerializableAppender<P, BE> parent) {
 		this.parent = parent;
 		this.element = element;
 	}
@@ -91,7 +93,25 @@ public abstract class NestableBuilder<P, B extends NestableBuilder<P, B, BE>, BE
 
 	@Override
 	public String toString() {
-		return element.getSerialized(MarkdownSerializationOptionsImpl.DEFAULT_OPTIONS, this.getClass().getSimpleName());
+		return Strings.stringify(element);
+	}
+
+	/**
+	 * Sets the {@link MarkdownSerializationOptions} that are used if
+	 * {@link #serialize()} is invoked. By default, the
+	 * {@link MarkdownSerializationOptions#DEFAULT_OPTIONS} are used. Using this
+	 * method, options specific to this document can be set. This allows for
+	 * pre-configured markdown documents with serialization options specific to
+	 * the {@link MarkdownSerializable}. For example the element might contain
+	 * foreign types and only a custom {@link Stringifier} (set via the options)
+	 * might know how to properly handle those.
+	 * 
+	 * @param options
+	 * @return
+	 */
+	public B defaultOptions(MarkdownSerializationOptions options) {
+		getElement().setDefaultOptions(options);
+		return getBuilder();
 	}
 
 }

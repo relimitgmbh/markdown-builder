@@ -1,8 +1,10 @@
 package de.relimit.commons.markdown.blockelement;
 
-import java.util.Arrays;
+import static de.relimit.commons.markdown.util.MD.row;
 
-import de.relimit.commons.markdown.Node;
+import java.util.Collection;
+import java.util.function.Function;
+
 import de.relimit.commons.markdown.blockelement.codeblock.CodeBlock;
 import de.relimit.commons.markdown.blockelement.codeblock.CodeBlockLanguage;
 import de.relimit.commons.markdown.blockelement.heading.Heading;
@@ -17,9 +19,9 @@ import de.relimit.commons.markdown.blockelement.paragraph.Paragraph;
 import de.relimit.commons.markdown.blockelement.quotes.Blockquotes;
 import de.relimit.commons.markdown.blockelement.rule.HorizontalRule;
 import de.relimit.commons.markdown.blockelement.rule.HorizontalRuleCharacter;
-import de.relimit.commons.markdown.blockelement.table.Table;
 import de.relimit.commons.markdown.blockelement.table.TableBuilder;
-import de.relimit.commons.markdown.builder.MarkdownElementAppender;
+import de.relimit.commons.markdown.blockelement.table.TableRow;
+import de.relimit.commons.markdown.builder.MarkdownSerializableAppender;
 import de.relimit.commons.markdown.builder.NodeBuilder;
 import de.relimit.commons.markdown.span.SpanElementNodeBuilder;
 
@@ -42,7 +44,7 @@ public abstract class BlockElementNodeBuilder<P, B extends BlockElementNodeBuild
 		super(element);
 	}
 
-	protected BlockElementNodeBuilder(BE element, MarkdownElementAppender<P, BE> parentAppender) {
+	protected BlockElementNodeBuilder(BE element, MarkdownSerializableAppender<P, BE> parentAppender) {
 		super(element, parentAppender);
 	}
 
@@ -69,22 +71,13 @@ public abstract class BlockElementNodeBuilder<P, B extends BlockElementNodeBuild
 	}
 
 	@Override
-	public B append(BlockElement element) {
+	protected BlockElement gateKeep(BlockElement element) {
 		if (quoted) {
-			return super.append(new Blockquotes(element));
+			return new Blockquotes(element);
 		} else {
-			return super.append(element);
+			return element;
 		}
-	}
 
-	public B append(BlockElement... elements) {
-		Arrays.stream(elements).forEach(this::append);
-		return getBuilder();
-	}
-
-	public B appendAll(Node<BlockElement> node) {
-		node.getElements().forEach(this::append);
-		return getBuilder();
 	}
 
 	// Lists
@@ -168,7 +161,24 @@ public abstract class BlockElementNodeBuilder<P, B extends BlockElementNodeBuild
 	// Table
 
 	public TableBuilder<B> startTable() {
-		return new TableBuilder<>(new Table(), this::append);
+		return new TableBuilder<>(this::append);
+	}
+
+	public <T> B table(Function<T, TableRow> converter, Collection<T> rows) {
+		return table(converter, rows, (Object[]) null);
+	}
+
+	public <T, H> B table(Function<T, TableRow> converter, Collection<T> elements,
+			Object... stringifyableColumnHeaders) {
+		final TableBuilder<B> tbb = startTable();
+		if (stringifyableColumnHeaders != null && stringifyableColumnHeaders.length > 0) {
+			// Header column
+			tbb.append(row(stringifyableColumnHeaders));
+		} else {
+			tbb.firstRowisHeader(false);
+		}
+		tbb.append(converter, elements);
+		return tbb.end();
 	}
 
 }

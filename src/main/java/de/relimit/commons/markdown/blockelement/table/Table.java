@@ -19,7 +19,7 @@ public class Table extends Node<TableRow> implements BlockElement {
 
 	public static final Alignment DEFAULT_ALIGNMENT = Alignment.NEUTRAL;
 
-	private Alignment defaultAlignment = DEFAULT_ALIGNMENT;
+	private Alignment defaultAlignment;
 
 	private Map<Integer, Alignment> alignments;
 
@@ -74,9 +74,7 @@ public class Table extends Node<TableRow> implements BlockElement {
 		final List<String> lines = new ArrayList<>();
 		int index = 0;
 		for (final TableRow row : elements) {
-
 			appendTo(options, lines, row, index);
-
 			index++;
 		}
 		return lines;
@@ -106,7 +104,7 @@ public class Table extends Node<TableRow> implements BlockElement {
 
 			final String separator = Strings.fill(columnWidths.get(columnIndex), "-");
 
-			final Alignment alignment = getAlignment(columnIndex);
+			final Alignment alignment = getAlignment(columnIndex, options.getDefaultTableCellAlignment());
 			switch (alignment) {
 			case RIGHT:
 				sb.append(TableRow.WHITESPACE + separator + ":");
@@ -153,7 +151,11 @@ public class Table extends Node<TableRow> implements BlockElement {
 	}
 
 	public Alignment getAlignment(int columnIndex) {
-		return alignments.getOrDefault(columnIndex, defaultAlignment);
+		return getAlignment(columnIndex, DEFAULT_ALIGNMENT);
+	}
+
+	protected Alignment getAlignment(int columnIndex, Alignment fallback) {
+		return alignments.getOrDefault(columnIndex, getDefaultAlignment(fallback));
 	}
 
 	public List<TableRow> getRows() {
@@ -191,7 +193,11 @@ public class Table extends Node<TableRow> implements BlockElement {
 	}
 
 	public Alignment getDefaultAlignment() {
-		return defaultAlignment;
+		return getDefaultAlignment(DEFAULT_ALIGNMENT);
+	}
+
+	protected Alignment getDefaultAlignment(Alignment fallback) {
+		return defaultAlignment != null ? defaultAlignment : fallback;
 	}
 
 	public void setDefaultAlignment(Alignment defaultAlignment) {
@@ -200,9 +206,9 @@ public class Table extends Node<TableRow> implements BlockElement {
 	}
 
 	@Override
-	public void append(TableRow element) {
+	protected TableRow gateKeep(TableRow element) {
 		element.setParent(this);
-		super.append(element);
+		return element;
 	}
 
 	Optional<TableRow> getHeaderRow() {

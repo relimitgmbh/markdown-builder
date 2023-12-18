@@ -1,12 +1,26 @@
 package de.relimit.commons.markdown;
 
-import java.util.List;
-
-import de.relimit.commons.markdown.blockelement.table.TableCell;
 import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
-import de.relimit.commons.markdown.configuration.MarkdownSerializationOptionsImpl;
+import de.relimit.commons.markdown.converter.Stringifier;
 
 public interface MarkdownSerializable {
+
+	/**
+	 * Sets the {@link MarkdownSerializationOptions} that are used if
+	 * {@link #serialize()} is invoked. By default, the
+	 * {@link MarkdownSerializationOptions#DEFAULT_OPTIONS} are used. Using this
+	 * method, options specific to this document can be set. This allows for
+	 * pre-configured markdown documents with serialization options specific to
+	 * the document. For example the document might contain foreign types and
+	 * only a custom {@link Stringifier} (set via the options) might know how to
+	 * properly handle those.
+	 * 
+	 * @param options
+	 * @return
+	 */
+	void setDefaultOptions(MarkdownSerializationOptions options);
+
+	MarkdownSerializationOptions getDefaultoptions();
 
 	/**
 	 * Attempts to generate a String representing this markdown element.
@@ -16,7 +30,7 @@ public interface MarkdownSerializable {
 	 *             If unable to generate a markdown String
 	 */
 	default String serialize() throws MarkdownSerializationException {
-		return serialize(MarkdownSerializationOptionsImpl.DEFAULT_OPTIONS);
+		return serialize(getDefaultoptions());
 	}
 
 	/**
@@ -26,13 +40,7 @@ public interface MarkdownSerializable {
 	 * @throws MarkdownSerializationException
 	 *             If unable to generate a markdown String
 	 */
-	default String serialize(MarkdownSerializationOptions options) throws MarkdownSerializationException {
-		return MarkdownSerializable.serialize(this, options, options.getLineSeparator());
-	}
-
-	List<String> serializeLines(MarkdownSerializationOptions options) throws MarkdownSerializationException;
-
-	String getSerialized(MarkdownSerializationOptions options) throws MarkdownSerializationException;
+	String serialize(MarkdownSerializationOptions options) throws MarkdownSerializationException;
 
 	/**
 	 * Returns the result of
@@ -45,41 +53,16 @@ public interface MarkdownSerializable {
 	 *
 	 * @return Markdown as String or specified fallback
 	 */
-	default String getSerialized(MarkdownSerializationOptions options, String fallback) {
-		try {
-			return getSerialized(options);
-		} catch (final MarkdownSerializationException e) {
-			return fallback;
-		}
-	}
+	String getSerialized(MarkdownSerializationOptions options, String fallback);
 
 	/**
-	 * To to be able to alter the line break for {@link TableCell}s but still
-	 * use the same code for all {@link MarkdownSerializable}s.
-	 * 
-	 * @param serializable
-	 * @param options
-	 * @param lineBreak
-	 *            The line break used to separate lines from each other.
-	 *            Ultimately it originates from the options object which is
-	 *            available as well. It is a separate property because the
-	 *            calling code decides which separator is used depending on the
-	 *            situation.
-	 * @return
+	 * Calls {@link MarkdownElement#serialize()} or directly returns its last
+	 * result from {@link MarkdownElement#serialized}.
+	 *
+	 * @return Markdown as String
 	 * @throws MarkdownSerializationException
+	 *             If unable to generate a markdown String
 	 */
-	static String serialize(MarkdownSerializable serializable, MarkdownSerializationOptions options, String lineBreak)
-			throws MarkdownSerializationException {
-		final StringBuilder sb = new StringBuilder();
-		boolean isFirst = true;
-		for (final String line : serializable.serializeLines(options)) {
-			if (!isFirst) {
-				sb.append(lineBreak);
-			}
-			sb.append(line);
-			isFirst = false;
-		}
-		return sb.toString();
-	}
+	String getSerialized(MarkdownSerializationOptions options) throws MarkdownSerializationException;
 
 }

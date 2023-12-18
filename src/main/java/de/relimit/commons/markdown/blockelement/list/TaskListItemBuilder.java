@@ -1,6 +1,6 @@
 package de.relimit.commons.markdown.blockelement.list;
 
-import de.relimit.commons.markdown.builder.MarkdownElementAppender;
+import de.relimit.commons.markdown.builder.MarkdownSerializableAppender;
 
 /**
  * @param <P>
@@ -9,12 +9,12 @@ import de.relimit.commons.markdown.builder.MarkdownElementAppender;
  */
 public class TaskListItemBuilder<P> extends ListItemBuilder<P, TaskListItemBuilder<P>, TaskListItem> {
 
-	public TaskListItemBuilder(TaskListItem listItem, MarkdownElementAppender<P, TaskListItem> parentAppender) {
+	public TaskListItemBuilder(TaskListItem listItem, MarkdownSerializableAppender<P, TaskListItem> parentAppender) {
 		super(listItem, parentAppender);
 	}
 
-	public TaskListItemBuilder(TaskListItem listItem) {
-		super(listItem);
+	public TaskListItemBuilder() {
+		super(new TaskListItem(0, false));
 	}
 
 	public TaskListItemBuilder<P> incomplete() {

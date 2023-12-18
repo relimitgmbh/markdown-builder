@@ -1,9 +1,7 @@
 package de.relimit.commons.markdown.blockelement.table;
 
-import java.util.Optional;
-
 import de.relimit.commons.markdown.Fences;
-import de.relimit.commons.markdown.MarkdownSerializable;
+import de.relimit.commons.markdown.MarkdownElement;
 import de.relimit.commons.markdown.MarkdownSerializationException;
 import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
 import de.relimit.commons.markdown.span.SpanElement;
@@ -13,33 +11,19 @@ public class TableCell extends SpanElementNode {
 
 	public static final String DEFAULT_TABLE_CELL_LINE_SEPARATOR = "<br />";
 
-	private TableRow parent;
-
 	public TableCell() {
-	}
-
-	public TableCell(Object stringifyable) {
-		super(stringifyable);
-	}
-
-	public TableCell(SpanElement... elements) {
-		super(elements);
 	}
 
 	public TableCell(SpanElement element) {
 		super(element);
 	}
 
-	public TableCell(String text) {
-		super(text);
+	public TableCell(SpanElement... elements) {
+		super(elements);
 	}
 
-	public Optional<TableRow> getParent() {
-		return Optional.ofNullable(parent);
-	}
-
-	void setParent(TableRow parent) {
-		this.parent = parent;
+	public TableCell(Object... stringifyable) {
+		super(stringifyable);
 	}
 
 	@Override
@@ -56,7 +40,7 @@ public class TableCell extends SpanElementNode {
 	 */
 	@Override
 	public String serialize(MarkdownSerializationOptions options) throws MarkdownSerializationException {
-		return MarkdownSerializable.serialize(this, options, options.getTableCellLineSeparator());
+		return MarkdownElement.serialize(this, options, options.getTableCellLineSeparator());
 	}
 
 	/**

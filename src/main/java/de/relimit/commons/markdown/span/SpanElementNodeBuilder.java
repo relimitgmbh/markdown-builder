@@ -1,6 +1,8 @@
 package de.relimit.commons.markdown.span;
 
-import de.relimit.commons.markdown.builder.MarkdownElementAppender;
+import java.util.function.Function;
+
+import de.relimit.commons.markdown.builder.MarkdownSerializableAppender;
 import de.relimit.commons.markdown.builder.NodeBuilder;
 import de.relimit.commons.markdown.span.emphasis.Emphasis;
 import de.relimit.commons.markdown.span.emphasis.Emphasis.Type;
@@ -18,7 +20,7 @@ import de.relimit.commons.markdown.span.textual.PlainText;
 public class SpanElementNodeBuilder<P, BE extends SpanElementNode>
 		extends NodeBuilder<P, SpanElementNodeBuilder<P, BE>, BE, SpanElement> {
 
-	public SpanElementNodeBuilder(BE element, MarkdownElementAppender<P, BE> parent) {
+	public SpanElementNodeBuilder(BE element, MarkdownSerializableAppender<P, BE> parent) {
 		super(element, parent);
 	}
 
@@ -57,12 +59,12 @@ public class SpanElementNodeBuilder<P, BE extends SpanElementNode>
 		return append(new Code(stringifyable));
 	}
 
-	public SpanElementNodeBuilder<P, BE> className(Class<?> clazz) {
-		return code(clazz.getName());
+	public SpanElementNodeBuilder<P, BE> code(Class<?> clazz, Function<Class<?>, String> clazzNamer) {
+		return code(clazzNamer.apply(clazz));
 	}
 
-	public SpanElementNodeBuilder<P, BE> simpleClassName(Class<?> clazz) {
-		return code(clazz.getSimpleName());
+	public SpanElementNodeBuilder<P, BE> code(Class<?> clazz) {
+		return code(clazz, Class::getSimpleName);
 	}
 
 	// Plain text

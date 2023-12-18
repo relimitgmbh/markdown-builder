@@ -1,16 +1,16 @@
 package de.relimit.commons.markdown.blockelement.list;
 
-import de.relimit.commons.markdown.builder.MarkdownElementAppender;
+import de.relimit.commons.markdown.builder.MarkdownSerializableAppender;
 
 public class UnorderedListBuilder<P> extends
 		ListBuilder<P, UnorderedListBuilder<P>, UnorderedList, UnorderedListItemBuilder<UnorderedListBuilder<P>>, UnorderedListItem> {
 
-	public UnorderedListBuilder(UnorderedList element, MarkdownElementAppender<P, UnorderedList> parentAppender) {
+	public UnorderedListBuilder(UnorderedList element, MarkdownSerializableAppender<P, UnorderedList> parentAppender) {
 		super(element, parentAppender);
 	}
 
-	public UnorderedListBuilder(UnorderedList element) {
-		super(element);
+	public UnorderedListBuilder() {
+		super(new UnorderedList(0));
 	}
 
 	@Override
@@ -20,7 +20,7 @@ public class UnorderedListBuilder<P> extends
 
 	@Override
 	UnorderedListItemBuilder<UnorderedListBuilder<P>> createListItemBuilder(UnorderedListItem listItem,
-			MarkdownElementAppender<UnorderedListBuilder<P>, UnorderedListItem> appender) {
+			MarkdownSerializableAppender<UnorderedListBuilder<P>, UnorderedListItem> appender) {
 		return new UnorderedListItemBuilder<>(listItem, appender);
 	}
 

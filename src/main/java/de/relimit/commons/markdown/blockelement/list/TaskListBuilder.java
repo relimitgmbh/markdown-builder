@@ -1,16 +1,16 @@
 package de.relimit.commons.markdown.blockelement.list;
 
-import de.relimit.commons.markdown.builder.MarkdownElementAppender;
+import de.relimit.commons.markdown.builder.MarkdownSerializableAppender;
 
 public class TaskListBuilder<P>
 		extends ListBuilder<P, TaskListBuilder<P>, TaskList, TaskListItemBuilder<TaskListBuilder<P>>, TaskListItem> {
 
-	public TaskListBuilder(TaskList element, MarkdownElementAppender<P, TaskList> parentAppender) {
+	public TaskListBuilder(TaskList element, MarkdownSerializableAppender<P, TaskList> parentAppender) {
 		super(element, parentAppender);
 	}
 
-	public TaskListBuilder(TaskList element) {
-		super(element);
+	public TaskListBuilder() {
+		super(new TaskList(0));
 	}
 
 	@Override
@@ -20,7 +20,7 @@ public class TaskListBuilder<P>
 
 	@Override
 	TaskListItemBuilder<TaskListBuilder<P>> createListItemBuilder(TaskListItem listItem,
-			MarkdownElementAppender<TaskListBuilder<P>, TaskListItem> appender) {
+			MarkdownSerializableAppender<TaskListBuilder<P>, TaskListItem> appender) {
 		return new TaskListItemBuilder<>(listItem, appender);
 	}
 

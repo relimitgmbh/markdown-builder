@@ -20,4 +20,6 @@ public @interface Sample {
 
 	int order();
 
+	boolean escape() default false;
+
 }

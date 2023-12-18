@@ -1,6 +1,6 @@
 package de.relimit.commons.markdown.blockelement.table;
 
-import de.relimit.commons.markdown.builder.MarkdownElementAppender;
+import de.relimit.commons.markdown.builder.MarkdownSerializableAppender;
 import de.relimit.commons.markdown.builder.NodeBuilder;
 
 /**
@@ -10,12 +10,12 @@ import de.relimit.commons.markdown.builder.NodeBuilder;
  */
 public class TableBuilder<P> extends NodeBuilder<P, TableBuilder<P>, Table, TableRow> {
 
-	public TableBuilder(Table element, MarkdownElementAppender<P, Table> parent) {
-		super(element, parent);
+	public TableBuilder(MarkdownSerializableAppender<P, Table> parent) {
+		super(new Table(), parent);
 	}
 
-	public TableBuilder(Table element) {
-		super(element);
+	public TableBuilder() {
+		super(new Table());
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class TableBuilder<P> extends NodeBuilder<P, TableBuilder<P>, Table, Tabl
 	// Rows
 
 	public TableRowBuilder<TableBuilder<P>> startRow() {
-		return new TableRowBuilder<>(new TableRow(), this::append);
+		return new TableRowBuilder<>(this::append);
 	}
 
 }

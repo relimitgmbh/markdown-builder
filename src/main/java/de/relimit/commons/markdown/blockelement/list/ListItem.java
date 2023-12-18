@@ -6,12 +6,16 @@ import java.util.List;
 import de.relimit.commons.markdown.MarkdownSerializationException;
 import de.relimit.commons.markdown.blockelement.BlockElement;
 import de.relimit.commons.markdown.blockelement.BlockElementNode;
-import de.relimit.commons.markdown.blockelement.image.Image;
 import de.relimit.commons.markdown.blockelement.paragraph.Paragraph;
 import de.relimit.commons.markdown.blockelement.table.Table;
 import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
 import de.relimit.commons.markdown.util.Strings;
 
+/**
+ * Please note that the first element added to this {@link ListItem} needs to be
+ * a {@link Paragraph}. A list cannot start with other {@link BlockElement}s
+ * like {@link Table}s, {@link Image}s or even other {@link AbstractList}s.
+ */
 public abstract class ListItem extends BlockElementNode {
 
 	protected ListItem(int indentationLevel) {
@@ -20,19 +24,13 @@ public abstract class ListItem extends BlockElementNode {
 
 	abstract String getListMarker();
 
-	/**
-	 * Appends a {@link BlockElement} to this list. Please note that the first
-	 * element needs to be a {@link Paragraph}. A list cannot start with other
-	 * {@link BlockElement}s like {@link Table}s, {@link Image}s or even other
-	 * {@link AbstractList}s.
-	 */
 	@Override
-	public void append(BlockElement element) {
+	protected BlockElement gateKeep(BlockElement element) {
 		if (elements.isEmpty() && !(element instanceof Paragraph)) {
 			throw new IllegalArgumentException(
 					"The first element added to a list must be a " + Paragraph.class.getSimpleName() + ".");
 		}
-		super.append(element);
+		return element;
 	}
 
 	@Override

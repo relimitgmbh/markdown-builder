@@ -42,11 +42,11 @@ public class TableRow extends Node<TableCell> {
 	}
 
 	@Override
-	public void append(TableCell element) {
-		element.setParent(this);
+	protected TableCell gateKeep(TableCell element) {
 		if (roomForMore()) {
-			super.append(element);
+			return element;
 		}
+		return null;
 	}
 
 	public Optional<Table> getParent() {
@@ -63,8 +63,8 @@ public class TableRow extends Node<TableCell> {
 		invalidateSerialized();
 	}
 
-	Alignment getAlignment(int columnIndex) {
-		return getParent().map(parent -> parent.getAlignment(columnIndex)).orElse(Table.DEFAULT_ALIGNMENT);
+	Alignment getAlignment(int columnIndex, Alignment override) {
+		return getParent().map(parent -> parent.getAlignment(columnIndex, override)).orElse(override);
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class TableRow extends Node<TableCell> {
 				value = WHITESPACE + cell.getSerialized(options) + WHITESPACE;
 			}
 			final int targetWidth = columnWidths.get(columnIndex) + 2;
-			final Alignment alignment = getAlignment(columnIndex);
+			final Alignment alignment = getAlignment(columnIndex, options.getDefaultTableCellAlignment());
 			// Add 2 for WHITESPACE
 			value = Strings.fillUpAligned(value, WHITESPACE, targetWidth, alignment);
 			sb.append(value);
