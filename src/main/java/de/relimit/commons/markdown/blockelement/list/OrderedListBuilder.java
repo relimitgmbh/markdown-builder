@@ -1,11 +1,11 @@
 package de.relimit.commons.markdown.blockelement.list;
 
-import de.relimit.commons.markdown.builder.MarkdownElementAppender;
+import de.relimit.commons.markdown.builder.MarkdownSerializableAppender;
 
 public class OrderedListBuilder<P> extends
 		ListBuilder<P, OrderedListBuilder<P>, OrderedList, OrderedListItemBuilder<OrderedListBuilder<P>>, OrderedListItem> {
 
-	public OrderedListBuilder(OrderedList element, MarkdownElementAppender<P, OrderedList> parentAppender) {
+	public OrderedListBuilder(OrderedList element, MarkdownSerializableAppender<P, OrderedList> parentAppender) {
 		super(element, parentAppender);
 	}
 
@@ -20,7 +20,7 @@ public class OrderedListBuilder<P> extends
 
 	@Override
 	OrderedListItemBuilder<OrderedListBuilder<P>> createListItemBuilder(OrderedListItem listItem,
-			MarkdownElementAppender<OrderedListBuilder<P>, OrderedListItem> appender) {
+			MarkdownSerializableAppender<OrderedListBuilder<P>, OrderedListItem> appender) {
 		return new OrderedListItemBuilder<>(listItem, appender);
 	}
 

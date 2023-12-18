@@ -3,7 +3,9 @@ package de.relimit.commons.markdown.util;
 import java.util.Arrays;
 import java.util.List;
 
+import de.relimit.commons.markdown.MarkdownSerializable;
 import de.relimit.commons.markdown.blockelement.table.Alignment;
+import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
 
 public class Strings {
 
@@ -101,6 +103,17 @@ public class Strings {
 
 	public static String spaces(int length) {
 		return fill(length, " ");
+	}
+
+	/**
+	 * Mainly a utility method for a safe toString implementation.
+	 * 
+	 * @param markdownSerializable
+	 * @return
+	 */
+	public static String stringify(MarkdownSerializable markdownSerializable) {
+		return markdownSerializable.getSerialized(MarkdownSerializationOptions.DEFAULT_OPTIONS,
+				markdownSerializable.getClass().getSimpleName());
 	}
 
 }

@@ -1,7 +1,11 @@
 package de.relimit.commons.markdown.span;
 
-import de.relimit.commons.markdown.builder.MarkdownElementAppender;
+import java.util.List;
+
+import de.relimit.commons.markdown.MarkdownSerializationException;
+import de.relimit.commons.markdown.builder.MarkdownSerializableAppender;
 import de.relimit.commons.markdown.builder.NodeBuilder;
+import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
 import de.relimit.commons.markdown.span.emphasis.Emphasis;
 import de.relimit.commons.markdown.span.emphasis.Emphasis.Type;
 import de.relimit.commons.markdown.span.textual.Code;
@@ -16,9 +20,9 @@ import de.relimit.commons.markdown.span.textual.PlainText;
  *            The element that is built by this builder
  */
 public class SpanElementNodeBuilder<P, BE extends SpanElementNode>
-		extends NodeBuilder<P, SpanElementNodeBuilder<P, BE>, BE, SpanElement> {
+		extends NodeBuilder<P, SpanElementNodeBuilder<P, BE>, BE, SpanElement> implements SpanElement {
 
-	public SpanElementNodeBuilder(BE element, MarkdownElementAppender<P, BE> parent) {
+	public SpanElementNodeBuilder(BE element, MarkdownSerializableAppender<P, BE> parent) {
 		super(element, parent);
 	}
 
@@ -73,6 +77,11 @@ public class SpanElementNodeBuilder<P, BE extends SpanElementNode>
 
 	public SpanElementNodeBuilder<P, BE> newLine() {
 		return append(new PlainText(System.lineSeparator()));
+	}
+
+	@Override
+	public List<String> serializeLines(MarkdownSerializationOptions options) throws MarkdownSerializationException {
+		return getElement().serializeLines(options);
 	}
 
 }

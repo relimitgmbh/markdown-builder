@@ -1,7 +1,9 @@
 package de.relimit.commons.markdown.builder;
 
 import de.relimit.commons.markdown.MarkdownSerializable;
+import de.relimit.commons.markdown.MarkdownSerializationException;
 import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
+import de.relimit.commons.markdown.util.Strings;
 
 /**
  * <p>
@@ -20,7 +22,7 @@ import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
  * just like in a stand alone mode the product is returned.
  * <p>
  * In order for {@link #end()} to work in a nested scenario it is required to
- * set a {@link MarkdownElementAppender}. This is the price we pay for the
+ * set a {@link MarkdownSerializableAppender}. This is the price we pay for the
  * simplified generics: The builder is agnostic in terms of the parent and
  * relies on the appender to append the product to the parent builder and then
  * return the parent to continue method chaining at the parent builder level.
@@ -36,9 +38,10 @@ import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
  * @param <BE>
  *            The element that is built by this builder
  */
-public abstract class NestableBuilder<P, B extends NestableBuilder<P, B, BE>, BE extends MarkdownSerializable> {
+public abstract class NestableBuilder<P, B extends NestableBuilder<P, B, BE>, BE extends MarkdownSerializable>
+		implements MarkdownSerializable {
 
-	private MarkdownElementAppender<P, BE> parent;
+	private MarkdownSerializableAppender<P, BE> parent;
 
 	private BE element;
 
@@ -64,7 +67,7 @@ public abstract class NestableBuilder<P, B extends NestableBuilder<P, B, BE>, BE
 	 * @param element
 	 * @param parentAppender
 	 */
-	public NestableBuilder(BE element, MarkdownElementAppender<P, BE> parent) {
+	public NestableBuilder(BE element, MarkdownSerializableAppender<P, BE> parent) {
 		this.parent = parent;
 		this.element = element;
 	}
@@ -89,9 +92,26 @@ public abstract class NestableBuilder<P, B extends NestableBuilder<P, B, BE>, BE
 		return parent.append(product);
 	}
 
+	/* Methods satisfying MarkdownSerializable. */
+
+	@Override
+	public String serialize(MarkdownSerializationOptions options) throws MarkdownSerializationException {
+		return element.serialize(options);
+	}
+
+	@Override
+	public String getSerialized(MarkdownSerializationOptions options, String fallback) {
+		return element.getSerialized(options, fallback);
+	}
+
+	@Override
+	public String getSerialized(MarkdownSerializationOptions options) throws MarkdownSerializationException {
+		return element.getSerialized(options);
+	}
+
 	@Override
 	public String toString() {
-		return element.getSerialized(MarkdownSerializationOptions.DEFAULT_OPTIONS, this.getClass().getSimpleName());
+		return Strings.stringify(element);
 	}
 
 }

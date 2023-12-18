@@ -164,7 +164,22 @@ public class Readme {
 				 * DocumentBuilder. Skip all methods that do not meet those
 				 * criteria.
 				 */
-				.filter(m -> (m.getParameterCount() == 0 && m.getReturnType().equals(DocumentBuilder.class)))
+				.filter(m -> {
+					if (m.getParameterCount() != 0) {
+						return false;
+					}
+					final Class<?> returnType = m.getReturnType();
+					if (returnType.equals(DocumentBuilder.class)) {
+						return true;
+					}
+					if (returnType.isAssignableFrom(MarkdownSerializable.class)) {
+						return true;
+					}
+					if (returnType.equals(String.class)) {
+						return true;
+					}
+					return true;
+				})
 				// Sort by order defined by annotation
 				.sorted(Comparator.comparingInt(m -> m.getAnnotation(Sample.class).order()))
 				// Capture the sorted list of methods.

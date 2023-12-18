@@ -6,8 +6,17 @@ import java.util.function.Function;
 
 import de.relimit.commons.markdown.MarkdownSerializable;
 import de.relimit.commons.markdown.Node;
+import de.relimit.commons.markdown.blockelement.BlockElementNode;
+import de.relimit.commons.markdown.blockelement.table.Table;
+import de.relimit.commons.markdown.span.SpanElementNode;
 
 /**
+ * A builder that builds something that has children. Note that the element this
+ * builder builds does not necessarily have to be a markdown node. For example a
+ * {@link Table} is not a markdown node in the sense that it can directly take
+ * other markdown elements as children like a {@link BlockElementNode} or a
+ * {@link SpanElementNode} can.
+ * 
  * @param <P>
  *            The parent builder to continue building on the parent after
  *            {@link #end()}
@@ -19,9 +28,9 @@ import de.relimit.commons.markdown.Node;
  *            The child element that is added to the node
  */
 public abstract class NodeBuilder<P, B extends NodeBuilder<P, B, BE, NE>, BE extends Node<NE>, NE extends MarkdownSerializable>
-		extends NestableBuilder<P, B, BE> implements MarkdownElementAppender<B, NE> {
+		extends NestableBuilder<P, B, BE> implements MarkdownSerializableAppender<B, NE> {
 
-	protected NodeBuilder(BE element, MarkdownElementAppender<P, BE> parent) {
+	protected NodeBuilder(BE element, MarkdownSerializableAppender<P, BE> parent) {
 		super(element, parent);
 	}
 

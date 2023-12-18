@@ -3,8 +3,10 @@ package de.relimit.commons.markdown.blockelement;
 import static de.relimit.commons.markdown.util.MD.row;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.function.Function;
 
+import de.relimit.commons.markdown.MarkdownSerializationException;
 import de.relimit.commons.markdown.Node;
 import de.relimit.commons.markdown.blockelement.codeblock.CodeBlock;
 import de.relimit.commons.markdown.blockelement.codeblock.CodeBlockLanguage;
@@ -22,8 +24,9 @@ import de.relimit.commons.markdown.blockelement.rule.HorizontalRule;
 import de.relimit.commons.markdown.blockelement.rule.HorizontalRuleCharacter;
 import de.relimit.commons.markdown.blockelement.table.TableBuilder;
 import de.relimit.commons.markdown.blockelement.table.TableRow;
-import de.relimit.commons.markdown.builder.MarkdownElementAppender;
+import de.relimit.commons.markdown.builder.MarkdownSerializableAppender;
 import de.relimit.commons.markdown.builder.NodeBuilder;
+import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
 import de.relimit.commons.markdown.span.SpanElementNodeBuilder;
 
 /**
@@ -36,7 +39,7 @@ import de.relimit.commons.markdown.span.SpanElementNodeBuilder;
  *            The element that is built by this builder
  */
 public abstract class BlockElementNodeBuilder<P, B extends BlockElementNodeBuilder<P, B, BE>, BE extends BlockElementNode>
-		extends NodeBuilder<P, B, BE, BlockElement> {
+		extends NodeBuilder<P, B, BE, BlockElement> implements BlockElement {
 
 	// Default false
 	private boolean quoted;
@@ -45,7 +48,7 @@ public abstract class BlockElementNodeBuilder<P, B extends BlockElementNodeBuild
 		super(element);
 	}
 
-	protected BlockElementNodeBuilder(BE element, MarkdownElementAppender<P, BE> parentAppender) {
+	protected BlockElementNodeBuilder(BE element, MarkdownSerializableAppender<P, BE> parentAppender) {
 		super(element, parentAppender);
 	}
 
@@ -184,6 +187,11 @@ public abstract class BlockElementNodeBuilder<P, B extends BlockElementNodeBuild
 		}
 		tbb.append(converter, elements);
 		return tbb.end();
+	}
+
+	@Override
+	public List<String> serializeLines(MarkdownSerializationOptions options) throws MarkdownSerializationException {
+		return getElement().serializeLines(options);
 	}
 
 }

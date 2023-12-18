@@ -8,7 +8,7 @@ import de.relimit.commons.markdown.MarkdownSerializable;
  * @param <AE>
  *            The element that is appended to this appender
  */
-public interface MarkdownElementAppender<A, AE extends MarkdownSerializable> {
+public interface MarkdownSerializableAppender<A, AE extends MarkdownSerializable> {
 
 	A append(AE element);
 

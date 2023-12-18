@@ -1,6 +1,6 @@
 package de.relimit.commons.markdown.blockelement;
 
-import de.relimit.commons.markdown.MarkdownSerializable;
+import de.relimit.commons.markdown.LineBased;
 
 /**
  * Since markdown is essentially a preliminary stage of HTML the general
@@ -8,6 +8,6 @@ import de.relimit.commons.markdown.MarkdownSerializable;
  * elements. Markdown elements implementing this interface represent
  * {@link BlockElement}s.
  */
-public interface BlockElement extends MarkdownSerializable {
+public interface BlockElement extends LineBased {
 
 }

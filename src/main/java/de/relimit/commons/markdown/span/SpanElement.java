@@ -1,6 +1,6 @@
 package de.relimit.commons.markdown.span;
 
-import de.relimit.commons.markdown.MarkdownSerializable;
+import de.relimit.commons.markdown.LineBased;
 
 /**
  * Since markdown is essentially a preliminary stage of HTML the general
@@ -8,6 +8,6 @@ import de.relimit.commons.markdown.MarkdownSerializable;
  * elements. Markdown elements implementing this interface represent
  * {@link SpanElement}s.
  */
-public interface SpanElement extends MarkdownSerializable {
+public interface SpanElement extends LineBased {
 
 }

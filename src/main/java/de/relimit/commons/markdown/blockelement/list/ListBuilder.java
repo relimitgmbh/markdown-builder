@@ -1,6 +1,6 @@
 package de.relimit.commons.markdown.blockelement.list;
 
-import de.relimit.commons.markdown.builder.MarkdownElementAppender;
+import de.relimit.commons.markdown.builder.MarkdownSerializableAppender;
 import de.relimit.commons.markdown.builder.NodeBuilder;
 
 /**
@@ -20,7 +20,7 @@ import de.relimit.commons.markdown.builder.NodeBuilder;
 public abstract class ListBuilder<P, B extends ListBuilder<P, B, BE, B2, NE>, BE extends AbstractList<NE>, B2 extends ListItemBuilder<B, B2, NE>, NE extends ListItem>
 		extends NodeBuilder<P, B, BE, NE> {
 
-	protected ListBuilder(BE element, MarkdownElementAppender<P, BE> parentAppender) {
+	protected ListBuilder(BE element, MarkdownSerializableAppender<P, BE> parentAppender) {
 		super(element, parentAppender);
 	}
 
@@ -30,7 +30,7 @@ public abstract class ListBuilder<P, B extends ListBuilder<P, B, BE, B2, NE>, BE
 
 	abstract NE createListItem(int indentationLevel);
 
-	abstract B2 createListItemBuilder(NE listItem, MarkdownElementAppender<B, NE> appender);
+	abstract B2 createListItemBuilder(NE listItem, MarkdownSerializableAppender<B, NE> appender);
 
 	public B2 startItem() {
 		final int indentationLevel = getElement().getIndentationLevel();

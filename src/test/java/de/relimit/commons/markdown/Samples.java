@@ -6,6 +6,7 @@ import static de.relimit.commons.markdown.util.MD.row;
 
 import de.relimit.commons.markdown.blockelement.codeblock.Language;
 import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
+import de.relimit.commons.markdown.configuration.OptionsBuilder;
 import de.relimit.commons.markdown.converter.Escaper;
 import de.relimit.commons.markdown.document.Document;
 import de.relimit.commons.markdown.document.DocumentBuilder;
@@ -86,6 +87,18 @@ public class Samples {
 				.simpleClassName(Escaper.class).plainText(" can be configured via ")
 				.simpleClassName(MarkdownSerializationOptions.class).plainText(".") //
 				.end(); // end paragraph
+	}
+
+	@Sample(order = 50, key = "customRenderer")
+	public String customRenderer() throws MarkdownSerializationException {
+		final MarkdownSerializationOptions options = new OptionsBuilder() //
+				.stringifier(Boolean.class, (e, o) -> o ? "&#128994;" : "&#128308;") //
+				.build();
+		return Document.start().startTable() //
+				.append(row(true, "This is fine.")) //
+				.append(row(false, "This is fine.")) //
+				.build() //
+				.serialize(options);
 	}
 
 	@Sample(order = 200, key = "md")

@@ -1,6 +1,6 @@
 package de.relimit.commons.markdown.blockelement.list;
 
-import de.relimit.commons.markdown.builder.MarkdownElementAppender;
+import de.relimit.commons.markdown.builder.MarkdownSerializableAppender;
 
 /**
  * @param <P>
@@ -10,7 +10,7 @@ import de.relimit.commons.markdown.builder.MarkdownElementAppender;
 public class UnorderedListItemBuilder<P> extends ListItemBuilder<P, UnorderedListItemBuilder<P>, UnorderedListItem> {
 
 	public UnorderedListItemBuilder(UnorderedListItem listItem,
-			MarkdownElementAppender<P, UnorderedListItem> parentAppender) {
+			MarkdownSerializableAppender<P, UnorderedListItem> parentAppender) {
 		super(listItem, parentAppender);
 	}
 

@@ -1,7 +1,7 @@
 package de.relimit.commons.markdown.blockelement.list;
 
 import de.relimit.commons.markdown.blockelement.BlockElementNodeBuilder;
-import de.relimit.commons.markdown.builder.MarkdownElementAppender;
+import de.relimit.commons.markdown.builder.MarkdownSerializableAppender;
 
 /**
  * @param <P>
@@ -19,7 +19,7 @@ public abstract class ListItemBuilder<P, B extends ListItemBuilder<P, B, BE>, BE
 		super(listItem);
 	}
 
-	public ListItemBuilder(BE listItem, MarkdownElementAppender<P, BE> parentAppender) {
+	public ListItemBuilder(BE listItem, MarkdownSerializableAppender<P, BE> parentAppender) {
 		super(listItem, parentAppender);
 	}
 

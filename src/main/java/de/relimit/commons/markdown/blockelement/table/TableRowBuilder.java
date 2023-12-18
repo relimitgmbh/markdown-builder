@@ -1,6 +1,6 @@
 package de.relimit.commons.markdown.blockelement.table;
 
-import de.relimit.commons.markdown.builder.MarkdownElementAppender;
+import de.relimit.commons.markdown.builder.MarkdownSerializableAppender;
 import de.relimit.commons.markdown.builder.NodeBuilder;
 import de.relimit.commons.markdown.span.SpanElementNodeBuilder;
 
@@ -11,7 +11,7 @@ import de.relimit.commons.markdown.span.SpanElementNodeBuilder;
  */
 public class TableRowBuilder<P> extends NodeBuilder<P, TableRowBuilder<P>, TableRow, TableCell> {
 
-	public TableRowBuilder(MarkdownElementAppender<P, TableRow> parent) {
+	public TableRowBuilder(MarkdownSerializableAppender<P, TableRow> parent) {
 		super(new TableRow(), parent);
 	}
 
