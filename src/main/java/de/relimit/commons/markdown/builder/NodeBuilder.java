@@ -2,7 +2,9 @@ package de.relimit.commons.markdown.builder;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 import de.relimit.commons.markdown.MarkdownSerializable;
 import de.relimit.commons.markdown.Node;
@@ -38,30 +40,31 @@ public abstract class NodeBuilder<P, B extends NodeBuilder<P, B, BE, NE>, BE ext
 		super(element);
 	}
 
-	@Override
-	public B append(NE element) {
-		getElement().append(element);
+	protected NE gateKeep(NE element) {
+		return element;
+	}
+
+	public final B append(Stream<NE> elements) {
+		elements = elements.map(this::gateKeep).filter(Objects::nonNull);
+		getElement().append(elements);
 		return getBuilder();
 	}
 
-	/*
-	 * The append methods that take more than one element invoke the
-	 * single-element append method inherited from MarkdownElementAppender in a
-	 * loop. This may not be the cheapest or most elegant approach. But child
-	 * classes may have the need to augment every element added. By always
-	 * invoking the single-element append method we make sure the logic applies
-	 * to all elements added. For the same reason the following methods are all
-	 * final.
-	 */
+	@Override
+	public final B append(NE element) {
+		return append(Stream.of(element));
+	}
 
 	public final B append(NE... elements) {
-		Arrays.stream(elements).forEach(this::append);
-		return getBuilder();
+		return append(Arrays.stream(elements));
 	}
 
 	public final B append(Collection<NE> elements) {
-		elements.forEach(this::append);
-		return getBuilder();
+		return append(elements.stream());
+	}
+
+	public final B appendAll(BE node) {
+		return append(node.getElements().stream());
 	}
 
 	/**
@@ -80,8 +83,7 @@ public abstract class NodeBuilder<P, B extends NodeBuilder<P, B, BE, NE>, BE ext
 	 * @return The builder for method chaining
 	 */
 	public final <T> B append(Function<T, NE> converter, T... elements) {
-		Arrays.stream(elements).map(e -> converter.apply(e)).forEach(this::append);
-		return getBuilder();
+		return append(Arrays.stream(elements).map(e -> converter.apply(e)));
 	}
 
 	/**
@@ -100,8 +102,7 @@ public abstract class NodeBuilder<P, B extends NodeBuilder<P, B, BE, NE>, BE ext
 	 * @return The builder for method chaining
 	 */
 	public final <T> B append(Function<T, NE> converter, Collection<T> elements) {
-		elements.stream().map(e -> converter.apply(e)).forEach(this::append);
-		return getBuilder();
+		return append(elements.stream().map(e -> converter.apply(e)));
 	}
 
 }

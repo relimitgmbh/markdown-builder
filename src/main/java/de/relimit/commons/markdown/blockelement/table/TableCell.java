@@ -14,20 +14,16 @@ public class TableCell extends SpanElementNode {
 	public TableCell() {
 	}
 
-	public TableCell(Object stringifyable) {
-		super(stringifyable);
+	public TableCell(SpanElement element) {
+		super(element);
 	}
 
 	public TableCell(SpanElement... elements) {
 		super(elements);
 	}
 
-	public TableCell(SpanElement element) {
-		super(element);
-	}
-
-	public TableCell(String text) {
-		super(text);
+	public TableCell(Object... stringifyable) {
+		super(stringifyable);
 	}
 
 	@Override

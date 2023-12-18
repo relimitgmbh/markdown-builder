@@ -39,10 +39,10 @@ public abstract class ListBuilder<P, B extends ListBuilder<P, B, BE, B2, NE>, BE
 	}
 
 	@Override
-	public B append(NE element) {
+	protected NE gateKeep(NE element) {
 		final int indentationLevel = getElement().getIndentationLevel();
 		element.setIndentationLevel(indentationLevel + 1);
-		return super.append(element);
+		return element;
 	}
 
 	public B item(Object stringifyable) {

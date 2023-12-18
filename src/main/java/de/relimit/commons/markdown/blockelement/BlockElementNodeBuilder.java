@@ -5,7 +5,6 @@ import static de.relimit.commons.markdown.util.MD.row;
 import java.util.Collection;
 import java.util.function.Function;
 
-import de.relimit.commons.markdown.Node;
 import de.relimit.commons.markdown.blockelement.codeblock.CodeBlock;
 import de.relimit.commons.markdown.blockelement.codeblock.CodeBlockLanguage;
 import de.relimit.commons.markdown.blockelement.heading.Heading;
@@ -72,17 +71,13 @@ public abstract class BlockElementNodeBuilder<P, B extends BlockElementNodeBuild
 	}
 
 	@Override
-	public B append(BlockElement element) {
+	protected BlockElement gateKeep(BlockElement element) {
 		if (quoted) {
-			return super.append(new Blockquotes(element));
+			return new Blockquotes(element);
 		} else {
-			return super.append(element);
+			return element;
 		}
-	}
 
-	public B appendAll(Node<BlockElement> node) {
-		node.getElements().forEach(this::append);
-		return getBuilder();
 	}
 
 	// Lists

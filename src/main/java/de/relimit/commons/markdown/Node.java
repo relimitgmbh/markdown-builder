@@ -2,7 +2,9 @@ package de.relimit.commons.markdown;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 import de.relimit.commons.markdown.blockelement.table.Table;
 import de.relimit.commons.markdown.blockelement.table.TableRow;
@@ -26,19 +28,25 @@ public abstract class Node<T extends MarkdownSerializable> extends MarkdownEleme
 
 	protected List<T> elements = new ArrayList<>();
 
-	public void append(T element) {
-		elements.add(element);
+	protected T gateKeep(T element) {
+		return element;
+	}
+
+	public final void append(Stream<T> elementStream) {
+		elementStream.filter(e -> gateKeep(e) != null).forEach(elements::add);
 		invalidateSerialized();
 	}
 
-	public void append(T... elements) {
-		Arrays.stream(elements).forEach(this::append);
-		invalidateSerialized();
+	public final void append(Collection<T> elements) {
+		append(elements.stream());
 	}
 
-	public void appendAll(Node<T> node) {
-		elements.addAll(node.elements);
-		invalidateSerialized();
+	public final void append(T... elements) {
+		append(Arrays.stream(elements));
+	}
+
+	public final void appendAll(Node<T> node) {
+		append(node.getElements().stream());
 	}
 
 	public List<T> getElements() {

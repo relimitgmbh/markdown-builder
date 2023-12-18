@@ -26,6 +26,16 @@ public class MD {
 		// utility class
 	}
 
+	// Paragraph and text
+
+	public static Paragraph paragraph(SpanElement... element) {
+		return startParagraph().append(element).build();
+	}
+
+	public static Paragraph paragraph(Object... stringifyable) {
+		return startParagraph().plainText(stringifyable).build();
+	}
+
 	public static SpanElementNodeBuilder<?, Paragraph> startParagraph() {
 		return new SpanElementNodeBuilder<>(new Paragraph());
 	}

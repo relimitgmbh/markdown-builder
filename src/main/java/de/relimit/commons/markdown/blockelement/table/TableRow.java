@@ -42,10 +42,11 @@ public class TableRow extends Node<TableCell> {
 	}
 
 	@Override
-	public void append(TableCell element) {
+	protected TableCell gateKeep(TableCell element) {
 		if (roomForMore()) {
-			super.append(element);
+			return element;
 		}
+		return null;
 	}
 
 	public Optional<Table> getParent() {

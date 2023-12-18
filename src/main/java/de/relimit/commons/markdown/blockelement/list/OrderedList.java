@@ -7,9 +7,9 @@ public class OrderedList extends AbstractList<OrderedListItem> {
 	}
 
 	@Override
-	public void append(OrderedListItem element) {
-		super.append(element);
+	protected OrderedListItem gateKeep(OrderedListItem element) {
 		element.setOrdinal(elements.size());
+		return element;
 	}
 
 }

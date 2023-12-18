@@ -32,11 +32,20 @@ public class Emphasis extends SpanElementNode implements SpanElement {
 
 	private Fences fences;
 
-	public Emphasis(EmphasisType type, SpanElement... elements) {
-		super(elements);
+	private static Fences fromType(EmphasisType type) {
 		Args.notNull(type, "Type");
 		final String marker = Args.notNull(type.getMarker(), "Marker");
-		this.fences = Fences.between(marker, marker);
+		return Fences.between(marker, marker);
+	}
+
+	public Emphasis(EmphasisType type, SpanElement... elements) {
+		super(elements);
+		this.fences = fromType(type);
+	}
+
+	public Emphasis(EmphasisType type, Object... elements) {
+		super(elements);
+		this.fences = fromType(type);
 	}
 
 	@Override

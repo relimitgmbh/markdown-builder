@@ -1,12 +1,17 @@
 package de.relimit.commons.markdown.span;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 import de.relimit.commons.markdown.Fences;
+import de.relimit.commons.markdown.MarkdownElement;
+import de.relimit.commons.markdown.MarkdownSerializable;
 import de.relimit.commons.markdown.MarkdownSerializationException;
 import de.relimit.commons.markdown.Node;
 import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
+import de.relimit.commons.markdown.converter.Stringifier;
 import de.relimit.commons.markdown.span.textual.PlainText;
 import de.relimit.commons.markdown.util.Strings;
 
@@ -17,25 +22,36 @@ public abstract class SpanElementNode extends Node<SpanElement> {
 	public SpanElementNode() {
 	}
 
-	/**
-	 * For convenience.
-	 * 
-	 * @param element
-	 */
 	public SpanElementNode(SpanElement... elements) {
 		append(elements);
 	}
 
-	public SpanElementNode(SpanElement element) {
-		append(element);
-	}
-
-	public SpanElementNode(Object stringifyable) {
-		this(new PlainText(stringifyable));
-	}
-
-	public SpanElementNode(String text) {
-		this((Object) text);
+	/**
+	 * Method that provides some syntactic sugar for easy object building. It
+	 * accepts a varargs array of {@link Object} and converts every element in
+	 * the array to a {@link SpanElement}. Every {@link SpanElement} is accepted
+	 * as-is without conversion. Other {@link MarkdownElement}s will cause an
+	 * {@link IllegalArgumentException}. Any other {@link Object} will be
+	 * wrapped in a {@link PlainText} and consequently be serialized according
+	 * to the {@link Stringifier} set via {@link MarkdownSerializationOptions}.
+	 * ({@link #toString()} by default)
+	 * 
+	 * @param elements
+	 */
+	public SpanElementNode(Object... elements) {
+		final Stream<SpanElement> spanElements = Arrays.stream(elements).map(e -> {
+			if (e instanceof MarkdownSerializable) {
+				if (e instanceof SpanElement) {
+					return (SpanElement) e;
+				}
+				throw new IllegalArgumentException(
+						"Cannot add " + MarkdownElement.class.getSimpleName() + " elements of type "
+								+ e.getClass().getSimpleName() + ". Only " + MarkdownElement.class.getSimpleName()
+								+ "s of type " + SpanElement.class.getSimpleName() + " are allowed.");
+			}
+			return (SpanElement) new PlainText(e);
+		});
+		append(spanElements);
 	}
 
 	abstract protected Fences getFences();

@@ -206,9 +206,9 @@ public class Table extends Node<TableRow> implements BlockElement {
 	}
 
 	@Override
-	public void append(TableRow element) {
+	protected TableRow gateKeep(TableRow element) {
 		element.setParent(this);
-		super.append(element);
+		return element;
 	}
 
 	Optional<TableRow> getHeaderRow() {

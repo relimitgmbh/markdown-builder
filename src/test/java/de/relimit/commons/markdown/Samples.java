@@ -58,8 +58,8 @@ public class Samples {
 				.emphasis(Type.BOLD, "This is bold.").newLine() //
 				.emphasis(Type.STRIKETHROUGH, "This is strikethrough.").newLine() //
 				.emphasis(Type.ITALIC, "This is italic.").newLine() //
-				.startEmphasis(Type.BOLD).plainText("Span elements can be nested. This is bold text ")
-				.emphasis(Type.ITALIC, "followed by bold and italic text").plainText(" and finally bold text again.")
+				.plainText("Span elements can be nested. ").startEmphasis(Type.ITALIC).plainText("This is italic text ")
+				.emphasis(Type.BOLD, "followed by italic and bold text").plainText(" and finally italic text again.")
 				.end() // end emphasis
 				.build(); // end paragraph
 	}
