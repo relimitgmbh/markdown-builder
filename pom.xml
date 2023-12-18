@@ -10,9 +10,9 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.13.2</version>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>5.10.1</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -31,5 +31,5 @@
 			<name>Snapshot</name>
 			<url>https://nexus.relimit.io/repository/maven-snapshots/</url>
 		</snapshotRepository>
-	</distributionManagement>	
+	</distributionManagement>
 </project>
