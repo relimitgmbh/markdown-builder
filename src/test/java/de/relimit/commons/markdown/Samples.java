@@ -10,6 +10,7 @@ import de.relimit.commons.markdown.blockelement.list.TaskListBuilder;
 import de.relimit.commons.markdown.blockelement.list.UnorderedList;
 import de.relimit.commons.markdown.blockelement.list.UnorderedListBuilder;
 import de.relimit.commons.markdown.blockelement.paragraph.Paragraph;
+import de.relimit.commons.markdown.blockelement.rule.HorizontalRule.RuleCharacter;
 import de.relimit.commons.markdown.blockelement.table.Table;
 import de.relimit.commons.markdown.blockelement.table.TableBuilder;
 import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
@@ -65,7 +66,7 @@ public class Samples {
 				.build(); // end paragraph
 	}
 
-	@Sample(order = 20, key = "headers")
+	@Sample(order = 30, key = "headers")
 	public Document headers() {
 		return Document.start() //
 				.heading(1, "This is a level 1 header") //
@@ -75,6 +76,17 @@ public class Samples {
 				.startHeading(3).plainText("This is the third header") //
 				.end() //
 				.paragraph("This is a paragraph to the third header") //
+				.build();
+	}
+
+	@Sample(order = 40, key = "horizontalRules")
+	public BlockElement horizontalRules() {
+		return Document.start() //
+				.paragraph("This is a paragraph followed by a horizontal rule") //
+				.horizontalRule() //
+				.paragraph("Asterisk or Underscore can be chosen as well:") //
+				.horizontalRule(RuleCharacter.ASTERISK) //
+				.horizontalRule(RuleCharacter.UNDERSCORE) //
 				.build();
 	}
 
