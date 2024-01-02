@@ -65,6 +65,19 @@ public class Samples {
 				.build(); // end paragraph
 	}
 
+	@Sample(order = 20, key = "headers")
+	public Document headers() {
+		return Document.start() //
+				.heading(1, "This is a level 1 header") //
+				.paragraph("This is a paragraph of the first Header")//
+				.startHeading(2).plainText("This is a level 2 header") //
+				.end() //
+				.startHeading(3).plainText("This is the third header") //
+				.end() //
+				.paragraph("This is a paragraph to the third header") //
+				.build();
+	}
+
 	@Sample(order = 90, key = "lists")
 	public UnorderedList lists() {
 		return new UnorderedListBuilder<Void>() //

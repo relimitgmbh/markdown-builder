@@ -18,7 +18,8 @@ public Document paragraphs() {
 	return Document.start()
 			.paragraph("This is a paragraph containing plain text. Line breaks \n"
 					+ "will lead to new lines \nwithin the paragraph.") //
-			.paragraph("This is the second paragraph. It is separated from the previous one " + "by a blank line.") //
+			.paragraph("This is the second paragraph. It is separated from " //
+					+ "the previous one by a blank line.") //
 			.build();
 }
 ```
@@ -75,36 +76,54 @@ Span elements can be nested. _This is italic text **followed by italic and bold 
 _This is italic._  
 Span elements can be nested. _This is italic text **followed by italic and bold text** and finally italic text again._
 
-Task Lists
-----------
-
-Note: This is a non-standard element and might not be supported by all markdown renderers.
+Headers
+-------
 
 ### Java Code
 
 ```java
-public BlockElement taskLists() {
-	return new TaskListBuilder<Void>() //
-			.item("This task is completed.", true) //
-			.startItem().startParagraph().plainText("This task is pending but it has nice ")
-			.emphasis(Type.BOLD, "bold formatted text").plainText(" going for it.") //
-			.end() // end paragraph
-			.end() // end task item
-			.build(); // end list
+public Document headers() {
+	return Document.start() //
+			.heading(1, "This is a level 1 header") //
+			.paragraph("This is a Paragraph of the first Header")//
+			.startHeading(2).plainText("This is a level 2 header") //
+			.end() //
+			.startHeading(3).plainText("This is the third header") //
+			.end() //
+			.paragraph("This is the paragraph to the third header") //
+			.build();
 }
 ```
 
 ### Markdown
 
 ```markdown
-- [x] This task is completed.
-- [ ] This task is pending but it has nice **bold formatted text** going for it.
+This is a level 1 header
+========================
+
+This is a Paragraph of the first Header
+
+This is a level 2 header
+------------------------
+
+### This is the third header
+
+This is the paragraph to the third header
 ```
 
 ### Rendered
 
-- [x] This task is completed.
-- [ ] This task is pending but it has nice **bold formatted text** going for it.
+This is a level 1 header
+========================
+
+This is a Paragraph of the first Header
+
+This is a level 2 header
+------------------------
+
+### This is the third header
+
+This is the paragraph to the third header
 
 Lists
 -----
@@ -155,6 +174,37 @@ public UnorderedList lists() {
     ```java
     // This is a code block of the third item.
     ```
+
+Task Lists
+----------
+
+Note: This is a non-standard element and might not be supported by all markdown renderers.
+
+### Java Code
+
+```java
+public BlockElement taskLists() {
+	return new TaskListBuilder<Void>() //
+			.item("This task is completed.", true) //
+			.startItem().startParagraph().plainText("This task is pending but it has nice ")
+			.emphasis(Type.BOLD, "bold formatted text").plainText(" going for it.") //
+			.end() // end paragraph
+			.end() // end task item
+			.build(); // end list
+}
+```
+
+### Markdown
+
+```markdown
+- [x] This task is completed.
+- [ ] This task is pending but it has nice **bold formatted text** going for it.
+```
+
+### Rendered
+
+- [x] This task is completed.
+- [ ] This task is pending but it has nice **bold formatted text** going for it.
 
 Escaping
 --------
