@@ -48,7 +48,8 @@ public class Samples {
 		return Document.start()
 				.paragraph("This is a paragraph containing plain text. Line breaks \n"
 						+ "will lead to new lines \nwithin the paragraph.") //
-				.paragraph("This is the second paragraph. It is separated from the previous one " + "by a blank line.") //
+				.paragraph("This is the second paragraph. It is separated from " //
+						+ "the previous one by a blank line.") //
 				.build();
 	}
 
@@ -64,18 +65,7 @@ public class Samples {
 				.build(); // end paragraph
 	}
 
-	@Sample(order = 30, key = "taskLists")
-	public BlockElement taskLists() {
-		return new TaskListBuilder<Void>() //
-				.item("This task is completed.", true) //
-				.startItem().startParagraph().plainText("This task is pending but it has nice ")
-				.emphasis(Type.BOLD, "bold formatted text").plainText(" going for it.") //
-				.end() // end paragraph
-				.end() // end task item
-				.build(); // end list
-	}
-
-	@Sample(order = 40, key = "lists")
+	@Sample(order = 90, key = "lists")
 	public UnorderedList lists() {
 		return new UnorderedListBuilder<Void>() //
 				.item("First item.") //
@@ -87,7 +77,18 @@ public class Samples {
 				.build(); // end list
 	}
 
-	@Sample(order = 50, key = "escaping", escape = true)
+	@Sample(order = 110, key = "taskLists")
+	public BlockElement taskLists() {
+		return new TaskListBuilder<Void>() //
+				.item("This task is completed.", true) //
+				.startItem().startParagraph().plainText("This task is pending but it has nice ")
+				.emphasis(Type.BOLD, "bold formatted text").plainText(" going for it.") //
+				.end() // end paragraph
+				.end() // end task item
+				.build(); // end list
+	}
+
+	@Sample(order = 120, key = "escaping", escape = true)
 	public Document escaping() {
 		return Document.start() //
 				.startParagraph() //
@@ -100,7 +101,7 @@ public class Samples {
 				.build();
 	}
 
-	@Sample(order = 50, key = "customRenderer")
+	@Sample(order = 150, key = "customRenderer")
 	public Table customRenderer() throws MarkdownSerializationException {
 		final MarkdownSerializationOptions options = new OptionsBuilder() //
 				.stringifier(Boolean.class, (e, o) -> o ? "&#128994;" : "&#128308;") //
