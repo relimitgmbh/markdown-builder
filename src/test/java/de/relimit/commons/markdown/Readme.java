@@ -162,9 +162,9 @@ public class Readme {
 				// Only methods that are marked as Sample methods
 				.filter(m -> m.getAnnotation(Sample.class) != null)
 				/**
-				 * By definition "sample" methods have no paramers and return a
-				 * MarkdownSerilizable Skip all methods that do not meet those
-				 * criteria.
+				 * By definition "sample" methods have no parameters and return
+				 * a MarkdownSerilizable. Skip all methods that do not meet
+				 * those criteria.
 				 */
 				.filter(m -> {
 					// Only no-arg methods
