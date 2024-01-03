@@ -5,7 +5,8 @@ import static de.relimit.commons.markdown.util.MD.italic;
 import static de.relimit.commons.markdown.util.MD.row;
 
 import de.relimit.commons.markdown.blockelement.BlockElement;
-import de.relimit.commons.markdown.blockelement.codeblock.Language;
+import de.relimit.commons.markdown.blockelement.list.OrderedList;
+import de.relimit.commons.markdown.blockelement.list.OrderedListBuilder;
 import de.relimit.commons.markdown.blockelement.list.TaskListBuilder;
 import de.relimit.commons.markdown.blockelement.list.UnorderedList;
 import de.relimit.commons.markdown.blockelement.list.UnorderedListBuilder;
@@ -126,16 +127,28 @@ public class Samples {
 				.build();
 	}
 
-	@Sample(order = 90, key = "lists")
-	public UnorderedList lists() {
+	@Sample(order = 90, key = "unorderedLists")
+	public UnorderedList unorderedLists() {
 		return new UnorderedListBuilder<Void>() //
-				.item("First item.") //
-				.item("Second item.") //
-				.startItem().paragraph("Third item.").paragraph("Another paragraph of the third item.").quote()
-				.paragraph("This is a quoted paragraph of the third item.").unquote()
-				.codeBlock("// This is a code block of the third item.", Language.JAVA) //
-				.end() // end list item
+				.item("One item of the unordered list.") //
+				.item("Another item.") //
+				.startItem().startParagraph().plainText("Third item ") //
+				.emphasis(Type.BOLD, "with bold Text").end() //
+				.quote().paragraph("A quoted paragraph in the third item.") //
+				.unquote().end() // end list item
 				.build(); // end list
+	}
+
+	@Sample(order = 100, key = "orderedLists")
+	public OrderedList orderedLists() {
+		return new OrderedListBuilder<Void>(new OrderedList(1), null) //
+				.item("Item 0") //
+				.startItem().startParagraph().plainText("Item 1 ") //
+				.emphasis(Type.STRIKETHROUGH, "containing text with strikethrough") //
+				.end() // end paragraph
+				.end() // end item
+				.item("Item 2") //
+				.build();
 	}
 
 	@Sample(order = 110, key = "taskLists")

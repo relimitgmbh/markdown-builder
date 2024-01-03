@@ -285,22 +285,22 @@ public UnorderedList codeblocks() {
     ```
 *   An item following the code block
 
-Lists
------
+Unordered Lists
+---------------
 
 The first block element appended to a list item must always be a paragraph. Meaning text only. But further block elements can be added and they can be of any type. They will align nicely with the list items indent.
 
 ### Java Code
 
 ```java
-public UnorderedList lists() {
+public UnorderedList unorderedLists() {
 	return new UnorderedListBuilder<Void>() //
-			.item("First item.") //
-			.item("Second item.") //
-			.startItem().paragraph("Third item.").paragraph("Another paragraph of the third item.").quote()
-			.paragraph("This is a quoted paragraph of the third item.").unquote()
-			.codeBlock("// This is a code block of the third item.", Language.JAVA) //
-			.end() // end list item
+			.item("One item of the unordered list.") //
+			.item("Another item.") //
+			.startItem().startParagraph().plainText("Third item ") //
+			.emphasis(Type.BOLD, "with bold Text").end() //
+			.quote().paragraph("A quoted paragraph in the third item.") //
+			.unquote().end() // end list item
 			.build(); // end list
 }
 ```
@@ -308,32 +308,52 @@ public UnorderedList lists() {
 ### Markdown
 
 ```markdown
-*   First item.
-*   Second item.
-*   Third item.
+*   One item of the unordered list.
+*   Another item.
+*   Third item **with bold Text**
     
-    Another paragraph of the third item.
-    
-    > This is a quoted paragraph of the third item.
-    
-    ```java
-    // This is a code block of the third item.
-    ```
+    > A quoted paragraph in the third item.
 ```
 
 ### Rendered
 
-*   First item.
-*   Second item.
-*   Third item.
+*   One item of the unordered list.
+*   Another item.
+*   Third item **with bold Text**
     
-    Another paragraph of the third item.
-    
-    > This is a quoted paragraph of the third item.
-    
-    ```java
-    // This is a code block of the third item.
-    ```
+    > A quoted paragraph in the third item.
+
+Ordered Lists
+-------------
+
+### Java Code
+
+```java
+public OrderedList orderedLists() {
+	return new OrderedListBuilder<Void>(new OrderedList(1), null) //
+			.item("Item 0") //
+			.startItem().startParagraph().plainText("Item 1 ") //
+			.emphasis(Type.STRIKETHROUGH, "containing text with strikethrough") //
+			.end() // end paragraph
+			.end() // end item
+			.item("Item 2") //
+			.build();
+}
+```
+
+### Markdown
+
+```markdown
+0.  Item 0
+1.  Item 1 ~~containing text with strikethrough~~
+2.  Item 2
+```
+
+### Rendered
+
+0.  Item 0
+1.  Item 1 ~~containing text with strikethrough~~
+2.  Item 2
 
 Task Lists
 ----------
