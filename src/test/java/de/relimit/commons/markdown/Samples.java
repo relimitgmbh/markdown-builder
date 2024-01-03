@@ -104,12 +104,25 @@ public class Samples {
 	}
 
 	@Sample(order = 60, key = "blockquotes")
-	public Document blockQuotes() {
+	public Document blockquotes() {
 		return Document.start() //
 				.paragraph("This is a normal paragraph followed by a blockquote.") //
 				.quote().paragraph("This is a quoted paragraph.") //
 				.paragraph("It is followed by another quoted paragraph.") //
 				.unquote() //
+				.build();
+	}
+
+	@Sample(order = 70, key = "codeblocks")
+	public UnorderedList codeblocks() {
+		return new UnorderedListBuilder<Void>()//
+				.item("The following list item will show a code block in Java Code") //
+				.startItem().paragraph("Item containing code block:").codeBlock("// Java Code\n" //
+						+ "public static void main(String[] args) {\n" //
+						+ "System.out.println(\"Hello World!\"\n" //
+						+ "}")
+				.end() //
+				.item("An item following the code block") //
 				.build();
 	}
 

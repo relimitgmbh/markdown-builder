@@ -208,7 +208,7 @@ Blockquotes
 ### Java Code
 
 ```java
-public Document blockQuotes() {
+public Document blockquotes() {
 	return Document.start() //
 			.paragraph("This is a normal paragraph followed by a blockquote.") //
 			.quote().paragraph("This is a quoted paragraph.") //
@@ -235,6 +235,55 @@ This is a normal paragraph followed by a blockquote.
 > This is a quoted paragraph.
 > 
 > It is followed by another quoted paragraph.
+
+Code Blocks
+-----------
+
+Code blocks are not easy to visualize in this README.md file, as each example is already printed in three different code blocks (see each example of `Java Code`, `Markdown` and `Rendered`)
+
+### Java Code
+
+```java
+public UnorderedList codeblocks() {
+	return new UnorderedListBuilder<Void>()//
+			.item("The following list item will show a code block in Java Code") //
+			.startItem().paragraph("Item containing code block:").codeBlock("// Java Code\n" //
+					+ "public static void main(String[] args) {\n" //
+					+ "System.out.println(\"Hello World!\"\n" //
+					+ "}")
+			.end() //
+			.item("An item following the code block") //
+			.build();
+}
+```
+
+### Markdown
+
+```markdown
+*   The following list item will show a code block in Java Code
+*   Item containing code block:
+    
+    ```
+    // Java Code
+    public static void main(String[] args) {
+    System.out.println("Hello World!"
+    }
+    ```
+*   An item following the code block
+```
+
+### Rendered
+
+*   The following list item will show a code block in Java Code
+*   Item containing code block:
+    
+    ```
+    // Java Code
+    public static void main(String[] args) {
+    System.out.println("Hello World!"
+    }
+    ```
+*   An item following the code block
 
 Lists
 -----
