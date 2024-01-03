@@ -103,6 +103,16 @@ public class Samples {
 				.build();
 	}
 
+	@Sample(order = 60, key = "blockquotes")
+	public Document blockQuotes() {
+		return Document.start() //
+				.paragraph("This is a normal paragraph followed by a blockquote.") //
+				.quote().paragraph("This is a quoted paragraph.") //
+				.paragraph("It is followed by another quoted paragraph.") //
+				.unquote() //
+				.build();
+	}
+
 	@Sample(order = 90, key = "lists")
 	public UnorderedList lists() {
 		return new UnorderedListBuilder<Void>() //

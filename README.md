@@ -202,6 +202,40 @@ public Table tables() {
 |        alignment |        of        | columns          |
 |            right |      center      | left             |
 
+Blockquotes
+-----------
+
+### Java Code
+
+```java
+public Document blockQuotes() {
+	return Document.start() //
+			.paragraph("This is a normal paragraph followed by a blockquote.") //
+			.quote().paragraph("This is a quoted paragraph.") //
+			.paragraph("It is followed by another quoted paragraph.") //
+			.unquote() //
+			.build();
+}
+```
+
+### Markdown
+
+```markdown
+This is a normal paragraph followed by a blockquote.
+
+> This is a quoted paragraph.
+> 
+> It is followed by another quoted paragraph.
+```
+
+### Rendered
+
+This is a normal paragraph followed by a blockquote.
+
+> This is a quoted paragraph.
+> 
+> It is followed by another quoted paragraph.
+
 Lists
 -----
 
