@@ -127,6 +127,16 @@ public class Samples {
 				.build();
 	}
 
+	@Sample(order = 80, key = "code")
+	public Document code() {
+		return Document.start() //
+				.startParagraph().plainText("This is a simple text containing a code snippet from Java.\n" //
+						+ "The snippet is ")
+				.code("System.out.println(\"Hello\")") //
+				.end() //
+				.build();
+	}
+
 	@Sample(order = 90, key = "unorderedLists")
 	public UnorderedList unorderedLists() {
 		return new UnorderedListBuilder<Void>() //

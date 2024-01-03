@@ -285,6 +285,34 @@ public UnorderedList codeblocks() {
     ```
 *   An item following the code block
 
+Code
+----
+
+### Java Code
+
+```java
+public Document code() {
+	return Document.start() //
+			.startParagraph().plainText("This is a simple text containing a code snippet from Java.\n" //
+					+ "The snippet is ")
+			.code("System.out.println(\"Hello\")") //
+			.end() //
+			.build();
+}
+```
+
+### Markdown
+
+```markdown
+This is a simple text containing a code snippet from Java.  
+The snippet is ``` System.out.println("Hello") ```
+```
+
+### Rendered
+
+This is a simple text containing a code snippet from Java.  
+The snippet is ``` System.out.println("Hello") ```
+
 Unordered Lists
 ---------------
 
