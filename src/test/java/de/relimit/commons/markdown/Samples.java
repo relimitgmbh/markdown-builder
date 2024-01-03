@@ -11,6 +11,7 @@ import de.relimit.commons.markdown.blockelement.list.UnorderedList;
 import de.relimit.commons.markdown.blockelement.list.UnorderedListBuilder;
 import de.relimit.commons.markdown.blockelement.paragraph.Paragraph;
 import de.relimit.commons.markdown.blockelement.rule.HorizontalRule.RuleCharacter;
+import de.relimit.commons.markdown.blockelement.table.Alignment;
 import de.relimit.commons.markdown.blockelement.table.Table;
 import de.relimit.commons.markdown.blockelement.table.TableBuilder;
 import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
@@ -87,6 +88,18 @@ public class Samples {
 				.paragraph("Asterisk or Underscore can be chosen as well:") //
 				.horizontalRule(RuleCharacter.ASTERISK) //
 				.horizontalRule(RuleCharacter.UNDERSCORE) //
+				.build();
+	}
+
+	@Sample(order = 50, key = "tables")
+	public Table tables() {
+		return new TableBuilder<Void>() //
+				.align(Alignment.RIGHT, Alignment.CENTER, Alignment.LEFT) // align each column
+				.startRow().startCell().plainText("Heading column 1").end() //
+				.startCell().plainText("Heading column 2").end() //
+				.startCell().plainText("Heading column 3").end().end() // 
+				.append(row("alignment", "of", "columns")) // MD utility class methods
+				.append(row("right", "center", "left")) //
 				.build();
 	}
 

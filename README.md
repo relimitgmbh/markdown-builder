@@ -85,12 +85,12 @@ Headers
 public Document headers() {
 	return Document.start() //
 			.heading(1, "This is a level 1 header") //
-			.paragraph("This is a Paragraph of the first Header")//
+			.paragraph("This is a paragraph of the first Header")//
 			.startHeading(2).plainText("This is a level 2 header") //
 			.end() //
 			.startHeading(3).plainText("This is the third header") //
 			.end() //
-			.paragraph("This is the paragraph to the third header") //
+			.paragraph("This is a paragraph to the third header") //
 			.build();
 }
 ```
@@ -101,14 +101,14 @@ public Document headers() {
 This is a level 1 header
 ========================
 
-This is a Paragraph of the first Header
+This is a paragraph of the first Header
 
 This is a level 2 header
 ------------------------
 
 ### This is the third header
 
-This is the paragraph to the third header
+This is a paragraph to the third header
 ```
 
 ### Rendered
@@ -116,14 +116,91 @@ This is the paragraph to the third header
 This is a level 1 header
 ========================
 
-This is a Paragraph of the first Header
+This is a paragraph of the first Header
 
 This is a level 2 header
 ------------------------
 
 ### This is the third header
 
-This is the paragraph to the third header
+This is a paragraph to the third header
+
+Horizontal Rules
+----------------
+
+### Java Code
+
+```java
+public BlockElement horizontalRules() {
+	return Document.start() //
+			.paragraph("This is a paragraph followed by a horizontal rule") //
+			.horizontalRule() //
+			.paragraph("Asterisk or Underscore can be chosen as well:") //
+			.horizontalRule(RuleCharacter.ASTERISK) //
+			.horizontalRule(RuleCharacter.UNDERSCORE) //
+			.build();
+}
+```
+
+### Markdown
+
+```markdown
+This is a paragraph followed by a horizontal rule
+
+---
+
+Asterisk or Underscore can be chosen as well:
+
+***
+
+___
+```
+
+### Rendered
+
+This is a paragraph followed by a horizontal rule
+
+---
+
+Asterisk or Underscore can be chosen as well:
+
+***
+
+___
+
+Tables
+------
+
+### Java Code
+
+```java
+public Table tables() {
+	return new TableBuilder<Void>() //
+			.align(Alignment.RIGHT, Alignment.CENTER, Alignment.LEFT) // align each column
+			.startRow().startCell().plainText("Heading column 1").end() //
+			.startCell().plainText("Heading column 2").end() //
+			.startCell().plainText("Heading column 3").end().end() // 
+			.append(row("alignment", "of", "columns")) // MD utility class methods
+			.append(row("right", "center", "left")) //
+			.build();
+}
+```
+
+### Markdown
+
+```markdown
+| Heading column 1 | Heading column 2 | Heading column 3 |
+| ----------------:|:----------------:|:---------------- |
+|        alignment |        of        | columns          |
+|            right |      center      | left             |
+```
+
+### Rendered
+
+| Heading column 1 | Heading column 2 | Heading column 3 |
+| ----------------:|:----------------:|:---------------- |
+|        alignment |        of        | columns          |
+|            right |      center      | left             |
 
 Lists
 -----
