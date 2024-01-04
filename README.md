@@ -443,6 +443,32 @@ Markdown characters are automatically escaped by default\. This means that chara
 
 Markdown characters are automatically escaped by default. This means that characters like * or # are not rendered as emphasis. Paths like c:\temp\foo.bar are safe. The ``` Escaper ``` can be configured via ``` MarkdownSerializationOptions ```.
 
+Links
+-----
+
+### Java Code
+
+```java
+public Document links() {
+	return Document.start() //
+			.startParagraph().plainText("This is a paragraph containing inline type hyperlinks. The first link is ") //
+			.hyperlink("https://www.google.com").plainText(". Links can also contain a title attribute: ") //
+			.hyperlink("https://github.com", "GitHub") //
+			.end() //
+			.build();
+}
+```
+
+### Markdown
+
+```markdown
+This is a paragraph containing inline type hyperlinks. The first link is [https://www.google.com](https://www.google.com). Links can also contain a title attribute: [GitHub](https://github.com)
+```
+
+### Rendered
+
+This is a paragraph containing inline type hyperlinks. The first link is [https://www.google.com](https://www.google.com). Links can also contain a title attribute: [GitHub](https://github.com)
+
 Custom Renderer
 ---------------
 

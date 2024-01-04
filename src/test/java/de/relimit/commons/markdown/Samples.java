@@ -185,6 +185,16 @@ public class Samples {
 				.build();
 	}
 
+	@Sample(order = 130, key = "links")
+	public Document links() {
+		return Document.start() //
+				.startParagraph().plainText("This is a paragraph containing inline type hyperlinks. The first link is ") //
+				.hyperlink("https://www.google.com").plainText(". Links can also contain a title attribute: ") //
+				.hyperlink("https://github.com", "GitHub") //
+				.end() //
+				.build();
+	}
+
 	@Sample(order = 150, key = "customRenderer")
 	public Table customRenderer() throws MarkdownSerializationException {
 		final MarkdownSerializationOptions options = new OptionsBuilder() //
