@@ -5,6 +5,7 @@ import static de.relimit.commons.markdown.util.MD.italic;
 import static de.relimit.commons.markdown.util.MD.row;
 
 import de.relimit.commons.markdown.blockelement.BlockElement;
+import de.relimit.commons.markdown.blockelement.image.Image;
 import de.relimit.commons.markdown.blockelement.list.OrderedList;
 import de.relimit.commons.markdown.blockelement.list.OrderedListBuilder;
 import de.relimit.commons.markdown.blockelement.list.TaskListBuilder;
@@ -192,6 +193,13 @@ public class Samples {
 				.hyperlink("https://www.google.com").plainText(". Links can also contain a title attribute: ") //
 				.hyperlink("https://github.com", "GitHub") //
 				.end() //
+				.build();
+	}
+
+	@Sample(order = 140, key = "images")
+	public Document images() {
+		return Document.start() //
+				.append(new Image("src/main/resources/HelloWorld.jpg", "HelloWorld")) //
 				.build();
 	}
 

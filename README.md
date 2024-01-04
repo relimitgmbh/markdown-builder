@@ -469,6 +469,29 @@ This is a paragraph containing inline type hyperlinks. The first link is [https:
 
 This is a paragraph containing inline type hyperlinks. The first link is [https://www.google.com](https://www.google.com). Links can also contain a title attribute: [GitHub](https://github.com)
 
+Images
+------
+
+### Java Code
+
+```java
+public Document images() {
+	return Document.start() //
+			.append(new Image("src/main/resources/HelloWorld.jpg", "HelloWorld")) //
+			.build();
+}
+```
+
+### Markdown
+
+```markdown
+![HelloWorld](src/main/resources/HelloWorld.jpg)
+```
+
+### Rendered
+
+![HelloWorld](src/main/resources/HelloWorld.jpg)
+
 Custom Renderer
 ---------------
 
