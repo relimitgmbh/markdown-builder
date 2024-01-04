@@ -63,8 +63,10 @@ public class Samples {
 				.emphasis(Type.BOLD, "This is bold.").newLine() //
 				.emphasis(Type.STRIKETHROUGH, "This is strikethrough.").newLine() //
 				.emphasis(Type.ITALIC, "This is italic.").newLine() //
-				.plainText("Span elements can be nested. ").startEmphasis(Type.ITALIC).plainText("This is italic text ")
-				.emphasis(Type.BOLD, "followed by italic and bold text").plainText(" and finally italic text again.")
+				.plainText("Span elements can be nested. ").startEmphasis(Type.ITALIC) //
+				.plainText("This is italic text ") //
+				.emphasis(Type.BOLD, "followed by italic and bold text") //
+				.plainText(" and finally italic text again.") //
 				.end() // end emphasis
 				.build(); // end paragraph
 	}
@@ -119,7 +121,8 @@ public class Samples {
 	public UnorderedList codeblocks() {
 		return new UnorderedListBuilder<Void>()//
 				.item("The following list item will show a code block in Java Code") //
-				.startItem().paragraph("Item containing code block:").codeBlock("// Java Code\n" //
+				.startItem() //
+				.paragraph("Item containing code block:").codeBlock("// Java Code\n" //
 						+ "public static void main(String[] args) {\n" //
 						+ "System.out.println(\"Hello World!\"\n" //
 						+ "}")
@@ -152,7 +155,7 @@ public class Samples {
 
 	@Sample(order = 100, key = "orderedLists")
 	public OrderedList orderedLists() {
-		return new OrderedListBuilder<Void>(new OrderedList(1), null) //
+		return new OrderedListBuilder<Void>() //
 				.item("Item 0") //
 				.startItem().startParagraph().plainText("Item 1 ") //
 				.emphasis(Type.STRIKETHROUGH, "containing text with strikethrough") //
