@@ -1,6 +1,7 @@
 package de.relimit.commons.markdown;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -9,6 +10,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.DynamicTest;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 
 import de.relimit.commons.markdown.blockelement.BlockElement;
@@ -39,6 +41,13 @@ public class SamplesTests {
 					}
 					return true;
 				}).collect(Collectors.toList());
+	}
+
+	@Test
+	void allMethodsAreNoArg_compareMethods_Success() {
+		System.out.println(methods().toString());
+		assertEquals(methods().size(), Arrays.stream(samples.getClass().getDeclaredMethods())
+				.filter(m -> m.getParameterCount() == 0).collect(Collectors.toList()).size());
 	}
 
 	@TestFactory
