@@ -56,14 +56,12 @@ public class SamplesTests {
 			try {
 				props.load(stream);
 			} catch (final IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			final Sample sample = m.getAnnotation(Sample.class);
 			final String propertiesKey = Samples.PROPERTY_KEY_NAMESPACE + "." + sample.key() + "."
 					+ Samples.PROPERTY_KEY_SUFFIX_HEADING;
 			final String heading = props.getProperty(propertiesKey);
-			System.out.println(propertiesKey + ", " + heading);
 			return DynamicTest.dynamicTest(m.getName(), () -> assertNotNull(heading));
 		});
 
