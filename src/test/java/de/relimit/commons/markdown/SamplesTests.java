@@ -69,7 +69,6 @@ public class SamplesTests {
 
 	@Test
 	void allMethodsAreNoArg_compareMethods_Success() {
-		System.out.println(methods().toString());
 		assertEquals(methods().size(), Arrays.stream(samples.getClass().getDeclaredMethods())
 				.filter(m -> m.getParameterCount() == 0).collect(Collectors.toList()).size());
 	}
