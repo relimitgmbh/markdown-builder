@@ -137,28 +137,8 @@ public class Readme {
 		return properties;
 	}
 
-	private static DocumentBuilder buildDocument()
-			throws MarkdownSerializationException, ReflectiveOperationException, IOException {
-
-		// Load texts from properties file
-
-		final Properties props = new Properties();
-		final ClassLoader loader = Thread.currentThread().getContextClassLoader();
-		final InputStream stream = loader.getResourceAsStream(Samples.PROPERTIES_FILE);
-		props.load(stream);
-
-		final DocumentBuilder b = Document.start();
-
-		// Chapter: Introduction
-		b.heading(props.getProperty("introduction.heading"));
-		b.paragraph(props.getProperty("introduction.text"));
-
-		// Chapter: Examples
-		b.heading(props.getProperty("examples.heading"));
-
-		final Samples samples = new Samples();
-		final Map<String, List<String>> sources = parseSourceFile(Samples.class);
-		final List<Method> methods = Arrays.stream(samples.getClass().getDeclaredMethods())
+	public static List<Method> methods(Samples samples) {
+		return Arrays.stream(samples.getClass().getDeclaredMethods())
 				// Only methods that are marked as Sample methods
 				.filter(m -> m.getAnnotation(Sample.class) != null)
 				/**
@@ -184,6 +164,30 @@ public class Readme {
 				.sorted(Comparator.comparingInt(m -> m.getAnnotation(Sample.class).order()))
 				// Capture the sorted list of methods.
 				.collect(Collectors.toList());
+	}
+
+	private static DocumentBuilder buildDocument()
+			throws MarkdownSerializationException, ReflectiveOperationException, IOException {
+
+		// Load texts from properties file
+
+		final Properties props = new Properties();
+		final ClassLoader loader = Thread.currentThread().getContextClassLoader();
+		final InputStream stream = loader.getResourceAsStream(Samples.PROPERTIES_FILE);
+		props.load(stream);
+
+		final DocumentBuilder b = Document.start();
+
+		// Chapter: Introduction
+		b.heading(props.getProperty("introduction.heading"));
+		b.paragraph(props.getProperty("introduction.text"));
+
+		// Chapter: Examples
+		b.heading(props.getProperty("examples.heading"));
+
+		final Samples samples = new Samples();
+		final Map<String, List<String>> sources = parseSourceFile(Samples.class);
+		final List<Method> methods = methods(samples);
 
 		for (final Method method : methods) {
 			final Sample sample = method.getAnnotation(Sample.class);
