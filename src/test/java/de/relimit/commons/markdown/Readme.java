@@ -137,8 +137,8 @@ public class Readme {
 		return properties;
 	}
 
-	public static List<Method> methods(Samples samples) {
-		return Arrays.stream(samples.getClass().getDeclaredMethods())
+	public static List<Method> sampleMethods() {
+		return Arrays.stream(Samples.class.getDeclaredMethods())
 				// Only methods that are marked as Sample methods
 				.filter(m -> m.getAnnotation(Sample.class) != null)
 				/**
@@ -152,13 +152,13 @@ public class Readme {
 						return false;
 					}
 					// Only BlockElements or SpanElements
-					if (m.getReturnType().isAssignableFrom(BlockElement.class)) {
+					if (BlockElement.class.isAssignableFrom(m.getReturnType())) {
 						return true;
 					}
-					if (m.getReturnType().isAssignableFrom(SpanElement.class)) {
+					if (SpanElement.class.isAssignableFrom(m.getReturnType())) {
 						return true;
 					}
-					return true;
+					return false;
 				})
 				// Sort by order defined by annotation
 				.sorted(Comparator.comparingInt(m -> m.getAnnotation(Sample.class).order()))
@@ -187,7 +187,7 @@ public class Readme {
 
 		final Samples samples = new Samples();
 		final Map<String, List<String>> sources = parseSourceFile(Samples.class);
-		final List<Method> methods = methods(samples);
+		final List<Method> methods = sampleMethods();
 
 		for (final Method method : methods) {
 			final Sample sample = method.getAnnotation(Sample.class);
