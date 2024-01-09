@@ -3,8 +3,8 @@ package de.relimit.commons.markdown;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -46,24 +46,20 @@ public class SamplesTests {
 				}).collect(Collectors.toList());
 	}
 
-	@TestFactory
-	Stream<DynamicTest> propertyKeysFound_CompareKeysToPropertyKeys_NoneMissing() {
-		return methods().stream().map(m -> {
-			final Properties props = new Properties();
-			final ClassLoader loader = Thread.currentThread().getContextClassLoader();
-			final InputStream stream = loader.getResourceAsStream(Samples.PROPERTIES_FILE);
-			try {
-				props.load(stream);
-			} catch (final IOException e) {
-				e.printStackTrace();
-			}
-			final Sample sample = m.getAnnotation(Sample.class);
+	@Test
+	void propertyKeysFound_CompareKeysToPropertyKeys_NoneMissing() {
+		final Properties props = new Properties();
+		final ClassLoader loader = Thread.currentThread().getContextClassLoader();
+		final InputStream stream = loader.getResourceAsStream(Samples.PROPERTIES_FILE);
+		assertDoesNotThrow(() -> props.load(stream));
+		for (final Method method : methods()) {
+			final Sample sample = method.getAnnotation(Sample.class);
 			final String propertiesKey = Samples.PROPERTY_KEY_NAMESPACE + "." + sample.key() + "."
 					+ Samples.PROPERTY_KEY_SUFFIX_HEADING;
 			final String heading = props.getProperty(propertiesKey);
-			return DynamicTest.dynamicTest(m.getName(), () -> assertNotNull(heading));
-		});
-
+			assertNotNull(heading);
+			assertNotSame(heading, "");
+		}
 	}
 
 	@Test
