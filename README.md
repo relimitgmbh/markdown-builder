@@ -84,15 +84,13 @@ Headers
 ### Java Code
 
 ```java
-public Document headers() {
+public Document heading() {
 	return Document.start() //
-			.heading(1, "This is a level 1 header") //
-			.paragraph("This is a paragraph of the first Header")//
-			.startHeading(2).plainText("This is a level 2 header") //
-			.end() //
-			.startHeading(3).plainText("This is the third header") //
-			.end() //
-			.paragraph("This is a paragraph to the third header") //
+			.heading(1, "This is a level 1 heading") //
+			.paragraph("This is a paragraph below the first heading")//
+			.startHeading(2).plainText("This is a level 2 heading").end() //
+			.startHeading(3).plainText("This is a level 3 heading").end() //
+			.paragraph("This is a paragraph below the third heading") //
 			.build();
 }
 ```
@@ -100,32 +98,32 @@ public Document headers() {
 ### Markdown
 
 ```markdown
-This is a level 1 header
-========================
+This is a level 1 heading
+=========================
 
-This is a paragraph of the first Header
+This is a paragraph below the first heading
 
-This is a level 2 header
-------------------------
+This is a level 2 heading
+-------------------------
 
-### This is the third header
+### This is a level 3 heading
 
-This is a paragraph to the third header
+This is a paragraph below the third heading
 ```
 
 ### Rendered
 
-This is a level 1 header
-========================
+This is a level 1 heading
+=========================
 
-This is a paragraph of the first Header
+This is a paragraph below the first heading
 
-This is a level 2 header
-------------------------
+This is a level 2 heading
+-------------------------
 
-### This is the third header
+### This is a level 3 heading
 
-This is a paragraph to the third header
+This is a paragraph below the third heading
 
 Horizontal Rules
 ----------------
@@ -135,9 +133,13 @@ Horizontal Rules
 ```java
 public BlockElement horizontalRules() {
 	return Document.start() //
-			.paragraph("This is a paragraph followed by a horizontal rule") //
+			.paragraph("This is a paragraph followed by a horizontal rule.") //
 			.horizontalRule() //
-			.paragraph("Asterisk or Underscore can be chosen as well:") //
+			.startParagraph().plainText("Different rule characters (to account " //
+					+ "for differences in markdown dialects) are possible as " // 
+					+ "well. You can set your own standard via ") //
+			.code(MarkdownSerializationOptions.class).plainText(".") //
+			.end() //
 			.horizontalRule(RuleCharacter.ASTERISK) //
 			.horizontalRule(RuleCharacter.UNDERSCORE) //
 			.build();
@@ -147,11 +149,11 @@ public BlockElement horizontalRules() {
 ### Markdown
 
 ```markdown
-This is a paragraph followed by a horizontal rule
+This is a paragraph followed by a horizontal rule.
 
 ---
 
-Asterisk or Underscore can be chosen as well:
+Different rule characters (to account for differences in markdown dialects) are possible as well. You can set your own standard via ``` MarkdownSerializationOptions ```.
 
 ***
 
@@ -160,11 +162,11 @@ ___
 
 ### Rendered
 
-This is a paragraph followed by a horizontal rule
+This is a paragraph followed by a horizontal rule.
 
 ---
 
-Asterisk or Underscore can be chosen as well:
+Different rule characters (to account for differences in markdown dialects) are possible as well. You can set your own standard via ``` MarkdownSerializationOptions ```.
 
 ***
 
@@ -213,9 +215,10 @@ Blockquotes
 public Document blockquotes() {
 	return Document.start() //
 			.paragraph("This is a normal paragraph followed by a blockquote.") //
-			.quote().paragraph("This is a quoted paragraph.") //
+			.quote() // all we add from here is within quotes
+			.paragraph("This is a quoted paragraph.") //
 			.paragraph("It is followed by another quoted paragraph.") //
-			.unquote() //
+			.unquote() // close the quotes
 			.build();
 }
 ```
@@ -241,20 +244,19 @@ This is a normal paragraph followed by a blockquote.
 Code Blocks
 -----------
 
-Code blocks are not easily visualized in this README.md file, as each example is already printed in three different code blocks (see each example of `Java Code`, `Markdown` and `Rendered`)
-
 ### Java Code
 
 ```java
 public UnorderedList codeblocks() {
 	return new UnorderedListBuilder<Void>()//
-			.item("The following list item will show a code block in Java Code") //
-			.startItem() //
-			.paragraph("Item containing code block:").codeBlock("// Java Code\n" //
+			.item("The following list item contains a block of Java code") //
+			.startItem() // start item
+			.paragraph("Item containing code block:") //
+			.codeBlock("// Java Code\n" //
 					+ "public static void main(String[] args) {\n" //
-					+ "System.out.println(\"Hello World!\"\n" //
+					+ "	System.out.println(\"Hello World!\"\n" //
 					+ "}")
-			.end() //
+			.end() // end item
 			.item("An item following the code block") //
 			.build();
 }
@@ -263,13 +265,13 @@ public UnorderedList codeblocks() {
 ### Markdown
 
 ```markdown
-*   The following list item will show a code block in Java Code
+*   The following list item contains a block of Java code
 *   Item containing code block:
     
     ```
     // Java Code
     public static void main(String[] args) {
-    System.out.println("Hello World!"
+    	System.out.println("Hello World!"
     }
     ```
 *   An item following the code block
@@ -277,13 +279,13 @@ public UnorderedList codeblocks() {
 
 ### Rendered
 
-*   The following list item will show a code block in Java Code
+*   The following list item contains a block of Java code
 *   Item containing code block:
     
     ```
     // Java Code
     public static void main(String[] args) {
-    System.out.println("Hello World!"
+    	System.out.println("Hello World!"
     }
     ```
 *   An item following the code block
@@ -296,9 +298,10 @@ Code
 ```java
 public Document code() {
 	return Document.start() //
-			.startParagraph().plainText("This is a simple text containing a code snippet from Java.\n" //
+			.startParagraph() //
+			.plainText("This is a simple text containing a Java code snippet.\n" //
 					+ "The snippet is ")
-			.code("System.out.println(\"Hello\")") //
+			.code("System.out.println(\"Hello World!\")") //
 			.end() //
 			.build();
 }
@@ -307,14 +310,14 @@ public Document code() {
 ### Markdown
 
 ```markdown
-This is a simple text containing a code snippet from Java.  
-The snippet is ``` System.out.println("Hello") ```
+This is a simple text containing a Java code snippet.  
+The snippet is ``` System.out.println("Hello World!") ```
 ```
 
 ### Rendered
 
-This is a simple text containing a code snippet from Java.  
-The snippet is ``` System.out.println("Hello") ```
+This is a simple text containing a Java code snippet.  
+The snippet is ``` System.out.println("Hello World!") ```
 
 Unordered Lists
 ---------------
@@ -428,7 +431,8 @@ public Document escaping() {
 			.startParagraph() //
 			.plainText("Markdown characters are automatically escaped by "
 					+ "default. This means that characters like * or # "
-					+ "are not rendered as emphasis. Paths like c:\\temp\\foo.bar " + "are safe. The ")
+					+ "are not rendered as emphasis. Paths like c:\\temp\\foo.bar " //
+					+ "are safe. The ")
 			.code(Escaper.class).plainText(" can be configured via ") //
 			.code(MarkdownSerializationOptions.class).plainText(".") //
 			.end() // end paragraph
@@ -454,9 +458,13 @@ Links
 ```java
 public Document links() {
 	return Document.start() //
-			.startParagraph().plainText("This is a paragraph containing inline type hyperlinks. The first link is ") //
-			.hyperlink("https://www.google.com").plainText(". Links can also contain a title attribute: ") //
-			.hyperlink("https://github.com", "GitHub") //
+			.startParagraph() //
+			.plainText("This is a paragraph containing inline type hyperlinks.\n" // 
+					+ "The first link is ") //
+			.hyperlink("https://www.google.com") //
+			.plainText(".\nLinks can also contain a title attribute which is shown " //
+					+ "instead of\nthe link: ") //
+			.hyperlink("https://github.com", "Go to GitHub") //
 			.end() //
 			.build();
 }
@@ -465,15 +473,23 @@ public Document links() {
 ### Markdown
 
 ```markdown
-This is a paragraph containing inline type hyperlinks. The first link is [https://www.google.com](https://www.google.com). Links can also contain a title attribute: [GitHub](https://github.com)
+This is a paragraph containing inline type hyperlinks.  
+The first link is [https://www.google.com](https://www.google.com).  
+Links can also contain a title attribute which is shown instead of  
+the link: [Go to GitHub](https://github.com)
 ```
 
 ### Rendered
 
-This is a paragraph containing inline type hyperlinks. The first link is [https://www.google.com](https://www.google.com). Links can also contain a title attribute: [GitHub](https://github.com)
+This is a paragraph containing inline type hyperlinks.  
+The first link is [https://www.google.com](https://www.google.com).  
+Links can also contain a title attribute which is shown instead of  
+the link: [Go to GitHub](https://github.com)
 
 Images
 ------
+
+Note: This is a non-standard element.
 
 ### Java Code
 
