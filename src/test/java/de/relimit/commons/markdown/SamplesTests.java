@@ -2,8 +2,8 @@ package de.relimit.commons.markdown;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNotSame;
 
 import java.io.InputStream;
 import java.lang.reflect.Method;
@@ -36,7 +36,7 @@ public class SamplesTests {
 					+ Samples.PROPERTY_KEY_SUFFIX_HEADING;
 			final String heading = props.getProperty(propertiesKey);
 			assertNotNull(heading);
-			assertNotSame("", heading);
+			assertFalse(heading.isBlank());
 		}
 	}
 
