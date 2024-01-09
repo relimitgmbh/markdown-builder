@@ -20,7 +20,6 @@ import org.junit.jupiter.api.TestFactory;
 import de.relimit.commons.markdown.blockelement.BlockElement;
 import de.relimit.commons.markdown.span.SpanElement;
 
-// TODO
 public class SamplesTests {
 
 	private Samples samples = new Samples();
