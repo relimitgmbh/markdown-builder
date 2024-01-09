@@ -58,7 +58,7 @@ public class SamplesTests {
 					+ Samples.PROPERTY_KEY_SUFFIX_HEADING;
 			final String heading = props.getProperty(propertiesKey);
 			assertNotNull(heading);
-			assertNotSame(heading, "");
+			assertNotSame("", heading);
 		}
 	}
 
