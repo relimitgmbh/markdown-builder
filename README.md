@@ -18,7 +18,8 @@ public Document paragraphs() {
 	return Document.start()
 			.paragraph("This is a paragraph containing plain text. Line breaks \n"
 					+ "will lead to new lines \nwithin the paragraph.") //
-			.paragraph("This is the second paragraph. It is separated from the previous one " + "by a blank line.") //
+			.paragraph("This is the second paragraph. It is separated from " //
+					+ "the previous one by a blank line.") //
 			.build();
 }
 ```
@@ -52,8 +53,10 @@ public Paragraph emphasis() {
 			.emphasis(Type.BOLD, "This is bold.").newLine() //
 			.emphasis(Type.STRIKETHROUGH, "This is strikethrough.").newLine() //
 			.emphasis(Type.ITALIC, "This is italic.").newLine() //
-			.plainText("Span elements can be nested. ").startEmphasis(Type.ITALIC).plainText("This is italic text ")
-			.emphasis(Type.BOLD, "followed by italic and bold text").plainText(" and finally italic text again.")
+			.plainText("Span elements can be nested. ").startEmphasis(Type.ITALIC) //
+			.plainText("This is italic text ") //
+			.emphasis(Type.BOLD, "followed by italic and bold text") //
+			.plainText(" and finally italic text again.") //
 			.end() // end emphasis
 			.build(); // end paragraph
 }
@@ -74,6 +77,317 @@ Span elements can be nested. _This is italic text **followed by italic and bold 
 ~~This is strikethrough.~~  
 _This is italic._  
 Span elements can be nested. _This is italic text **followed by italic and bold text** and finally italic text again._
+
+Headers
+-------
+
+### Java Code
+
+```java
+public Document heading() {
+	return Document.start() //
+			.heading(1, "This is a level 1 heading") //
+			.paragraph("This is a paragraph below the first heading")//
+			.startHeading(2).plainText("This is a level 2 heading").end() //
+			.startHeading(3).plainText("This is a level 3 heading").end() //
+			.paragraph("This is a paragraph below the third heading") //
+			.build();
+}
+```
+
+### Markdown
+
+```markdown
+This is a level 1 heading
+=========================
+
+This is a paragraph below the first heading
+
+This is a level 2 heading
+-------------------------
+
+### This is a level 3 heading
+
+This is a paragraph below the third heading
+```
+
+### Rendered
+
+This is a level 1 heading
+=========================
+
+This is a paragraph below the first heading
+
+This is a level 2 heading
+-------------------------
+
+### This is a level 3 heading
+
+This is a paragraph below the third heading
+
+Horizontal Rules
+----------------
+
+### Java Code
+
+```java
+public BlockElement horizontalRules() {
+	return Document.start() //
+			.paragraph("This is a paragraph followed by a horizontal rule.") //
+			.horizontalRule() //
+			.startParagraph().plainText("Different rule characters (to account " //
+					+ "for differences in markdown dialects) are possible as " // 
+					+ "well. You can set your own standard via ") //
+			.code(MarkdownSerializationOptions.class).plainText(".") //
+			.end() //
+			.horizontalRule(RuleCharacter.ASTERISK) //
+			.horizontalRule(RuleCharacter.UNDERSCORE) //
+			.build();
+}
+```
+
+### Markdown
+
+```markdown
+This is a paragraph followed by a horizontal rule.
+
+---
+
+Different rule characters (to account for differences in markdown dialects) are possible as well. You can set your own standard via ``` MarkdownSerializationOptions ```.
+
+***
+
+___
+```
+
+### Rendered
+
+This is a paragraph followed by a horizontal rule.
+
+---
+
+Different rule characters (to account for differences in markdown dialects) are possible as well. You can set your own standard via ``` MarkdownSerializationOptions ```.
+
+***
+
+___
+
+Tables
+------
+
+### Java Code
+
+```java
+public Table tables() {
+	return new TableBuilder<Void>() //
+			.align(Alignment.RIGHT, Alignment.CENTER, Alignment.LEFT) // align each column
+			.startRow().startCell().plainText("Heading column 1").end() //
+			.startCell().plainText("Heading column 2").end() //
+			.startCell().plainText("Heading column 3").end().end() // 
+			.append(row("alignment", "of", "columns")) // MD utility class methods
+			.append(row("right", "center", "left")) //
+			.build();
+}
+```
+
+### Markdown
+
+```markdown
+| Heading column 1 | Heading column 2 | Heading column 3 |
+| ----------------:|:----------------:|:---------------- |
+|        alignment |        of        | columns          |
+|            right |      center      | left             |
+```
+
+### Rendered
+
+| Heading column 1 | Heading column 2 | Heading column 3 |
+| ----------------:|:----------------:|:---------------- |
+|        alignment |        of        | columns          |
+|            right |      center      | left             |
+
+Blockquotes
+-----------
+
+### Java Code
+
+```java
+public Document blockquotes() {
+	return Document.start() //
+			.paragraph("This is a normal paragraph followed by a blockquote.") //
+			.quote() // all we add from here is within quotes
+			.paragraph("This is a quoted paragraph.") //
+			.paragraph("It is followed by another quoted paragraph.") //
+			.unquote() // close the quotes
+			.build();
+}
+```
+
+### Markdown
+
+```markdown
+This is a normal paragraph followed by a blockquote.
+
+> This is a quoted paragraph.
+> 
+> It is followed by another quoted paragraph.
+```
+
+### Rendered
+
+This is a normal paragraph followed by a blockquote.
+
+> This is a quoted paragraph.
+> 
+> It is followed by another quoted paragraph.
+
+Code Blocks
+-----------
+
+### Java Code
+
+```java
+public UnorderedList codeblocks() {
+	return new UnorderedListBuilder<Void>()//
+			.item("The following list item contains a block of Java code") //
+			.startItem() // start item
+			.paragraph("Item containing code block:") //
+			.codeBlock("// Java Code\n" //
+					+ "public static void main(String[] args) {\n" //
+					+ "	System.out.println(\"Hello World!\"\n" //
+					+ "}")
+			.end() // end item
+			.item("An item following the code block") //
+			.build();
+}
+```
+
+### Markdown
+
+```markdown
+*   The following list item contains a block of Java code
+*   Item containing code block:
+    
+    ```
+    // Java Code
+    public static void main(String[] args) {
+    	System.out.println("Hello World!"
+    }
+    ```
+*   An item following the code block
+```
+
+### Rendered
+
+*   The following list item contains a block of Java code
+*   Item containing code block:
+    
+    ```
+    // Java Code
+    public static void main(String[] args) {
+    	System.out.println("Hello World!"
+    }
+    ```
+*   An item following the code block
+
+Code
+----
+
+### Java Code
+
+```java
+public Document code() {
+	return Document.start() //
+			.startParagraph() //
+			.plainText("This is a simple text containing a Java code snippet.\n" //
+					+ "The snippet is ")
+			.code("System.out.println(\"Hello World!\")") //
+			.end() //
+			.build();
+}
+```
+
+### Markdown
+
+```markdown
+This is a simple text containing a Java code snippet.  
+The snippet is ``` System.out.println("Hello World!") ```
+```
+
+### Rendered
+
+This is a simple text containing a Java code snippet.  
+The snippet is ``` System.out.println("Hello World!") ```
+
+Unordered Lists
+---------------
+
+The first block element appended to a list item must always be a paragraph. Meaning text only. But further block elements can be added and they can be of any type. They will align nicely with the list items indent.
+
+### Java Code
+
+```java
+public UnorderedList unorderedLists() {
+	return new UnorderedListBuilder<Void>() //
+			.item("One item of the unordered list.") //
+			.item("Another item.") //
+			.startItem().startParagraph().plainText("Third item ") //
+			.emphasis(Type.BOLD, "with bold Text").end() //
+			.quote().paragraph("A quoted paragraph in the third item.") //
+			.unquote().end() // end list item
+			.build(); // end list
+}
+```
+
+### Markdown
+
+```markdown
+*   One item of the unordered list.
+*   Another item.
+*   Third item **with bold Text**
+    
+    > A quoted paragraph in the third item.
+```
+
+### Rendered
+
+*   One item of the unordered list.
+*   Another item.
+*   Third item **with bold Text**
+    
+    > A quoted paragraph in the third item.
+
+Ordered Lists
+-------------
+
+### Java Code
+
+```java
+public OrderedList orderedLists() {
+	return new OrderedListBuilder<Void>() //
+			.item("Item 0") //
+			.startItem().startParagraph().plainText("Item 1 ") //
+			.emphasis(Type.STRIKETHROUGH, "containing text with strikethrough") //
+			.end() // end paragraph
+			.end() // end item
+			.item("Item 2") //
+			.build();
+}
+```
+
+### Markdown
+
+```markdown
+0.  Item 0
+1.  Item 1 ~~containing text with strikethrough~~
+2.  Item 2
+```
+
+### Rendered
+
+0.  Item 0
+1.  Item 1 ~~containing text with strikethrough~~
+2.  Item 2
 
 Task Lists
 ----------
@@ -106,56 +420,6 @@ public BlockElement taskLists() {
 - [x] This task is completed.
 - [ ] This task is pending but it has nice **bold formatted text** going for it.
 
-Lists
------
-
-The first block element appended to a list item must always be a paragraph. Meaning text only. But further block elements can be added and they can be of any type. They will align nicely with the list items indent.
-
-### Java Code
-
-```java
-public UnorderedList lists() {
-	return new UnorderedListBuilder<Void>() //
-			.item("First item.") //
-			.item("Second item.") //
-			.startItem().paragraph("Third item.").paragraph("Another paragraph of the third item.").quote()
-			.paragraph("This is a quoted paragraph of the third item.").unquote()
-			.codeBlock("// This is a code block of the third item.", Language.JAVA) //
-			.end() // end list item
-			.build(); // end list
-}
-```
-
-### Markdown
-
-```markdown
-*   First item.
-*   Second item.
-*   Third item.
-    
-    Another paragraph of the third item.
-    
-    > This is a quoted paragraph of the third item.
-    
-    ```java
-    // This is a code block of the third item.
-    ```
-```
-
-### Rendered
-
-*   First item.
-*   Second item.
-*   Third item.
-    
-    Another paragraph of the third item.
-    
-    > This is a quoted paragraph of the third item.
-    
-    ```java
-    // This is a code block of the third item.
-    ```
-
 Escaping
 --------
 
@@ -167,7 +431,8 @@ public Document escaping() {
 			.startParagraph() //
 			.plainText("Markdown characters are automatically escaped by "
 					+ "default. This means that characters like * or # "
-					+ "are not rendered as emphasis. Paths like c:\\temp\\foo.bar " + "are safe. The ")
+					+ "are not rendered as emphasis. Paths like c:\\temp\\foo.bar " //
+					+ "are safe. The ")
 			.code(Escaper.class).plainText(" can be configured via ") //
 			.code(MarkdownSerializationOptions.class).plainText(".") //
 			.end() // end paragraph
@@ -184,6 +449,67 @@ Markdown characters are automatically escaped by default\. This means that chara
 ### Rendered
 
 Markdown characters are automatically escaped by default. This means that characters like * or # are not rendered as emphasis. Paths like c:\temp\foo.bar are safe. The ``` Escaper ``` can be configured via ``` MarkdownSerializationOptions ```.
+
+Links
+-----
+
+### Java Code
+
+```java
+public Document links() {
+	return Document.start() //
+			.startParagraph() //
+			.plainText("This is a paragraph containing inline type hyperlinks.\n" // 
+					+ "The first link is ") //
+			.hyperlink("https://www.google.com") //
+			.plainText(".\nLinks can also contain a title attribute which is shown " //
+					+ "instead of\nthe link: ") //
+			.hyperlink("https://github.com", "Go to GitHub") //
+			.end() //
+			.build();
+}
+```
+
+### Markdown
+
+```markdown
+This is a paragraph containing inline type hyperlinks.  
+The first link is [https://www.google.com](https://www.google.com).  
+Links can also contain a title attribute which is shown instead of  
+the link: [Go to GitHub](https://github.com)
+```
+
+### Rendered
+
+This is a paragraph containing inline type hyperlinks.  
+The first link is [https://www.google.com](https://www.google.com).  
+Links can also contain a title attribute which is shown instead of  
+the link: [Go to GitHub](https://github.com)
+
+Images
+------
+
+Note: This is a non-standard element.
+
+### Java Code
+
+```java
+public Document images() {
+	return Document.start() //
+			.append(new Image("src/main/resources/HelloWorld.jpg", "HelloWorld")) //
+			.build();
+}
+```
+
+### Markdown
+
+```markdown
+![HelloWorld](src/main/resources/HelloWorld.jpg)
+```
+
+### Rendered
+
+![HelloWorld](src/main/resources/HelloWorld.jpg)
 
 Custom Renderer
 ---------------

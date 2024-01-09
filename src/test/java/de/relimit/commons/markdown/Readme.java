@@ -10,8 +10,6 @@ import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -158,32 +156,7 @@ public class Readme {
 
 		final Samples samples = new Samples();
 		final Map<String, List<String>> sources = parseSourceFile(Samples.class);
-		final List<Method> methods = Arrays.stream(samples.getClass().getDeclaredMethods())
-				// Only methods that are marked as Sample methods
-				.filter(m -> m.getAnnotation(Sample.class) != null)
-				/**
-				 * By definition "sample" methods have no paramers and return a
-				 * MarkdownSerilizable Skip all methods that do not meet those
-				 * criteria.
-				 */
-				.filter(m -> {
-					// Only no-arg methods
-					if (m.getParameterCount() > 0) {
-						return false;
-					}
-					// Only BlockElements or SpanElements
-					if (m.getReturnType().isAssignableFrom(BlockElement.class)) {
-						return true;
-					}
-					if (m.getReturnType().isAssignableFrom(SpanElement.class)) {
-						return true;
-					}
-					return true;
-				})
-				// Sort by order defined by annotation
-				.sorted(Comparator.comparingInt(m -> m.getAnnotation(Sample.class).order()))
-				// Capture the sorted list of methods.
-				.collect(Collectors.toList());
+		final List<Method> methods = Samples.sampleMethods();
 
 		for (final Method method : methods) {
 			final Sample sample = method.getAnnotation(Sample.class);
