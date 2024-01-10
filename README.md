@@ -1,7 +1,9 @@
 Java Markdown Builder
 =====================
 
-A lightweight library for generating pretty printed markdown. No external dependencies except JUnit are used. This README.md file was generated with Markdown Builder.
+A lightweight library for generating well-formed markdown. No external dependencies except JUnit 5 (Jupiter) are used. [MIT license](/LICENSE.txt).  
+  
+The [README.md](/README.md) you are currently reading is generated with Markdown Builder.
 
 Examples
 ========
@@ -496,7 +498,7 @@ Note: This is a non-standard element.
 ```java
 public Document images() {
 	return Document.start() //
-			.append(new Image("src/main/resources/HelloWorld.jpg", "HelloWorld")) //
+			.append(new Image("src/main/resources/markdown-builder.svg", "Markdown Builder Logo")) //
 			.build();
 }
 ```
@@ -504,12 +506,12 @@ public Document images() {
 ### Markdown
 
 ```markdown
-![HelloWorld](src/main/resources/HelloWorld.jpg)
+![Markdown Builder Logo](src/main/resources/markdown-builder.svg)
 ```
 
 ### Rendered
 
-![HelloWorld](src/main/resources/HelloWorld.jpg)
+![Markdown Builder Logo](src/main/resources/markdown-builder.svg)
 
 Custom Renderer
 ---------------
@@ -563,6 +565,34 @@ public Table md() {
 			.append(row("Cell 1.1", "Cell 1.2")) //
 			.append(row(cell("Cell 2.1"), cell(italic("Cell 2.2")))) //
 			.build();
+}
+public static List<Method> sampleMethods() {
+	return Arrays.stream(Samples.class.getDeclaredMethods())
+			// Only methods that are marked as Sample methods
+			.filter(m -> m.getAnnotation(Sample.class) != null)
+			/**
+			 * By definition "sample" methods have no parameters and return
+			 * a MarkdownSerilizable. Skip all methods that do not meet
+			 * those criteria.
+			 */
+			.filter(m -> {
+				// Only no-arg methods
+				if (m.getParameterCount() > 0) {
+					return false;
+				}
+				// Only BlockElements or SpanElements
+				if (BlockElement.class.isAssignableFrom(m.getReturnType())) {
+					return true;
+				}
+				if (SpanElement.class.isAssignableFrom(m.getReturnType())) {
+					return true;
+				}
+				return false;
+			})
+			// Sort by order defined by annotation
+			.sorted(Comparator.comparingInt(m -> m.getAnnotation(Sample.class).order()))
+			// Capture the sorted list of methods.
+			.collect(Collectors.toList());
 }
 ```
 
