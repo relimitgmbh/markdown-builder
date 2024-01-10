@@ -22,14 +22,10 @@
 	</organization>
 	<distributionManagement>
 		<repository>
-			<id>nexus.relimit.io</id>
-			<name>Releases</name>
-			<url>https://nexus.relimit.io/repository/maven-releases</url>
-		</repository>
-		<snapshotRepository>
-			<id>nexus.relimit.io</id>
-			<name>Snapshot</name>
-			<url>https://nexus.relimit.io/repository/maven-snapshots/</url>
-		</snapshotRepository>
+	     		<id>github</id>
+	     		<name>GitHub relimitgmbh Apache Maven Packages</name>
+	     		<url>https://maven.pkg.github.com/relimitgmbh/markdown-builder</url>
+	   	</repository>
+	        
 	</distributionManagement>
 </project>
