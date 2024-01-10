@@ -150,8 +150,8 @@ public class Readme {
 
 		// Chapter: Introduction
 		b.heading(props.getProperty("introduction.heading"));
-		b.paragraph(MessageFormat.format(props.getProperty("introduction.text"), "MIT license", "LICENSE", "Readme.md",
-				"Readme.md", Readme.class.getSimpleName() + ".java",
+		b.paragraph(MessageFormat.format(props.getProperty("introduction.text"), "MIT license", "LICENSE", "README.md",
+				"README.md", Readme.class.getSimpleName() + ".java",
 				"src/test/java/" + Readme.class.getCanonicalName().replace(".", "/") + ".java"));
 
 		// Chapter: Examples
