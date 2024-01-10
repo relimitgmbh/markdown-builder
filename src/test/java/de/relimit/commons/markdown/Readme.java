@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.nio.file.Path;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -149,7 +150,9 @@ public class Readme {
 
 		// Chapter: Introduction
 		b.heading(props.getProperty("introduction.heading"));
-		b.paragraph(props.getProperty("introduction.text"));
+		b.paragraph(MessageFormat.format(props.getProperty("introduction.text"), "MIT license", "LICENSE", "README.md",
+				"README.md", Readme.class.getSimpleName() + ".java",
+				"src/test/java/" + Readme.class.getCanonicalName().replace(".", "/") + ".java"));
 
 		// Chapter: Examples
 		b.heading(props.getProperty("examples.heading"));

@@ -219,7 +219,7 @@ public class Samples {
 	@Sample(order = 140, key = "images")
 	public Document images() {
 		return Document.start() //
-				.append(new Image("src/main/resources/HelloWorld.jpg", "HelloWorld")) //
+				.append(new Image("src/main/resources/markdown-builder.svg", "Markdown Builder Logo")) //
 				.build();
 	}
 
