@@ -27,7 +27,7 @@ public class TableCell extends SpanElementNode {
 	}
 
 	@Override
-	public Fences getFences() {
+	public Fences getFences(MarkdownSerializationOptions options) {
 		return Fences.none();
 	}
 

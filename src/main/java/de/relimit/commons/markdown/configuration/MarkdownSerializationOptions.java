@@ -5,6 +5,8 @@ import de.relimit.commons.markdown.MarkdownSerializable;
 import de.relimit.commons.markdown.MarkdownSerializationException;
 import de.relimit.commons.markdown.blockelement.codeblock.CodeBlock;
 import de.relimit.commons.markdown.blockelement.codeblock.CodeBlockLanguage;
+import de.relimit.commons.markdown.blockelement.heading.Heading;
+import de.relimit.commons.markdown.blockelement.heading.HeadingStyle;
 import de.relimit.commons.markdown.blockelement.rule.HorizontalRule;
 import de.relimit.commons.markdown.blockelement.rule.HorizontalRuleCharacter;
 import de.relimit.commons.markdown.blockelement.table.Alignment;
@@ -36,6 +38,8 @@ public class MarkdownSerializationOptions {
 
 	private Alignment defaultTableCellAlignment;
 
+	private HeadingStyle defaultHeadingStyle;
+
 	public MarkdownSerializationOptions() {
 		this.serializer = Stringifier.DEFAULT_SERIALIZER;
 		this.escaper = Escaper.ESCAPE_MARKDOWN;
@@ -45,6 +49,7 @@ public class MarkdownSerializationOptions {
 		this.codeFences = Code.DEFAULT_FENCES;
 		this.defaultHorizontalRuleCharacter = HorizontalRule.DEFAULT_CHARACTER;
 		this.defaultTableCellAlignment = Table.DEFAULT_ALIGNMENT;
+		this.defaultHeadingStyle = Heading.DEFAULT_HEADING_STYLE;
 	}
 
 	/**
@@ -63,6 +68,7 @@ public class MarkdownSerializationOptions {
 		setCodeFences(template.getCodeFences());
 		setDefaultHorizontalRuleCharacter(template.getDefaultHorizontalRuleCharacter());
 		setDefaultTableCellAlignment(template.getDefaultTableCellAlignment());
+		setDefaultHeadingStyle(template.getDefaultHeadingStyle());
 	}
 
 	public MarkdownSerializationOptions copy() {
@@ -132,6 +138,14 @@ public class MarkdownSerializationOptions {
 
 	public void setDefaultTableCellAlignment(Alignment defaultTableCellAlignment) {
 		this.defaultTableCellAlignment = Args.notNull(defaultTableCellAlignment, "defaultTableCellAlignment");
+	}
+
+	public HeadingStyle getDefaultHeadingStyle() {
+		return defaultHeadingStyle;
+	}
+
+	public void setDefaultHeadingStyle(HeadingStyle defaultHeadingStyle) {
+		this.defaultHeadingStyle = defaultHeadingStyle;
 	}
 
 	/**

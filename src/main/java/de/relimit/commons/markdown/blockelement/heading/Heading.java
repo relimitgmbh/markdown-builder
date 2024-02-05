@@ -23,9 +23,11 @@ public class Heading extends SpanElementNode implements BlockElement {
 	// Prefix character for Atx style headings
 	public static final char ATX_PREFIX = '#';
 
+	public static final HeadingStyle DEFAULT_HEADING_STYLE = HeadingStyle.SETEXT;
+
 	private int level;
 
-	boolean underlineStyle = true;
+	private HeadingStyle headingStyle;
 
 	public Heading() {
 		this.level = MIN_LEVEL;
@@ -44,10 +46,18 @@ public class Heading extends SpanElementNode implements BlockElement {
 		setLevel(level);
 	}
 
+	private boolean useUnderline(HeadingStyle defaultHeadingStyle) {
+		if (level > 2) {
+			return false;
+		}
+		final HeadingStyle effectiveHeadingStyle = headingStyle != null ? headingStyle : defaultHeadingStyle;
+		return HeadingStyle.SETEXT == effectiveHeadingStyle;
+	}
+
 	@Override
 	public List<String> serializeLines(MarkdownSerializationOptions options) throws MarkdownSerializationException {
 		final List<String> lines = super.serializeLines(options);
-		if (underlineStyle && level < 3) {
+		if (useUnderline(options.getDefaultHeadingStyle())) {
 			final char underlineChar = (level == 1) ? SETEXT_1ST_LEVEL : SETEXT_2ND_LEVEL;
 			/*
 			 * It is possible for a heading to contain line breaks. Set the
@@ -64,8 +74,8 @@ public class Heading extends SpanElementNode implements BlockElement {
 	}
 
 	@Override
-	public Fences getFences() {
-		if (underlineStyle && level < 3) {
+	public Fences getFences(MarkdownSerializationOptions options) {
+		if (useUnderline(options.getDefaultHeadingStyle())) {
 			// Underline added by serializeLines
 			return Fences.none();
 		}
@@ -85,13 +95,32 @@ public class Heading extends SpanElementNode implements BlockElement {
 		invalidateSerialized();
 	}
 
+	/**
+	 * @deprecated Use {@link #getHeadingStyle()} and check if equals
+	 *             {@link HeadingStyle#SETEXT} instead
+	 * @return
+	 */
+	@Deprecated
 	public boolean isUnderlineStyle() {
-		return underlineStyle;
+		return HeadingStyle.SETEXT == headingStyle;
 	}
 
+	/**
+	 * @deprecated Use {@link #setHeadingStyle(HeadingStyle)} instead.
+	 * @param underlineStyle
+	 */
+	@Deprecated
 	public void setUnderlineStyle(boolean underlineStyle) {
-		this.underlineStyle = underlineStyle;
+		setHeadingStyle(underlineStyle ? HeadingStyle.SETEXT : HeadingStyle.ATX);
+	}
+
+	public void setHeadingStyle(HeadingStyle headingStyle) {
+		this.headingStyle = headingStyle;
 		invalidateSerialized();
+	}
+
+	public HeadingStyle getHeadingStyle() {
+		return headingStyle != null ? DEFAULT_HEADING_STYLE : headingStyle;
 	}
 
 }

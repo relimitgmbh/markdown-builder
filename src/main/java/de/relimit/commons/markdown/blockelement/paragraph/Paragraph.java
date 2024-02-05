@@ -2,6 +2,7 @@ package de.relimit.commons.markdown.blockelement.paragraph;
 
 import de.relimit.commons.markdown.Fences;
 import de.relimit.commons.markdown.blockelement.BlockElement;
+import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
 import de.relimit.commons.markdown.span.SpanElement;
 import de.relimit.commons.markdown.span.SpanElementNode;
 
@@ -27,7 +28,7 @@ public class Paragraph extends SpanElementNode implements BlockElement {
 	}
 
 	@Override
-	public Fences getFences() {
+	public Fences getFences(MarkdownSerializationOptions options) {
 		return Fences.none();
 	}
 

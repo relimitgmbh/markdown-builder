@@ -54,7 +54,7 @@ public abstract class SpanElementNode extends Node<SpanElement> {
 		append(spanElements);
 	}
 
-	abstract protected Fences getFences();
+	protected abstract Fences getFences(MarkdownSerializationOptions options);
 
 	protected String getEndOfLineCharacters() {
 		return END_OF_LINE;
@@ -94,7 +94,7 @@ public abstract class SpanElementNode extends Node<SpanElement> {
 			return lines;
 		}
 
-		final Fences fences = getFences();
+		final Fences fences = getFences(options);
 		fences.getLeading().ifPresent(s -> {
 			// Add a fence to the beginning of the first line
 			lines.set(0, s + lines.get(0));
