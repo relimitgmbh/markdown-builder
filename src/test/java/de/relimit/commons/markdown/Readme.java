@@ -11,6 +11,8 @@ import java.lang.reflect.Method;
 import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +38,35 @@ public class Readme {
 
 	public static final MarkdownSerializationOptions ALLOW_MARKDOWN = new OptionsBuilder()
 			.defaultEscaper(Escaper.ALLOW_MARKDOWN).build();
+
+	public static List<Method> sampleMethods() {
+		return Arrays.stream(Samples.class.getDeclaredMethods())
+				// Only methods that are marked as Sample methods
+				.filter(m -> m.getAnnotation(Sample.class) != null)
+				/**
+				 * By definition "sample" methods have no parameters and return
+				 * a MarkdownSerilizable. Skip all methods that do not meet
+				 * those criteria.
+				 */
+				.filter(m -> {
+					// Only no-arg methods
+					if (m.getParameterCount() > 0) {
+						return false;
+					}
+					// Only BlockElements or SpanElements
+					if (BlockElement.class.isAssignableFrom(m.getReturnType())) {
+						return true;
+					}
+					if (SpanElement.class.isAssignableFrom(m.getReturnType())) {
+						return true;
+					}
+					return false;
+				})
+				// Sort by order defined by annotation
+				.sorted(Comparator.comparingInt(m -> m.getAnnotation(Sample.class).order()))
+				// Capture the sorted list of methods.
+				.collect(Collectors.toList());
+	}
 
 	/**
 	 * A poor man's source code parser that extracts all methods annotated
@@ -159,7 +190,7 @@ public class Readme {
 
 		final Samples samples = new Samples();
 		final Map<String, List<String>> sources = parseSourceFile(Samples.class);
-		final List<Method> methods = Samples.sampleMethods();
+		final List<Method> methods = Readme.sampleMethods();
 
 		for (final Method method : methods) {
 			final Sample sample = method.getAnnotation(Sample.class);
@@ -251,4 +282,5 @@ public class Readme {
 		}
 
 	}
+
 }
