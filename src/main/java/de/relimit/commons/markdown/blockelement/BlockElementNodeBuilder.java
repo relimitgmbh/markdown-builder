@@ -5,6 +5,9 @@ import static de.relimit.commons.markdown.util.MD.row;
 import java.util.Collection;
 import java.util.function.Function;
 
+import de.relimit.commons.markdown.blockelement.admonition.Admonition;
+import de.relimit.commons.markdown.blockelement.admonition.AdmonitionBuilder;
+import de.relimit.commons.markdown.blockelement.admonition.Title;
 import de.relimit.commons.markdown.blockelement.codeblock.CodeBlock;
 import de.relimit.commons.markdown.blockelement.codeblock.CodeBlockLanguage;
 import de.relimit.commons.markdown.blockelement.heading.Heading;
@@ -179,6 +182,17 @@ public abstract class BlockElementNodeBuilder<P, B extends BlockElementNodeBuild
 		}
 		tbb.append(converter, elements);
 		return tbb.end();
+	}
+
+	// Admonition
+
+	public AdmonitionBuilder<B> startAdmonition(Title title) {
+		final int indentationLevel = getElement().getIndentationLevel();
+		return new AdmonitionBuilder<>(new Admonition(), title, this::append);
+	}
+
+	public AdmonitionBuilder<B> startAdmonition() {
+		return startAdmonition(Title.DEFAULT_TITLE);
 	}
 
 }

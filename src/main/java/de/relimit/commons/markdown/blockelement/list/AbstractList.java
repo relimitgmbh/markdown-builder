@@ -7,9 +7,11 @@ import de.relimit.commons.markdown.Indentable;
 import de.relimit.commons.markdown.MarkdownSerializationException;
 import de.relimit.commons.markdown.Node;
 import de.relimit.commons.markdown.blockelement.BlockElement;
+import de.relimit.commons.markdown.blockelement.MarkedBlockElementNode;
 import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
 
-public abstract class AbstractList<T extends ListItem> extends Node<T> implements BlockElement, Indentable {
+public abstract class AbstractList<T extends MarkedBlockElementNode> extends Node<T>
+		implements BlockElement, Indentable {
 
 	private int indentationLevel;
 
@@ -24,14 +26,8 @@ public abstract class AbstractList<T extends ListItem> extends Node<T> implement
 	@Override
 	public void setIndentationLevel(int indentationLevel) {
 		this.indentationLevel = indentationLevel;
-		invalidateSerialized();
-	}
-
-	@Override
-	public void incrementIndentationLevel() {
-		indentationLevel = indentationLevel + 1;
 		for (final T listItem : elements) {
-			listItem.incrementIndentationLevel();
+			listItem.setIndentationLevel(1);
 		}
 		invalidateSerialized();
 	}

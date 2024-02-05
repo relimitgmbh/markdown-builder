@@ -32,17 +32,7 @@ public abstract class BlockElementNode extends Node<BlockElement> implements Ind
 		for (final BlockElement element : elements) {
 			// crawl the tree
 			if (element instanceof Indentable) {
-				((Indentable) element).setIndentationLevel(indentationLevel + 1);
-			}
-		}
-	}
-
-	@Override
-	public void incrementIndentationLevel() {
-		this.indentationLevel++;
-		for (final BlockElement element : elements) {
-			if (element instanceof Indentable) {
-				((Indentable) element).incrementIndentationLevel();
+				((Indentable) element).setIndentationLevel(1);
 			}
 		}
 	}

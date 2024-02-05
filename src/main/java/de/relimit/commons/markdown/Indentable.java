@@ -6,6 +6,8 @@ public interface Indentable {
 
 	public void setIndentationLevel(int indentationLevel);
 
-	public void incrementIndentationLevel();
+	default void incrementIndentationLevel() {
+		setIndentationLevel(getIndentationLevel() + 1);
+	}
 
 }

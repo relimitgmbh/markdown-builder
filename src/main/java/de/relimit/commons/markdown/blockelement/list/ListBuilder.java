@@ -33,15 +33,17 @@ public abstract class ListBuilder<P, B extends ListBuilder<P, B, BE, B2, NE>, BE
 	abstract B2 createListItemBuilder(NE listItem, MarkdownSerializableAppender<B, NE> appender);
 
 	public B2 startItem() {
-		final int indentationLevel = getElement().getIndentationLevel();
-		final NE listItem = createListItem(indentationLevel + 1);
+		/*
+		 * Indentation leven doesn't matter because it will be set upon
+		 * insertion
+		 */
+		final NE listItem = createListItem(0);
 		return createListItemBuilder(listItem, this::append);
 	}
 
 	@Override
 	protected NE gateKeep(NE element) {
-		final int indentationLevel = getElement().getIndentationLevel();
-		element.setIndentationLevel(indentationLevel + 1);
+		element.setIndentationLevel(1);
 		return element;
 	}
 
