@@ -63,7 +63,8 @@ public class Admonition extends MarkedBlockElementNode implements BlockElement {
 	@Override
 	protected String getMarker(MarkdownSerializationOptions options) {
 		final StringBuilder markerBuilder = new StringBuilder();
-		markerBuilder.append(Optional.ofNullable(expansion).orElse(options.getDefaultAdmonitionExpansion()));
+		markerBuilder
+				.append(Optional.ofNullable(expansion).orElse(options.getDefaultAdmonitionExpansion()).getMarker());
 		markerBuilder.append(" ");
 		markerBuilder.append(Optional.ofNullable(type).orElse(options.getDefaultAdmonitionType()).getQualifier());
 		Optional.of(display).orElse(options.getDefaultAdmonitionDisplay()).getDirective().ifPresent(d -> {
