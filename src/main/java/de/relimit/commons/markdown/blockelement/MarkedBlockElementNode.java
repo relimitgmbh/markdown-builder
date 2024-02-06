@@ -19,6 +19,25 @@ import de.relimit.commons.markdown.util.Strings;
  */
 public abstract class MarkedBlockElementNode<TITLE extends BlockElement> extends BlockElementNode {
 
+  /**
+	 * <p>
+	 * The mark of a marked block element node remains on the same level as that
+	 * of its parent node. But its children will be indented one step further.
+	 * In fact this is where really all indentation happens:
+	 * MarkedBlockElementNodes are added to other MarkedBlockElementNodes
+	 * thereby creating a hierarchy.
+	 * </p>
+	 * <p>
+	 * Example of what's happening:<br>
+	 * [Mark1] Title1<br>
+	 * >>>>Second child (Title is first and treated differently)<br>
+	 * >>>>Third child<br>
+	 * >>>>[Mark2] Title2<br>
+	 * >>>>>>>>Second child<br>
+	 * >>>>>>>>Third child<br>
+	 * </p>
+	 * 
+	 */
 	protected MarkedBlockElementNode(TITLE title) {
 		super(1);
 		setTitle(title);
