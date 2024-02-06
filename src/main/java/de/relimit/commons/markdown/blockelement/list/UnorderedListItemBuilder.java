@@ -1,5 +1,6 @@
 package de.relimit.commons.markdown.blockelement.list;
 
+import de.relimit.commons.markdown.blockelement.paragraph.Paragraph;
 import de.relimit.commons.markdown.builder.MarkdownSerializableAppender;
 
 /**
@@ -14,8 +15,8 @@ public class UnorderedListItemBuilder<P> extends ListItemBuilder<P, UnorderedLis
 		super(listItem, parentAppender);
 	}
 
-	public UnorderedListItemBuilder() {
-		super(new UnorderedListItem());
+	public UnorderedListItemBuilder(Paragraph title) {
+		super(new UnorderedListItem(title));
 	}
 
 	@Override

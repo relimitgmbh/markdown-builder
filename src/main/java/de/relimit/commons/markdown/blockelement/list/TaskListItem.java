@@ -1,12 +1,14 @@
 package de.relimit.commons.markdown.blockelement.list;
 
+import de.relimit.commons.markdown.blockelement.paragraph.Paragraph;
 import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
 
 public class TaskListItem extends ListItem {
 
 	private boolean completed;
 
-	public TaskListItem(boolean completed) {
+	public TaskListItem(Paragraph title, boolean completed) {
+		super(title);
 		this.completed = completed;
 	}
 

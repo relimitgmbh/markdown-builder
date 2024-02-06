@@ -11,18 +11,15 @@ import de.relimit.commons.markdown.blockelement.table.Table;
  * {@link BlockElement}s like {@link Table}s, {@link Image}s or even other
  * {@link AbstractList}s.
  */
-public abstract class ListItem extends MarkedBlockElementNode {
+public abstract class ListItem extends MarkedBlockElementNode<Paragraph> {
 
-	protected ListItem() {
+	protected ListItem(Paragraph title) {
+		super(title);
 	}
 
 	@Override
-	protected BlockElement gateKeep(BlockElement element) {
-		if (elements.isEmpty() && !(element instanceof Paragraph)) {
-			throw new IllegalArgumentException("The first block element added to a " + getClass().getSimpleName()
-					+ " must be a " + Paragraph.class.getSimpleName() + ".");
-		}
-		return element;
+	protected Class<Paragraph> getTitleClass() {
+		return Paragraph.class;
 	}
 
 }

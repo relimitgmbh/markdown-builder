@@ -8,6 +8,7 @@ import de.relimit.commons.markdown.blockelement.list.AbstractList;
 import de.relimit.commons.markdown.blockelement.paragraph.Paragraph;
 import de.relimit.commons.markdown.blockelement.table.Table;
 import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
+import de.relimit.commons.markdown.util.Args;
 import de.relimit.commons.markdown.util.Strings;
 
 /**
@@ -16,21 +17,34 @@ import de.relimit.commons.markdown.util.Strings;
  * block element node cannot start with other {@link BlockElement}s like
  * {@link Table}s, {@link Image}s or even other {@link AbstractList}s.
  */
-public abstract class MarkedBlockElementNode extends BlockElementNode {
+public abstract class MarkedBlockElementNode<TITLE extends BlockElement> extends BlockElementNode {
 
-	protected MarkedBlockElementNode() {
+	protected MarkedBlockElementNode(TITLE title) {
 		super(1);
+		setTitle(title);
 	}
+
+	protected abstract Class<TITLE> getTitleClass();
 
 	protected abstract String getMarker(MarkdownSerializationOptions options);
 
 	@Override
 	protected BlockElement gateKeep(BlockElement element) {
-		if (elements.isEmpty() && !(element instanceof Paragraph)) {
+		final Class<TITLE> titleClass = getTitleClass();
+		if (elements.isEmpty() && !titleClass.isAssignableFrom(element.getClass())) {
 			throw new IllegalArgumentException("The first block element added to a " + getClass().getSimpleName()
-					+ " must be a " + Paragraph.class.getSimpleName() + ".");
+					+ " must be a " + titleClass.getSimpleName() + ".");
 		}
 		return element;
+	}
+
+	public void setTitle(TITLE title) {
+		Args.notNull(title, "title");
+		if (elements.isEmpty()) {
+			elements.add(title);
+		} else {
+			elements.set(0, title);
+		}
 	}
 
 	@Override

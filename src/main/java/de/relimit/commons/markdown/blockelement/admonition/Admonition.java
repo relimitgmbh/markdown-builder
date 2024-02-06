@@ -10,7 +10,7 @@ import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
  * @see <a href=
  *      "https://squidfunk.github.io/mkdocs-material/reference/admonitions/">https://squidfunk.github.io/mkdocs-material/reference/admonitions/</a>
  */
-public class Admonition extends MarkedBlockElementNode implements BlockElement {
+public class Admonition extends MarkedBlockElementNode<Title> implements BlockElement {
 
 	public static final Type DEFAULT_TYPE = DefaultType.NOTE;
 
@@ -24,13 +24,8 @@ public class Admonition extends MarkedBlockElementNode implements BlockElement {
 
 	private Display display;
 
-	@Override
-	protected BlockElement gateKeep(BlockElement element) {
-		if (elements.isEmpty() && !(element instanceof Title)) {
-			throw new IllegalArgumentException(
-					"The first block element added to an admonition must be the " + Title.class.getSimpleName() + ".");
-		}
-		return element;
+	public Admonition(Title title) {
+		super(title);
 	}
 
 	public Type getType() {
@@ -58,6 +53,11 @@ public class Admonition extends MarkedBlockElementNode implements BlockElement {
 	public void setDisplay(Display display) {
 		this.display = display;
 		invalidateSerialized();
+	}
+
+	@Override
+	protected Class<Title> getTitleClass() {
+		return Title.class;
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package de.relimit.commons.markdown.blockelement.list;
 
+import de.relimit.commons.markdown.blockelement.paragraph.Paragraph;
 import de.relimit.commons.markdown.builder.MarkdownSerializableAppender;
 
 /**
@@ -13,8 +14,8 @@ public class TaskListItemBuilder<P> extends ListItemBuilder<P, TaskListItemBuild
 		super(listItem, parentAppender);
 	}
 
-	public TaskListItemBuilder() {
-		super(new TaskListItem(false));
+	public TaskListItemBuilder(Paragraph title) {
+		super(new TaskListItem(title, false));
 	}
 
 	public TaskListItemBuilder<P> incomplete() {
