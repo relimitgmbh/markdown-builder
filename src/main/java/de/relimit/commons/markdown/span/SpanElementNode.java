@@ -19,10 +19,10 @@ public abstract class SpanElementNode extends Node<SpanElement> {
 
 	public static final String END_OF_LINE = Strings.fill(2, ' ');
 
-	public SpanElementNode() {
+	protected SpanElementNode() {
 	}
 
-	public SpanElementNode(SpanElement... elements) {
+	protected SpanElementNode(SpanElement... elements) {
 		append(elements);
 	}
 
@@ -38,7 +38,7 @@ public abstract class SpanElementNode extends Node<SpanElement> {
 	 * 
 	 * @param elements
 	 */
-	public SpanElementNode(Object... elements) {
+	protected SpanElementNode(Object... elements) {
 		final Stream<SpanElement> spanElements = Arrays.stream(elements).map(e -> {
 			if (e instanceof MarkdownSerializable) {
 				if (e instanceof SpanElement) {

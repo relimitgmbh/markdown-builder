@@ -1,5 +1,6 @@
 package de.relimit.commons.markdown.blockelement.list;
 
+import de.relimit.commons.markdown.blockelement.paragraph.Paragraph;
 import de.relimit.commons.markdown.builder.MarkdownSerializableAppender;
 import de.relimit.commons.markdown.builder.NodeBuilder;
 
@@ -28,16 +29,20 @@ public abstract class ListBuilder<P, B extends ListBuilder<P, B, BE, B2, NE>, BE
 		super(element);
 	}
 
-	abstract NE createListItem();
+	abstract NE createListItem(Paragraph title);
 
 	abstract B2 createListItemBuilder(NE listItem, MarkdownSerializableAppender<B, NE> appender);
 
-	public B2 startItem() {
+	public B2 startItem(Object title) {
+		return startItem(new Paragraph(title));
+	}
+
+	public B2 startItem(Paragraph title) {
 		/*
 		 * Indentation leven doesn't matter because it will be set upon
 		 * insertion
 		 */
-		final NE listItem = createListItem();
+		final NE listItem = createListItem(title);
 		return createListItemBuilder(listItem, this::append);
 	}
 
@@ -47,8 +52,12 @@ public abstract class ListBuilder<P, B extends ListBuilder<P, B, BE, B2, NE>, BE
 		return element;
 	}
 
+	public B item(Paragraph title) {
+		return startItem(title).end();
+	}
+
 	public B item(Object stringifyable) {
-		return startItem().paragraph(stringifyable).end();
+		return item(new Paragraph(stringifyable));
 	}
 
 }

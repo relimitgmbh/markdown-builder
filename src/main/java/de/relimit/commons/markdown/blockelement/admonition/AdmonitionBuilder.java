@@ -1,7 +1,5 @@
 package de.relimit.commons.markdown.blockelement.admonition;
 
-import java.util.Objects;
-
 import de.relimit.commons.markdown.blockelement.BlockElementNodeBuilder;
 import de.relimit.commons.markdown.builder.MarkdownSerializableAppender;
 import de.relimit.commons.markdown.span.SpanElementNodeBuilder;
@@ -18,22 +16,15 @@ public class AdmonitionBuilder<P> extends BlockElementNodeBuilder<P, AdmonitionB
 	}
 
 	public AdmonitionBuilder(Title title, MarkdownSerializableAppender<P, Admonition> parentAppender) {
-		super(new Admonition(), parentAppender);
-		getElement().append(title);
+		super(new Admonition(title), parentAppender);
 	}
 
 	public AdmonitionBuilder(Title title) {
-		super(new Admonition());
-		getElement().append(title);
+		super(new Admonition(title));
 	}
 
 	public AdmonitionBuilder<P> title(Title title) {
-		Objects.requireNonNull(title);
-		/*
-		 * This builder always adds a title as the first element. We therefore
-		 * know it is already there.
-		 */
-		getElement().getElements().set(0, title);
+		getElement().setTitle(title);
 		return this;
 	}
 

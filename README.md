@@ -252,8 +252,7 @@ Code Blocks
 public UnorderedList codeblocks() {
 	return new UnorderedListBuilder<Void>()//
 			.item("The following list item contains a block of Java code") //
-			.startItem() // start item
-			.paragraph("Item containing code block:") //
+			.startItem("Item containing code block:") // start item
 			.codeBlock("// Java Code\n" //
 					+ "public static void main(String[] args) {\n" //
 					+ "	System.out.println(\"Hello World!\"\n" //
@@ -333,8 +332,8 @@ public UnorderedList unorderedLists() {
 	return new UnorderedListBuilder<Void>() //
 			.item("One item of the unordered list.") //
 			.item("Another item.") //
-			.startItem().startParagraph().plainText("Third item ") //
-			.emphasis(Type.BOLD, "with bold Text").end() //
+			.startItem(MD.startParagraph().plainText("Third item ") //
+					.emphasis(Type.BOLD, "with bold Text").end()) // end title paragraph
 			.quote().paragraph("A quoted paragraph in the third item.") //
 			.unquote().end() // end list item
 			.build(); // end list
@@ -368,9 +367,9 @@ Ordered Lists
 public OrderedList orderedLists() {
 	return new OrderedListBuilder<Void>() //
 			.item("Item 0") //
-			.startItem().startParagraph().plainText("Item 1 ") //
-			.emphasis(Type.STRIKETHROUGH, "containing text with strikethrough") //
-			.end() // end paragraph
+			.startItem(MD.startParagraph().plainText("Item 1 ") //
+					.emphasis(Type.STRIKETHROUGH, "containing text with strikethrough") //
+					.end()) // end title paragraph
 			.end() // end item
 			.item("Item 2") //
 			.build();
@@ -402,9 +401,9 @@ Note: This is a non-standard element and might not be supported by all markdown 
 public BlockElement taskLists() {
 	return new TaskListBuilder<Void>() //
 			.item("This task is completed.", true) //
-			.startItem().startParagraph().plainText("This task is pending but it has nice ")
-			.emphasis(Type.BOLD, "bold formatted text").plainText(" going for it.") //
-			.end() // end paragraph
+			.startItem(MD.startParagraph().plainText("This task is pending but it has nice ")
+					.emphasis(Type.BOLD, "bold formatted text").plainText(" going for it.") //
+					.end()) // end title paragraph
 			.end() // end task item
 			.build(); // end list
 }
@@ -414,13 +413,13 @@ public BlockElement taskLists() {
 
 ```markdown
 - [x] This task is completed.
-- [ ] This task is pending but it has nice **bold formatted text** going for it.
+- [ ] This task is pending but it has nice **bold formatted text** going for it\.
 ```
 
 ### Rendered
 
 - [x] This task is completed.
-- [ ] This task is pending but it has nice **bold formatted text** going for it.
+- [ ] This task is pending but it has nice **bold formatted text** going for it\.
 
 Escaping
 --------

@@ -1,9 +1,18 @@
 package de.relimit.commons.markdown.util;
 
+import de.relimit.commons.markdown.blockelement.BlockElement;
+import de.relimit.commons.markdown.blockelement.admonition.Admonition;
+import de.relimit.commons.markdown.blockelement.admonition.AdmonitionBuilder;
+import de.relimit.commons.markdown.blockelement.admonition.Title;
 import de.relimit.commons.markdown.blockelement.codeblock.CodeBlock;
 import de.relimit.commons.markdown.blockelement.codeblock.CodeBlockLanguage;
 import de.relimit.commons.markdown.blockelement.heading.Heading;
+import de.relimit.commons.markdown.blockelement.list.ListItem;
+import de.relimit.commons.markdown.blockelement.list.OrderedListItemBuilder;
+import de.relimit.commons.markdown.blockelement.list.TaskListItemBuilder;
+import de.relimit.commons.markdown.blockelement.list.UnorderedListItemBuilder;
 import de.relimit.commons.markdown.blockelement.paragraph.Paragraph;
+import de.relimit.commons.markdown.blockelement.rule.HorizontalRule;
 import de.relimit.commons.markdown.blockelement.table.TableCell;
 import de.relimit.commons.markdown.blockelement.table.TableRow;
 import de.relimit.commons.markdown.blockelement.table.TableRowBuilder;
@@ -36,7 +45,7 @@ public class MD {
 		return startParagraph().plainText(stringifyable).build();
 	}
 
-	public static SpanElementNodeBuilder<?, Paragraph> startParagraph() {
+	public static SpanElementNodeBuilder<Void, Paragraph> startParagraph() {
 		return new SpanElementNodeBuilder<>(new Paragraph());
 	}
 
@@ -172,6 +181,86 @@ public class MD {
 
 	public static TableRow row(Object... stringifyables) {
 		return new TableRowBuilder<>().append(MD::cell, stringifyables).build();
+	}
+
+	// List item
+
+	// Unordered list item
+
+	public static UnorderedListItemBuilder<Object> startUnorderedListItem(Paragraph title) {
+		return new UnorderedListItemBuilder<>(title);
+	}
+
+	public static UnorderedListItemBuilder<Object> startUnorderedListItem(Object title) {
+		return startUnorderedListItem(paragraph(title));
+	}
+
+	public static ListItem unorderedListItem(Paragraph title) {
+		return startUnorderedListItem(title).build();
+	}
+
+	public static ListItem unorderedListItem(Object title) {
+		return startUnorderedListItem(paragraph(title)).build();
+	}
+
+	// Ordered list item
+
+	public static OrderedListItemBuilder<Object> startOrderedListItem(Paragraph title) {
+		return new OrderedListItemBuilder<>(title);
+	}
+
+	public static OrderedListItemBuilder<Object> startOrderedListItem(Object title) {
+		return startOrderedListItem(paragraph(title));
+	}
+
+	public static ListItem orderedListItem(Paragraph title) {
+		return startOrderedListItem(title).build();
+	}
+
+	public static ListItem orderedListItem(Object title) {
+		return startOrderedListItem(paragraph(title)).build();
+	}
+
+	// Task list item
+
+	public static TaskListItemBuilder<Object> startTaskListItem(Paragraph title, boolean completed) {
+		return new TaskListItemBuilder<>(title).completed(completed);
+	}
+
+	public static TaskListItemBuilder<Object> startTaskListItem(Object title, boolean completed) {
+		return startTaskListItem(paragraph(title), completed);
+	}
+
+	public static ListItem taskListItem(Paragraph title, boolean completed) {
+		return startTaskListItem(title, completed).build();
+	}
+
+	public static ListItem taskListItem(Object title, boolean completed) {
+		return startTaskListItem(paragraph(title), completed).build();
+	}
+
+	// Admonition
+
+	public static Title title(Object title) {
+		return new Title(title);
+	}
+
+	public static AdmonitionBuilder<Object> startAdmonition(Title title) {
+		return new AdmonitionBuilder<>(title);
+	}
+
+	public static Admonition admonition(Title title, BlockElement notice) {
+		return startAdmonition(title).append(notice).build();
+	}
+
+	public static Admonition admonition(Object title, Object notice) {
+		return admonition(title(title), paragraph(notice));
+	}
+
+	// Horizontal rule
+
+	public static HorizontalRule hr() {
+		return new HorizontalRule();
 	}
 
 }
