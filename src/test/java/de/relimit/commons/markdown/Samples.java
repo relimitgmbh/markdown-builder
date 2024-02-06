@@ -4,12 +4,6 @@ import static de.relimit.commons.markdown.util.MD.cell;
 import static de.relimit.commons.markdown.util.MD.italic;
 import static de.relimit.commons.markdown.util.MD.row;
 
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import de.relimit.commons.markdown.blockelement.BlockElement;
 import de.relimit.commons.markdown.blockelement.image.Image;
 import de.relimit.commons.markdown.blockelement.list.OrderedList;
@@ -26,7 +20,6 @@ import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
 import de.relimit.commons.markdown.configuration.OptionsBuilder;
 import de.relimit.commons.markdown.converter.Escaper;
 import de.relimit.commons.markdown.document.Document;
-import de.relimit.commons.markdown.span.SpanElement;
 import de.relimit.commons.markdown.span.emphasis.Emphasis.Type;
 import de.relimit.commons.markdown.util.MD;
 
@@ -39,8 +32,9 @@ import de.relimit.commons.markdown.util.MD;
  * been a joyless job.
  * <p>
  * <ul>
- * <li>Only methods annotated with {@link Sample} are processed. All others are
- * ignored.</li>
+ * <li>Only methods annotated with {@link Sample} are processed. Do not add
+ * unrelated methods as the source code parser is not very sophisticated and
+ * might stumble.</li>
  * <li>Everything immediately before {@link Sample} is ignored, but everything
  * between {@link Sample} and the line containing the method name is included.
  * This means one can add comments to the method which will appear in the
@@ -246,35 +240,6 @@ public class Samples {
 				.append(row("Cell 1.1", "Cell 1.2")) //
 				.append(row(cell("Cell 2.1"), cell(italic("Cell 2.2")))) //
 				.build();
-	}
-
-	public static List<Method> sampleMethods() {
-		return Arrays.stream(Samples.class.getDeclaredMethods())
-				// Only methods that are marked as Sample methods
-				.filter(m -> m.getAnnotation(Sample.class) != null)
-				/**
-				 * By definition "sample" methods have no parameters and return
-				 * a MarkdownSerilizable. Skip all methods that do not meet
-				 * those criteria.
-				 */
-				.filter(m -> {
-					// Only no-arg methods
-					if (m.getParameterCount() > 0) {
-						return false;
-					}
-					// Only BlockElements or SpanElements
-					if (BlockElement.class.isAssignableFrom(m.getReturnType())) {
-						return true;
-					}
-					if (SpanElement.class.isAssignableFrom(m.getReturnType())) {
-						return true;
-					}
-					return false;
-				})
-				// Sort by order defined by annotation
-				.sorted(Comparator.comparingInt(m -> m.getAnnotation(Sample.class).order()))
-				// Capture the sorted list of methods.
-				.collect(Collectors.toList());
 	}
 
 }

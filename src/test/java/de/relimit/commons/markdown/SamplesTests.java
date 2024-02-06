@@ -27,7 +27,7 @@ public class SamplesTests {
 		final ClassLoader loader = Thread.currentThread().getContextClassLoader();
 		final InputStream stream = loader.getResourceAsStream(Samples.PROPERTIES_FILE);
 		assertDoesNotThrow(() -> props.load(stream));
-		for (final Method method : Samples.sampleMethods()) {
+		for (final Method method : Readme.sampleMethods()) {
 			final Sample sample = method.getAnnotation(Sample.class);
 			final String propertiesKey = Samples.PROPERTY_KEY_NAMESPACE + "." + sample.key() + "."
 					+ Samples.PROPERTY_KEY_SUFFIX_HEADING;
@@ -39,7 +39,7 @@ public class SamplesTests {
 
 	@TestFactory
 	Stream<DynamicTest> serializeMethods_allValidSamples_DoesNotThrow() {
-		return Samples.sampleMethods().stream().map(m -> DynamicTest.dynamicTest(m.getName(),
+		return Readme.sampleMethods().stream().map(m -> DynamicTest.dynamicTest(m.getName(),
 				() -> assertDoesNotThrow(() -> serialize((MarkdownSerializable) m.invoke(samples)))));
 	}
 }

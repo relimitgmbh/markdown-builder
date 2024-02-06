@@ -1,6 +1,7 @@
 package de.relimit.commons.markdown.blockelement.heading;
 
 import java.util.List;
+import java.util.Optional;
 
 import de.relimit.commons.markdown.Fences;
 import de.relimit.commons.markdown.MarkdownSerializationException;
@@ -46,18 +47,19 @@ public class Heading extends SpanElementNode implements BlockElement {
 		setLevel(level);
 	}
 
-	private boolean useUnderline(HeadingStyle defaultHeadingStyle) {
+	private boolean useUnderline(MarkdownSerializationOptions options) {
 		if (level > 2) {
 			return false;
 		}
-		final HeadingStyle effectiveHeadingStyle = headingStyle != null ? headingStyle : defaultHeadingStyle;
+		final HeadingStyle effectiveHeadingStyle = Optional.ofNullable(headingStyle)
+				.orElse(options.getDefaultHeadingStyle());
 		return HeadingStyle.SETEXT == effectiveHeadingStyle;
 	}
 
 	@Override
 	public List<String> serializeLines(MarkdownSerializationOptions options) throws MarkdownSerializationException {
 		final List<String> lines = super.serializeLines(options);
-		if (useUnderline(options.getDefaultHeadingStyle())) {
+		if (useUnderline(options)) {
 			final char underlineChar = (level == 1) ? SETEXT_1ST_LEVEL : SETEXT_2ND_LEVEL;
 			/*
 			 * It is possible for a heading to contain line breaks. Set the
@@ -75,7 +77,7 @@ public class Heading extends SpanElementNode implements BlockElement {
 
 	@Override
 	public Fences getFences(MarkdownSerializationOptions options) {
-		if (useUnderline(options.getDefaultHeadingStyle())) {
+		if (useUnderline(options)) {
 			// Underline added by serializeLines
 			return Fences.none();
 		}
@@ -120,7 +122,7 @@ public class Heading extends SpanElementNode implements BlockElement {
 	}
 
 	public HeadingStyle getHeadingStyle() {
-		return headingStyle != null ? DEFAULT_HEADING_STYLE : headingStyle;
+		return Optional.ofNullable(headingStyle).orElse(DEFAULT_HEADING_STYLE);
 	}
 
 }
