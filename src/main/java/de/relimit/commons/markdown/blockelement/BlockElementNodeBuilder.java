@@ -5,7 +5,6 @@ import static de.relimit.commons.markdown.util.MD.row;
 import java.util.Collection;
 import java.util.function.Function;
 
-import de.relimit.commons.markdown.blockelement.admonition.Admonition;
 import de.relimit.commons.markdown.blockelement.admonition.AdmonitionBuilder;
 import de.relimit.commons.markdown.blockelement.admonition.Title;
 import de.relimit.commons.markdown.blockelement.codeblock.CodeBlock;
@@ -86,21 +85,15 @@ public abstract class BlockElementNodeBuilder<P, B extends BlockElementNodeBuild
 	// Lists
 
 	public OrderedListBuilder<B> startOrderedList() {
-		final int indentationLevel = getElement().getIndentationLevel();
-		final OrderedList list = new OrderedList(indentationLevel);
-		return new OrderedListBuilder<>(list, this::append);
+		return new OrderedListBuilder<>(new OrderedList(), this::append);
 	}
 
 	public UnorderedListBuilder<B> startUnorderedList() {
-		final int indentationLevel = getElement().getIndentationLevel();
-		final UnorderedList list = new UnorderedList(indentationLevel);
-		return new UnorderedListBuilder<>(list, this::append);
+		return new UnorderedListBuilder<>(new UnorderedList(), this::append);
 	}
 
 	public TaskListBuilder<B> startTaskList() {
-		final int indentationLevel = getElement().getIndentationLevel();
-		final TaskList list = new TaskList(indentationLevel);
-		return new TaskListBuilder<>(list, this::append);
+		return new TaskListBuilder<>(new TaskList(), this::append);
 	}
 
 	// Code block
@@ -187,8 +180,7 @@ public abstract class BlockElementNodeBuilder<P, B extends BlockElementNodeBuild
 	// Admonition
 
 	public AdmonitionBuilder<B> startAdmonition(Title title) {
-		final int indentationLevel = getElement().getIndentationLevel();
-		return new AdmonitionBuilder<>(new Admonition(), title, this::append);
+		return new AdmonitionBuilder<>(title, this::append);
 	}
 
 	public AdmonitionBuilder<B> startAdmonition() {

@@ -13,10 +13,7 @@ import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
 public abstract class AbstractList<T extends MarkedBlockElementNode> extends Node<T>
 		implements BlockElement, Indentable {
 
-	private int indentationLevel;
-
-	public AbstractList(int indentationLevel) {
-	}
+	private int indentationLevel = 0;
 
 	@Override
 	public int getIndentationLevel() {

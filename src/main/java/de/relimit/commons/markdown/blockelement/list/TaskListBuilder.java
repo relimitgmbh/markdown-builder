@@ -10,12 +10,12 @@ public class TaskListBuilder<P>
 	}
 
 	public TaskListBuilder() {
-		super(new TaskList(0));
+		super(new TaskList());
 	}
 
 	@Override
-	TaskListItem createListItem(int indentationLevel) {
-		return new TaskListItem(indentationLevel, false);
+	TaskListItem createListItem() {
+		return new TaskListItem(false);
 	}
 
 	@Override

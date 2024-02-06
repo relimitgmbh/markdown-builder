@@ -15,7 +15,7 @@ public class OrderedListItemBuilder<P> extends ListItemBuilder<P, OrderedListIte
 	}
 
 	public OrderedListItemBuilder() {
-		super(new OrderedListItem(0));
+		super(new OrderedListItem());
 	}
 
 	@Override

@@ -3,6 +3,10 @@ package de.relimit.commons.markdown.configuration;
 import de.relimit.commons.markdown.Fences;
 import de.relimit.commons.markdown.MarkdownSerializable;
 import de.relimit.commons.markdown.MarkdownSerializationException;
+import de.relimit.commons.markdown.blockelement.admonition.Admonition;
+import de.relimit.commons.markdown.blockelement.admonition.Display;
+import de.relimit.commons.markdown.blockelement.admonition.Expansion;
+import de.relimit.commons.markdown.blockelement.admonition.Type;
 import de.relimit.commons.markdown.blockelement.codeblock.CodeBlock;
 import de.relimit.commons.markdown.blockelement.codeblock.CodeBlockLanguage;
 import de.relimit.commons.markdown.blockelement.heading.Heading;
@@ -40,6 +44,12 @@ public class MarkdownSerializationOptions {
 
 	private HeadingStyle defaultHeadingStyle;
 
+	private Type defaultAdmonitionType;
+
+	private Expansion defaultAdmonitionExpansion;
+
+	private Display defaultAdmonitionDisplay;
+
 	public MarkdownSerializationOptions() {
 		this.serializer = Stringifier.DEFAULT_SERIALIZER;
 		this.escaper = Escaper.ESCAPE_MARKDOWN;
@@ -50,6 +60,9 @@ public class MarkdownSerializationOptions {
 		this.defaultHorizontalRuleCharacter = HorizontalRule.DEFAULT_CHARACTER;
 		this.defaultTableCellAlignment = Table.DEFAULT_ALIGNMENT;
 		this.defaultHeadingStyle = Heading.DEFAULT_HEADING_STYLE;
+		this.defaultAdmonitionType = Admonition.DEFAULT_TYPE;
+		this.defaultAdmonitionExpansion = Admonition.DEFAULT_EXPANSION;
+		this.defaultAdmonitionDisplay = Admonition.DEFAULT_DISPLAY;
 	}
 
 	/**
@@ -69,6 +82,9 @@ public class MarkdownSerializationOptions {
 		setDefaultHorizontalRuleCharacter(template.getDefaultHorizontalRuleCharacter());
 		setDefaultTableCellAlignment(template.getDefaultTableCellAlignment());
 		setDefaultHeadingStyle(template.getDefaultHeadingStyle());
+		setDefaultAdmonitionType(template.getDefaultAdmonitionType());
+		setDefaultAdmonitionExpansion(template.getDefaultAdmonitionExpansion());
+		setDefaultAdmonitionDisplay(template.getDefaultAdmonitionDisplay());
 	}
 
 	public MarkdownSerializationOptions copy() {
@@ -145,7 +161,31 @@ public class MarkdownSerializationOptions {
 	}
 
 	public void setDefaultHeadingStyle(HeadingStyle defaultHeadingStyle) {
-		this.defaultHeadingStyle = defaultHeadingStyle;
+		this.defaultHeadingStyle = Args.notNull(defaultHeadingStyle, "defaultHeadingStyle");
+	}
+
+	public Type getDefaultAdmonitionType() {
+		return defaultAdmonitionType;
+	}
+
+	public void setDefaultAdmonitionType(Type defaultAdmonitionType) {
+		this.defaultAdmonitionType = Args.notNull(defaultAdmonitionType, "defaultAdmonitionType");
+	}
+
+	public Expansion getDefaultAdmonitionExpansion() {
+		return defaultAdmonitionExpansion;
+	}
+
+	public void setDefaultAdmonitionExpansion(Expansion defaultAdmonitionExpansion) {
+		this.defaultAdmonitionExpansion = Args.notNull(defaultAdmonitionExpansion, "defaultAdmonitionExpansion");
+	}
+
+	public Display getDefaultAdmonitionDisplay() {
+		return defaultAdmonitionDisplay;
+	}
+
+	public void setDefaultAdmonitionDisplay(Display defaultAdmonitionDisplay) {
+		this.defaultAdmonitionDisplay = Args.notNull(defaultAdmonitionDisplay, "defaultAdmonitionDisplay");
 	}
 
 	/**

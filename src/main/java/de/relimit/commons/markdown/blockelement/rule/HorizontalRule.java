@@ -2,6 +2,7 @@ package de.relimit.commons.markdown.blockelement.rule;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import de.relimit.commons.markdown.MarkdownElement;
 import de.relimit.commons.markdown.MarkdownSerializationException;
@@ -20,7 +21,7 @@ public class HorizontalRule extends MarkdownElement implements BlockElement {
 	 * interface exists just in case someone needs to add additional options for
 	 * specialized use cases.
 	 */
-	public static enum RuleCharacter implements HorizontalRuleCharacter {
+	public enum RuleCharacter implements HorizontalRuleCharacter {
 
 		HYPHEN('-'),
 		ASTERISK('*'),
@@ -46,26 +47,27 @@ public class HorizontalRule extends MarkdownElement implements BlockElement {
 	private HorizontalRuleCharacter characterSupplier;
 
 	public HorizontalRule() {
-		this(MINIMUM_LENGTH, DEFAULT_CHARACTER);
-	}
-
-	public HorizontalRule(int length) {
-		this(length, DEFAULT_CHARACTER);
+		this(MINIMUM_LENGTH);
 	}
 
 	public HorizontalRule(HorizontalRuleCharacter characterSupplier) {
-		this(MINIMUM_LENGTH, characterSupplier);
+		this(MINIMUM_LENGTH);
+		/*
+		 * While it can be null it does not make sense to use this constructor
+		 * with null as an argument
+		 */
+		this.characterSupplier = Args.notNull(characterSupplier, "characterSupplier");
 	}
 
-	public HorizontalRule(int length, HorizontalRuleCharacter characterSupplier) {
+	public HorizontalRule(int length) {
 		this.length = Math.max(MINIMUM_LENGTH, length);
-		this.characterSupplier = Args.notNull(characterSupplier, "Character supplier");
 	}
 
 	@Override
 	public List<String> serializeLines(MarkdownSerializationOptions options) throws MarkdownSerializationException {
 		final List<String> lines = new ArrayList<>();
-		lines.add(Strings.fill(length, characterSupplier.getCharacter()));
+		lines.add(Strings.fill(length, Optional.ofNullable(characterSupplier)
+				.orElse(options.getDefaultHorizontalRuleCharacter()).getCharacter()));
 		return lines;
 	}
 

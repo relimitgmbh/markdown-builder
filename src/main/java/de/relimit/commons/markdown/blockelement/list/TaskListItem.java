@@ -6,8 +6,7 @@ public class TaskListItem extends ListItem {
 
 	private boolean completed;
 
-	public TaskListItem(int indentationLevel, boolean completed) {
-		super(indentationLevel);
+	public TaskListItem(boolean completed) {
 		this.completed = completed;
 	}
 

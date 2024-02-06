@@ -15,7 +15,7 @@ public abstract class BlockElementNode extends Node<BlockElement> implements Ind
 
 	public static final String INDENT = Strings.fill(4, ' ');
 
-	private int indentationLevel;
+	private int indentationLevel = 0;
 
 	protected BlockElementNode(int indentationLevel) {
 		this.indentationLevel = indentationLevel;
@@ -30,7 +30,7 @@ public abstract class BlockElementNode extends Node<BlockElement> implements Ind
 	public void setIndentationLevel(int indentationLevel) {
 		this.indentationLevel = indentationLevel;
 		for (final BlockElement element : elements) {
-			// crawl the tree
+			// crawl the tree and reset all indentation levels
 			if (element instanceof Indentable) {
 				((Indentable) element).setIndentationLevel(1);
 			}

@@ -6,8 +6,7 @@ public class OrderedListItem extends ListItem {
 
 	private int ordinal;
 
-	public OrderedListItem(int indentationLevel) {
-		super(indentationLevel);
+	public OrderedListItem() {
 	}
 
 	@Override

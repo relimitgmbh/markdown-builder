@@ -14,17 +14,16 @@ import de.relimit.commons.markdown.span.SpanElementNodeBuilder;
 public class AdmonitionBuilder<P> extends BlockElementNodeBuilder<P, AdmonitionBuilder<P>, Admonition> {
 
 	public AdmonitionBuilder() {
-		this(new Admonition(), Title.NO_TITLE);
+		this(Title.NO_TITLE);
 	}
 
-	public AdmonitionBuilder(Admonition admonition, Title title,
-			MarkdownSerializableAppender<P, Admonition> parentAppender) {
-		super(admonition, parentAppender);
+	public AdmonitionBuilder(Title title, MarkdownSerializableAppender<P, Admonition> parentAppender) {
+		super(new Admonition(), parentAppender);
 		getElement().append(title);
 	}
 
-	public AdmonitionBuilder(Admonition admonition, Title title) {
-		super(admonition);
+	public AdmonitionBuilder(Title title) {
+		super(new Admonition());
 		getElement().append(title);
 	}
 

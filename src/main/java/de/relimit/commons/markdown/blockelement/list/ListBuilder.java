@@ -28,7 +28,7 @@ public abstract class ListBuilder<P, B extends ListBuilder<P, B, BE, B2, NE>, BE
 		super(element);
 	}
 
-	abstract NE createListItem(int indentationLevel);
+	abstract NE createListItem();
 
 	abstract B2 createListItemBuilder(NE listItem, MarkdownSerializableAppender<B, NE> appender);
 
@@ -37,7 +37,7 @@ public abstract class ListBuilder<P, B extends ListBuilder<P, B, BE, B2, NE>, BE
 		 * Indentation leven doesn't matter because it will be set upon
 		 * insertion
 		 */
-		final NE listItem = createListItem(0);
+		final NE listItem = createListItem();
 		return createListItemBuilder(listItem, this::append);
 	}
 

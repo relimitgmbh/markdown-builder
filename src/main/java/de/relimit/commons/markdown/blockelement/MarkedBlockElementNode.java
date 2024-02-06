@@ -18,8 +18,8 @@ import de.relimit.commons.markdown.util.Strings;
  */
 public abstract class MarkedBlockElementNode extends BlockElementNode {
 
-	protected MarkedBlockElementNode(int indentationLevel) {
-		super(indentationLevel);
+	protected MarkedBlockElementNode() {
+		super(1);
 	}
 
 	protected abstract String getMarker(MarkdownSerializationOptions options);

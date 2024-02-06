@@ -1,5 +1,6 @@
 package de.relimit.commons.markdown.blockelement;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
@@ -48,6 +49,24 @@ class BlockElementTests {
 				.display(Display.INLINE_RIGHT).startTitle().append(new PlainText("Foo")).end()
 				.append(new Paragraph("Foo")).append(new Paragraph("Bar")).build();
 		assertEquals(Arrays.stream(ADMONITION).collect(Collectors.joining()), admonition.serialize());
+	}
+
+	@Test
+	void createIndentedDocument_generateMarkdown_expectIndentationWellFormed() throws MarkdownSerializationException {
+		assertDoesNotThrow(() -> {
+			final Document document = Document.start().startUnorderedList().startItem().startParagraph()
+					.plainText("List 1 Item 1").end().startAdmonition().expansion(Expansion.EXPANDED)
+					.display(Display.INLINE_RIGHT).startTitle().append(new PlainText("Admonition")).end()
+					.append(new Paragraph("Admonition Paragraph 1")).startParagraph()
+					.plainText("Admonition Paragraph 2").end().startUnorderedList().startItem().startParagraph()
+					.plainText("List 2 Item 1").end().startParagraph().plainText("List 2 Item 1 Paragraph 1").end()
+					.end().startItem().startParagraph().plainText("List 2 Item 2").end().end().end().end()
+					.startParagraph().plainText("sdfdf").end().startUnorderedList().startItem().startParagraph()
+					.plainText("List 3 Item 1").end().startParagraph().plainText("List 3 Item 1 Paragraph 1").end()
+					.append(new Paragraph("List 3 Item 1 Paragraph 2")).end().end().end().end().build();
+			document.setIndentationLevel(3);
+			System.out.println(document.serialize());
+		});
 	}
 
 }

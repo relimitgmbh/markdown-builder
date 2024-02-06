@@ -13,8 +13,7 @@ import de.relimit.commons.markdown.blockelement.table.Table;
  */
 public abstract class ListItem extends MarkedBlockElementNode {
 
-	protected ListItem(int indentationLevel) {
-		super(indentationLevel);
+	protected ListItem() {
 	}
 
 	@Override
