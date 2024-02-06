@@ -67,7 +67,7 @@ public class Admonition extends MarkedBlockElementNode<Title> implements BlockEl
 				.append(Optional.ofNullable(expansion).orElse(options.getDefaultAdmonitionExpansion()).getMarker());
 		markerBuilder.append(" ");
 		markerBuilder.append(Optional.ofNullable(type).orElse(options.getDefaultAdmonitionType()).getQualifier());
-		Optional.of(display).orElse(options.getDefaultAdmonitionDisplay()).getDirective().ifPresent(d -> {
+		Optional.ofNullable(display).orElse(options.getDefaultAdmonitionDisplay()).getDirective().ifPresent(d -> {
 			markerBuilder.append(" ");
 			markerBuilder.append(d);
 		});
