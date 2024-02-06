@@ -1,6 +1,7 @@
 package de.relimit.commons.markdown.span.emphasis;
 
 import de.relimit.commons.markdown.Fences;
+import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
 import de.relimit.commons.markdown.span.SpanElement;
 import de.relimit.commons.markdown.span.SpanElementNode;
 import de.relimit.commons.markdown.util.Args;
@@ -49,7 +50,7 @@ public class Emphasis extends SpanElementNode implements SpanElement {
 	}
 
 	@Override
-	public Fences getFences() {
+	public Fences getFences(MarkdownSerializationOptions options) {
 		return fences;
 	}
 
