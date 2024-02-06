@@ -10,12 +10,12 @@ public class UnorderedListBuilder<P> extends
 	}
 
 	public UnorderedListBuilder() {
-		super(new UnorderedList(0));
+		super(new UnorderedList());
 	}
 
 	@Override
-	UnorderedListItem createListItem(int indentationLevel) {
-		return new UnorderedListItem(indentationLevel);
+	UnorderedListItem createListItem() {
+		return new UnorderedListItem();
 	}
 
 	@Override

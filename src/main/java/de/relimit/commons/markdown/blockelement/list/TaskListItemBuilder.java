@@ -14,7 +14,7 @@ public class TaskListItemBuilder<P> extends ListItemBuilder<P, TaskListItemBuild
 	}
 
 	public TaskListItemBuilder() {
-		super(new TaskListItem(0, false));
+		super(new TaskListItem(false));
 	}
 
 	public TaskListItemBuilder<P> incomplete() {

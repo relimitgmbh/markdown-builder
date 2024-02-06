@@ -10,12 +10,12 @@ public class OrderedListBuilder<P> extends
 	}
 
 	public OrderedListBuilder() {
-		super(new OrderedList(0));
+		super(new OrderedList());
 	}
 
 	@Override
-	OrderedListItem createListItem(int indentationLevel) {
-		return new OrderedListItem(indentationLevel);
+	OrderedListItem createListItem() {
+		return new OrderedListItem();
 	}
 
 	@Override

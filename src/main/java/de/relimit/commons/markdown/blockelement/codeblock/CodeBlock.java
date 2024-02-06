@@ -2,6 +2,7 @@ package de.relimit.commons.markdown.blockelement.codeblock;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import de.relimit.commons.markdown.MarkdownElement;
 import de.relimit.commons.markdown.MarkdownSerializationException;
@@ -49,18 +50,11 @@ public class CodeBlock extends MarkdownElement implements BlockElement, Textual 
 			return new ArrayList<>();
 		}
 		final List<String> lines = new ArrayList<>();
-		lines.add("```" + getLanguage(options).getName());
+		lines.add("```" + Optional.ofNullable(language).orElse(options.getDefaultCodeBlockLangauge()).getName());
 		// We checked that the code is not empty. Should return at least one line.
 		lines.addAll(Strings.splitLines(code));
 		lines.add("```");
 		return lines;
-	}
-
-	private CodeBlockLanguage getLanguage(MarkdownSerializationOptions options) {
-		if (language == null) {
-			return options.getDefaultCodeBlockLangauge();
-		}
-		return language;
 	}
 
 	public void setLanguage(CodeBlockLanguage language) {
