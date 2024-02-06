@@ -1,7 +1,5 @@
 package de.relimit.commons.markdown.blockelement.list;
 
-import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
-
 public class OrderedListItem extends ListItem {
 
 	private int ordinal;
@@ -11,7 +9,7 @@ public class OrderedListItem extends ListItem {
 	}
 
 	@Override
-	protected String getMarker(MarkdownSerializationOptions options) {
+	String getListMarker() {
 		return ordinal + ".";
 	}
 

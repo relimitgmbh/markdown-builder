@@ -1,7 +1,5 @@
 package de.relimit.commons.markdown.blockelement.list;
 
-import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
-
 public class TaskListItem extends ListItem {
 
 	private boolean completed;
@@ -20,7 +18,7 @@ public class TaskListItem extends ListItem {
 	}
 
 	@Override
-	protected String getMarker(MarkdownSerializationOptions options) {
+	protected String getListMarker() {
 		return "- [" + (completed ? "x" : " ") + "]";
 	}
 

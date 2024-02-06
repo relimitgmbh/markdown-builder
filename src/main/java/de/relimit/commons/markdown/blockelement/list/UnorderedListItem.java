@@ -1,7 +1,5 @@
 package de.relimit.commons.markdown.blockelement.list;
 
-import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
-
 public class UnorderedListItem extends ListItem {
 
 	public static final String UNORDERED_LIST_ITEM_MARKER = "*";
@@ -11,7 +9,7 @@ public class UnorderedListItem extends ListItem {
 	}
 
 	@Override
-	protected String getMarker(MarkdownSerializationOptions options) {
+	protected String getListMarker() {
 		return UNORDERED_LIST_ITEM_MARKER;
 	}
 

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Stream;
 
 import de.relimit.commons.markdown.blockelement.table.Table;
@@ -34,7 +33,7 @@ public abstract class Node<T extends MarkdownSerializable> extends MarkdownEleme
 	}
 
 	public final void append(Stream<T> elementStream) {
-		elementStream.map(this::gateKeep).filter(Objects::nonNull).forEach(elements::add);
+		elementStream.filter(e -> gateKeep(e) != null).forEach(elements::add);
 		invalidateSerialized();
 	}
 

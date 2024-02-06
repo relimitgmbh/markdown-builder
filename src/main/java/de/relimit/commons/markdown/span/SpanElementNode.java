@@ -56,10 +56,6 @@ public abstract class SpanElementNode extends Node<SpanElement> {
 
 	protected abstract Fences getFences(MarkdownSerializationOptions options);
 
-	protected boolean swallowIfEmpty() {
-		return true;
-	}
-
 	protected String getEndOfLineCharacters() {
 		return END_OF_LINE;
 	}
@@ -95,11 +91,7 @@ public abstract class SpanElementNode extends Node<SpanElement> {
 			lines.add(tail);
 		}
 		if (lines.isEmpty()) {
-			if (swallowIfEmpty()) {
-				return lines;
-			} else {
-				lines.add("");
-			}
+			return lines;
 		}
 
 		final Fences fences = getFences(options);
