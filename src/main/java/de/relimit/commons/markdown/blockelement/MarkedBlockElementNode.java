@@ -19,7 +19,7 @@ import de.relimit.commons.markdown.util.Strings;
  */
 public abstract class MarkedBlockElementNode<TITLE extends BlockElement> extends BlockElementNode {
 
-  /**
+	/**
 	 * <p>
 	 * The mark of a marked block element node remains on the same level as that
 	 * of its parent node. But its children will be indented one step further.
