@@ -19,6 +19,7 @@ import de.relimit.commons.markdown.blockelement.rule.HorizontalRule.RuleCharacte
 import de.relimit.commons.markdown.configuration.MarkdownSerializationOptions;
 import de.relimit.commons.markdown.document.Document;
 import de.relimit.commons.markdown.span.textual.PlainText;
+import de.relimit.commons.markdown.util.MD;
 
 class BlockElementTests {
 
@@ -58,17 +59,18 @@ class BlockElementTests {
 	void createIndentedDocument_generateMarkdown_expectIndentationWellFormed() throws MarkdownSerializationException {
 		final Document document = Document.start()
 				// List 1
-				.startUnorderedList().startItem().startParagraph().plainText("List 1 Item 1").end()
+				.startUnorderedList().startItem(MD.startParagraph().plainText("List 1 Item 1").end())
 				// Admonition
 				.startAdmonition().expansion(Expansion.EXPANDED).display(Display.INLINE_RIGHT).startTitle()
 				.append(new PlainText("Admonition")).end().append(new Paragraph("Admonition Paragraph 1"))
 				.startParagraph().plainText("Admonition Paragraph 2").end()
 				// List 2
-				.startUnorderedList().startItem().startParagraph().plainText("List 2 Item 1").end().startParagraph()
-				.plainText("List 2 Item 1 Paragraph 1").end().end().startItem().startParagraph()
-				.plainText("List 2 Item 2").end().end().end().end().startParagraph().plainText("sdfdf").end()
+				.startUnorderedList().startItem(MD.startParagraph().plainText("List 2 Item 1").end()).startParagraph()
+				.plainText("List 2 Item 1 Paragraph 1").end().end()
+				.startItem(MD.startParagraph().plainText("List 2 Item 2").end()).end().end().end().startParagraph()
+				.plainText("sdfdf").end()
 				// List 3
-				.startUnorderedList().startItem().startParagraph().plainText("List 3 Item 1").end().startParagraph()
+				.startUnorderedList().startItem(MD.startParagraph().plainText("List 3 Item 1").end()).startParagraph()
 				.plainText("List 3 Item 1 Paragraph 1").end().append(new Paragraph("List 3 Item 1 Paragraph 2")).end()
 				.end().end().end().build();
 		document.setIndentationLevel(3);

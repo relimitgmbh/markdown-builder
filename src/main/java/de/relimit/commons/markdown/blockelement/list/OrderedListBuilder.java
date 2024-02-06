@@ -1,5 +1,6 @@
 package de.relimit.commons.markdown.blockelement.list;
 
+import de.relimit.commons.markdown.blockelement.paragraph.Paragraph;
 import de.relimit.commons.markdown.builder.MarkdownSerializableAppender;
 
 public class OrderedListBuilder<P> extends
@@ -14,8 +15,8 @@ public class OrderedListBuilder<P> extends
 	}
 
 	@Override
-	OrderedListItem createListItem() {
-		return new OrderedListItem();
+	OrderedListItem createListItem(Paragraph title) {
+		return new OrderedListItem(title);
 	}
 
 	@Override

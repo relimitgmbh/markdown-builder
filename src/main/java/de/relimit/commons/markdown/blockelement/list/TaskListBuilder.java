@@ -1,5 +1,6 @@
 package de.relimit.commons.markdown.blockelement.list;
 
+import de.relimit.commons.markdown.blockelement.paragraph.Paragraph;
 import de.relimit.commons.markdown.builder.MarkdownSerializableAppender;
 
 public class TaskListBuilder<P>
@@ -14,8 +15,8 @@ public class TaskListBuilder<P>
 	}
 
 	@Override
-	TaskListItem createListItem() {
-		return new TaskListItem(false);
+	TaskListItem createListItem(Paragraph title) {
+		return new TaskListItem(title, false);
 	}
 
 	@Override
@@ -32,7 +33,7 @@ public class TaskListBuilder<P>
 	 * @return
 	 */
 	public TaskListBuilder<P> item(Object stringifyable, boolean completed) {
-		return startItem().paragraph(stringifyable).completed(completed).end();
+		return startItem(new Paragraph(stringifyable)).completed(completed).end();
 	}
 
 	@Override
